@@ -2,7 +2,7 @@ import getpass
 import os
 import sys
 
-from mock_cli.responses import CommandInvocation, ResponseDirectory
+from mock_cli import CommandInvocation, ResponseDirectory
 parent_path = os.path.dirname(
     os.path.dirname(
         os.path.abspath(__file__)

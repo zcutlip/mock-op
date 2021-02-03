@@ -2,7 +2,7 @@
 import sys
 from argparse import ArgumentParser
 import shlex
-from mock_cli.mock_cmd import MockCommand, ResponseDirectory
+from mock_cli import MockCommand, ResponseDirectory
 from mock_cli.argv_conversion import argv_from_string
 
 RESPONSE_DIRECTORY_PATH = "./response-directory.json"

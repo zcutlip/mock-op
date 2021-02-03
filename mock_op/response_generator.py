@@ -1,4 +1,4 @@
-from mock_cli.responses import CommandInvocation
+from mock_cli import CommandInvocation
 
 # Private imports, but we control both projects, so shouldn't be a problem
 # Better than exporting API from pyonepassword that shouldn't be exposed
