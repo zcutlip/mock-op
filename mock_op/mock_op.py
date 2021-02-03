@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 import sys
 from argparse import ArgumentParser
-from mock_cli.mock_cmd import MockCommand
+import shlex
+from mock_cli.mock_cmd import MockCommand, ResponseDirectory
+from mock_cli.argv_conversion import argv_from_string
+
+RESPONSE_DIRECTORY_PATH = "./response-directory.json"
 
 
 def mock_op_arg_parser():
@@ -38,8 +42,8 @@ def main():
     # even though we don't actually use them
     parser = mock_op_arg_parser()
     parser.parse_args()
-    response_directory_path = "./response-directory.json"
-    cmd = MockCommand(response_directory_path)
+
+    cmd = MockCommand(RESPONSE_DIRECTORY_PATH)
     args = sys.argv[1:]
     exit_status = cmd.respond(args)
     return exit_status
@@ -47,3 +51,13 @@ def main():
 
 if __name__ == "__main__":
     exit(main())
+
+
+def list_invocations_main():
+    directory = ResponseDirectory(RESPONSE_DIRECTORY_PATH)
+    commands = directory.commands
+    for cmd in commands.keys():
+        cmd_args = argv_from_string(cmd)
+        arg_string = shlex.join(cmd_args)
+
+        print(f"{arg_string}")
