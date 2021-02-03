@@ -21,8 +21,8 @@ setup(name='mock-op',
       license="MIT",
       packages=find_packages(),
       entry_points={
-          'console_scripts': ['mock-op=mock_op.cli:main'], },
+          'console_scripts': ['mock-op=mock_op.mock_op:main'], },
       python_requires='>=3.7',
-      install_requires=[],
+      install_requires=['mock-cli-framework'],
       package_data={'mock_op': ['config/*']},
       )
