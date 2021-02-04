@@ -6,10 +6,12 @@
 
 ## Description
 
-The `mock-op` package comes with two significant parts:
+The `mock-op` package comes with several significant parts:
 
 - A `mock-op` console utility that plays back responses identical the real `op` command's output for a given set of command-line arguments. Additionally the same exit statuses are return in the case of error.
 - An API that can be used to execute `op` under various scenarios and record its responses for use by `mock-op`
+- An API to implement a custom `mock-op` console utility overriding the defaults, such as providing a custom argument parser
+- A utility to list `op` invocation argument lists known by the response directory
 
 ## Motivation
 
