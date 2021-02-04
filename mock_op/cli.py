@@ -1,7 +1,11 @@
 import sys
 import shlex
 
-from mock_cli import ResponseDirectory
+from mock_cli import (
+    ResponseDirectory,
+    ResponseDirectoryException,
+    ResponseLookupException
+)
 from mock_cli.argv_conversion import argv_from_string
 
 from .mock_op import MockOP
@@ -14,7 +18,12 @@ def mock_op_main():
     mock_op_cmd.parse_args()
 
     args = sys.argv[1:]
-    exit_status = mock_op_cmd.respond(args)
+    try:
+        exit_status = mock_op_cmd.respond(args)
+    except (ResponseDirectoryException, ResponseLookupException) as e:
+        print(f"Error looking up response: [{e}]", file=sys.stderr)
+        exit_status = -1
+
     return exit_status
 
 
