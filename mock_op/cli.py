@@ -30,6 +30,7 @@ def mock_op_main():
 def list_invocations_main():
     mock_op_cmd = MockOP()
     resp_dir_path = mock_op_cmd.response_directory_path
+    print(f"Directory path: {resp_dir_path}")
     directory = ResponseDirectory(resp_dir_path)
 
     commands = directory.commands
