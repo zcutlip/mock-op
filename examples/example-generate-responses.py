@@ -63,8 +63,8 @@ def do_get_invalid_item(op: OPResponseGenerator):
 
 if __name__ == "__main__":
     op = do_signin()
-    directory_path = "./response-directory.json"
-    resopnse_dir = "./responses"
+    directory_path = "~/.config/mock-op/response-directory.json"
+    resopnse_dir = "~/.config/mock-op/responses"
     directory = ResponseDirectory(directory_path, create=True, response_dir=resopnse_dir)
 
     invocation = do_get_item_1(op)
