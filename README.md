@@ -198,3 +198,54 @@ if __name__ == "__main__":
 
 A convenience utlitity is provided to list invocation information known by the response directory.
 
+    usage: list-cmds [-h] [--response-dir RESPONSE_DIR] [--verbose]
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      --response-dir RESPONSE_DIR
+                            Path to response directory JSON file
+      --verbose             Include additional command response detail
+
+List all simulated `op` commands:
+
+```Console
+$ list-cmds
+Directory path: ~/.config/mock-op/response-directory.json
+op get item 'Example Login 1' --vault 'Test Data'
+op get item nok7367v4vbsfgg2fczwu4ei44
+op get item nok7367v4vbsfgg2fczwu4ei44 --fields username,password
+op get document 'Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp'
+op get item 'Invalid Item'
+```
+
+List all simulated `op` commands with response context (and alternate directory location):
+
+```Console
+$ list-cmds --response-dir ./response-directory.json --verbose
+Directory path: ./response-directory.json
+./responses
+op get item 'Example Login 1' --vault 'Test Data'
+	output: ./responses/get-item-[example-login-1]-[vault-test-data]/output
+	error output: ./responses/get-item-[example-login-1]-[vault-test-data]/error_output
+	exit status: 0
+
+op get item nok7367v4vbsfgg2fczwu4ei44
+	output: ./responses/get-item-by-uuid[example-login-1]/output
+	error output: ./responses/get-item-by-uuid[example-login-1]/error_output
+	exit status: 0
+
+op get item nok7367v4vbsfgg2fczwu4ei44 --fields username,password
+	output: ./responses/get-item-[example-login-2]-[fields-username-password]/output
+	error output: ./responses/get-item-[example-login-2]-[fields-username-password]/error_output
+	exit status: 0
+
+op get document 'Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp'
+	output: ./responses/get-document-[spongebob image]/output
+	error output: ./responses/get-document-[spongebob image]/error_output
+	exit status: 0
+
+op get item 'Invalid Item'
+	output: ./responses/get-item-[invalid-item]/output
+	error output: ./responses/get-item-[invalid-item]/error_output
+	exit status: 1
+```
