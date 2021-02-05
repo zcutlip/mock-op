@@ -4,7 +4,7 @@ from argparse import ArgumentParser
 
 from mock_cli import MockCommand
 
-RESPONSE_DIRECTORY_PATH = "./response-directory.json"
+RESPONSE_DIRECTORY_PATH = "~/.config/mock-op/response-directory.json"
 RESP_DIR_ENV_NAME = "MOCK_OP_RESPONSE_DIRECTORY"
 
 
