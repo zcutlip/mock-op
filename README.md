@@ -87,3 +87,105 @@ $ echo $?
 1
 $
 ```
+
+## Using the OP Response Generation API
+
+`mock-op` provides API to execute the real `op` and record its responses. In order to do this, the `pyonepassword` package is required, and is not automatically installed as a dependency of this package:
+
+    pip install pyonepassword
+
+Then generate and record responses in the following order:
+
+1. Obtain master password for the 1Password account
+2. Create an OPResponseGenerator object, which signs in to a real 1Password account (which ever account `op` has signed into previously on the command line)
+3. Create a `ResponseDirectory` instance
+4. Generate a command invocation for either the `op get item` or `op get document` subcommand
+5. Add the command invocation (a bundle of the command-line arguments, the response output, and the exit status) to the response directory
+
+> Note: Although generating the command invocation communicates to the live 1Password account, it will not raise exceptions if the `op` query fails. The invocation captures context describing the success or failure.
+
+There is a detailed example in the `examples/` directory, but here is an abbreviated one:
+
+```Python
+def do_signin():
+    # Be sure to complete initial sign-in manually with the op command
+
+    # Subsequent sign-ins only require master password
+    my_password = getpass.getpass(prompt="1Password master password:\n")
+    # You may optionally provide an account shorthand if you used a custom one during initial sign-in
+    # shorthand = "arbitrary_account_shorthand"
+    # return OPResponseGenerator(account_shorthand=shorthand, password=my_password)
+    # Or we'll try to look up account shorthand from your latest sign-in in op's config file
+    return OPResponseGenerator(password=my_password)
+
+def do_get_document(op: OPResponseGenerator):
+    document_name = "Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp"
+
+    # Arbitrary but descriptive name
+    query_name = "get-document-[spongebob image]"
+    invocation: CommandInvocation = op.get_document_generate_response(document_name, query_name)
+    return invocation
+
+def do_get_invalid_item(op: OPResponseGenerator):
+    item_name = "Invalid Item"
+
+    # Arbitrary but descriptive name
+    query_name = "get-item-[invalid-item]"
+    invocation: CommandInvocation = op.get_item_generate_response(item_name, query_name)
+    return invocation
+
+def main():
+    op = do_signin()
+    directory_path = "~/.config/mock-op/response-directory.json"
+    resopnse_dir = "~/.config/mock-op/responses"
+
+    # Create the directory on disk if it doesn't already exist
+    directory = ResponseDirectory(directory_path, create=True, response_dir=resopnse_dir)
+
+
+    invocation = do_get_document(op)
+    # add the invocation to the directory, saving the updated directory to disk
+    directory.add_command_invocation(invocation, save=True)
+
+    invocation = do_get_invalid_item(op)
+    directory.add_command_invocation(invocation, save=True)
+
+```
+
+This should create the response directory JSON file and directory structure descibed above. The `mock-op` utility may now play back `op` responses as if it was the real thing.
+
+## Implementing a Custom `mock-op`
+
+The `MockOP` class does most of the work emulating `op`. In the simplest case it may be instantiated in a simple `main()` and told to respond to the given command-line arguments. It will then sanity-check the arguments using its internal argument parser, and respond using the response directory found in `~/.config/mock-op/`. This is what the provided `mock-op` tool does.
+
+It can also be instatiated with a custom argument parser as well as a custom path to the response directory. It can be extended to further customize behavior.
+
+```Python
+
+def mock_op_main():
+    response_directory = "~/path/to/custom-directory.json"
+    parser = get_custom_arg_parser()
+    mock_op_cmd = MockOP(arg_parser=parser, response_directory=response_directory)
+
+    # Parse args to fail on unknown args
+    # This step may be skipped if it is not desired to sanity check arguments
+    # A parsed argument object is returned in case the caller needs it, but
+    # it is not required during the respond() step
+    parsed = mock_op_cmd.parse_args()
+
+    # We don't need argv[0], just arguments not including the program name
+    args = sys.argv[1:]
+    try:
+        # output is written to standard out & standard err as appropriate
+        # a numeric exit status is returned
+        exit_status = mock_op_cmd.respond(args)
+    except (ResponseDirectoryException, ResponseLookupException) as e:
+        # Response directory failed to load, or did not contain an appropriate response
+        print(f"Error looking up response: [{e}]", file=sys.stderr)
+        exit_status = -1
+
+    return exit_status
+
+if __name__ == "__main__":
+    exit(mock_op_main())
+```
