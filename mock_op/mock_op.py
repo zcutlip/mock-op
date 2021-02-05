@@ -14,7 +14,7 @@ class MockOP:
             arg_parser = self._mock_op_arg_parser()
         self._arg_parser = arg_parser
         if response_directory is None:
-            response_directory = self._get_response_directory()
+            response_directory = self.get_response_directory()
         self._response_directory = response_directory
 
     @property
@@ -49,7 +49,8 @@ class MockOP:
 
         return parser
 
-    def _get_response_directory(self):
+    @classmethod
+    def get_response_directory(cls):
         rdpath = os.environ.get(RESP_DIR_ENV_NAME)
         if not rdpath:
             rdpath = RESPONSE_DIRECTORY_PATH
