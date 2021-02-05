@@ -94,6 +94,10 @@ $
 
     pip install pyonepassword
 
+
+> Note: As the response generation API uses `pyonepassword` under the hood, it is limited to `op` commands and subcommands that `pyonepassword` knows about.
+
+
 Then generate and record responses in the following order:
 
 1. Obtain master password for the 1Password account
@@ -189,3 +193,8 @@ def mock_op_main():
 if __name__ == "__main__":
     exit(mock_op_main())
 ```
+
+## Listing known `op` invocations
+
+A convenience utlitity is provided to list invocation information known by the response directory.
+
