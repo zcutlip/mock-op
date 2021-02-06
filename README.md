@@ -8,7 +8,7 @@
 
 The `mock-op` package comes with several significant parts:
 
-- A `mock-op` console utility that plays back responses identical the real `op` command's output for a given set of command-line arguments. Additionally the same exit statuses are return in the case of error.
+- A `mock-op` console utility that plays back responses identical the real `op` command's output for a given set of command-line arguments. Additionally the same exit statuses are returned in the case of error.
 - An API that can be used to execute `op` under various scenarios and record its responses for use by `mock-op`
 - An API to implement a custom `mock-op` console utility overriding the defaults, such as providing a custom argument parser
 - A utility to list `op` invocation argument lists known by the response directory
@@ -101,7 +101,7 @@ $
 Then generate and record responses in the following order:
 
 1. Obtain master password for the 1Password account
-2. Create an OPResponseGenerator object, which signs in to a real 1Password account (which ever account `op` has signed into previously on the command line)
+2. Create an OPResponseGenerator object, which signs in to a real 1Password account (whichever account `op` has signed into previously on the command line)
 3. Create a `ResponseDirectory` instance
 4. Generate a command invocation for either the `op get item` or `op get document` subcommand
 5. Add the command invocation (a bundle of the command-line arguments, the response output, and the exit status) to the response directory
@@ -144,7 +144,7 @@ def main():
     resopnse_dir = "~/.config/mock-op/responses"
 
     # Create the directory on disk if it doesn't already exist
-    directory = ResponseDirectory(directory_path, create=True, response_dir=resopnse_dir)
+    directory = ResponseDirectory(directory_path, create=True, response_dir=response_dir)
 
 
     invocation = do_get_document(op)
