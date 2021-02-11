@@ -34,14 +34,14 @@ def do_get_item_1(op: OPResponseGenerator):
 
 def do_get_item_2(op: OPResponseGenerator):
     item_uuid = "nok7367v4vbsfgg2fczwu4ei44"
-    query_name = "get-item-by-uuid[example-login-1]"
+    query_name = "get-item-by-uuid[example-login-2]"
     invocation: CommandInvocation = op.get_item_generate_response(item_uuid, query_name)
     return invocation
 
 
 def do_get_item_3(op: OPResponseGenerator):
     item_uuid = "nok7367v4vbsfgg2fczwu4ei44"
-    query_name = "get-item-[example-login-2]-[fields-username-password]"
+    query_name = "get-item-by-uuid[example-login-2]-[fields-username-password]"
     invocation: CommandInvocation = op.get_item_generate_response(
         item_uuid, query_name, fields="username,password")
     return invocation
