@@ -47,6 +47,21 @@ def do_get_item_3(op: OPResponseGenerator):
     return invocation
 
 
+def do_get_item_4(op: OPResponseGenerator):
+    # 'Example Login' --vault Archive
+    query_name = "get-item-[example-login]-[vault-archive]"
+    invocation = op.get_item_generate_response("Example Login", query_name, vault="Archive")
+    return invocation
+
+
+def do_get_item_5(op: OPResponseGenerator):
+    # 'Example Login' --vault Archive
+    item_uuid = "ykhsbhhv2vf6hn2u4qwblfrmg4"
+    query_name = "get-item-by-uuid[example-login]-[vault-private]"
+    invocation = op.get_item_generate_response(item_uuid, query_name, vault="Private")
+    return invocation
+
+
 def do_get_document(op: OPResponseGenerator):
     document_name = "Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp"
     query_name = "get-document-[spongebob image]"
@@ -62,7 +77,11 @@ def do_get_invalid_item(op: OPResponseGenerator):
 
 
 if __name__ == "__main__":
-    op = do_signin()
+    try:
+        op = do_signin()
+    except Exception as e:
+        print(str(e))
+        exit(1)
     directory_path = "~/.config/mock-op/response-directory.json"
     resopnse_dir = "~/.config/mock-op/responses"
     directory = ResponseDirectory(directory_path, create=True, response_dir=resopnse_dir)
@@ -74,6 +93,12 @@ if __name__ == "__main__":
     directory.add_command_invocation(invocation, save=True)
 
     invocation = do_get_item_3(op)
+    directory.add_command_invocation(invocation, save=True)
+
+    invocation = do_get_item_4(op)
+    directory.add_command_invocation(invocation, save=True)
+
+    invocation = do_get_item_5(op)
     directory.add_command_invocation(invocation, save=True)
 
     invocation = do_get_document(op)
