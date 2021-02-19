@@ -23,7 +23,8 @@ setup(name='mock-op',
       entry_points={
           'console_scripts': [
               'mock-op=mock_op.mock_op_main:main',
-              'list-cmds=mock_op.list_cmd_main:main'], },
+              'list-cmds=mock_op.list_cmd_main:main',
+              'response-generator=mock_op.response_gen_main:main'], },
       python_requires='>=3.7',
       install_requires=['mock-cli-framework'],
       package_data={'mock_op': ['config/*']},
