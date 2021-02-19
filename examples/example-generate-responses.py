@@ -41,25 +41,9 @@ def do_get_item_2(op: OPResponseGenerator):
 
 
 def do_get_item_3(op: OPResponseGenerator):
-    item_uuid = "nok7367v4vbsfgg2fczwu4ei44"
-    query_name = "get-item-by-uuid[example-login-2]-[fields-username-password]"
-    invocation: CommandInvocation = op.get_item_generate_response(
-        item_uuid, query_name, fields="username,password")
-    return invocation
-
-
-def do_get_item_4(op: OPResponseGenerator):
     # 'Example Login' --vault Archive
     query_name = "get-item-[example-login]-[vault-archive]"
     invocation = op.get_item_generate_response("Example Login", query_name, vault="Archive")
-    return invocation
-
-
-def do_get_item_5(op: OPResponseGenerator):
-    # 'Example Login' --vault Archive
-    item_uuid = "ykhsbhhv2vf6hn2u4qwblfrmg4"
-    query_name = "get-item-by-uuid[example-login]-[vault-private]"
-    invocation = op.get_item_generate_response(item_uuid, query_name, vault="Private")
     return invocation
 
 
@@ -92,14 +76,15 @@ if __name__ == "__main__":
     if args.config_dir:
         config_dir = args.config_dir
     config_dir = os.path.expanduser(config_dir)
-    directory_path = os.path.join(config_dir, "response-directory.json")
+    respdir_json_file = os.path.join(config_dir, "response-directory.json")
     response_dir = os.path.join(config_dir, "responses")
     try:
         op = do_signin()
     except Exception as e:
         print(str(e))
         exit(1)
-    directory = ResponseDirectory(directory_path, create=True, response_dir=response_dir)
+    directory = ResponseDirectory(
+        respdir_json_file, create=True, response_dir=response_dir)
 
     invocation = do_get_item_1(op)
     directory.add_command_invocation(invocation, save=True)
@@ -108,12 +93,6 @@ if __name__ == "__main__":
     directory.add_command_invocation(invocation, save=True)
 
     invocation = do_get_item_3(op)
-    directory.add_command_invocation(invocation, save=True)
-
-    invocation = do_get_item_4(op)
-    directory.add_command_invocation(invocation, save=True)
-
-    invocation = do_get_item_5(op)
     directory.add_command_invocation(invocation, save=True)
 
     invocation = do_get_document(op)
