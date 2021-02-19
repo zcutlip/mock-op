@@ -1,6 +1,7 @@
 import getpass
 import os
 import sys
+from argparse import ArgumentParser
 
 from mock_cli import CommandInvocation, ResponseDirectory
 parent_path = os.path.dirname(
@@ -76,15 +77,29 @@ def do_get_invalid_item(op: OPResponseGenerator):
     return invocation
 
 
+def parse_args():
+    parser = ArgumentParser()
+    parser.add_argument("--config-dir")
+
+    parsed = parser.parse_args()
+    return parsed
+
+
 if __name__ == "__main__":
+    config_dir = "~/.config/mock-op"
+
+    args = parse_args()
+    if args.config_dir:
+        config_dir = args.config_dir
+    config_dir = os.path.expanduser(config_dir)
+    directory_path = os.path.join(config_dir, "response-directory.json")
+    response_dir = os.path.join(config_dir, "responses")
     try:
         op = do_signin()
     except Exception as e:
         print(str(e))
         exit(1)
-    directory_path = "~/.config/mock-op/response-directory.json"
-    resopnse_dir = "~/.config/mock-op/responses"
-    directory = ResponseDirectory(directory_path, create=True, response_dir=resopnse_dir)
+    directory = ResponseDirectory(directory_path, create=True, response_dir=response_dir)
 
     invocation = do_get_item_1(op)
     directory.add_command_invocation(invocation, save=True)
