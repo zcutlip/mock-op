@@ -140,11 +140,11 @@ def do_get_invalid_item(op: OPResponseGenerator):
 
 def main():
     op = do_signin()
-    directory_path = "~/.config/mock-op/response-directory.json"
+    respdir_json_file = "~/.config/mock-op/response-directory.json"
     resopnse_dir = "~/.config/mock-op/responses"
 
     # Create the directory on disk if it doesn't already exist
-    directory = ResponseDirectory(directory_path, create=True, response_dir=response_dir)
+    directory = ResponseDirectory(respdir_json_file, create=True, response_dir=response_dir)
 
 
     invocation = do_get_document(op)

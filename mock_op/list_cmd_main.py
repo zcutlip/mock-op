@@ -36,17 +36,17 @@ def main():
     parsed = parse_args()
     verbose = parsed.verbose
     if parsed.response_dir:
-        resp_dir_path = parsed.response_dir
+        respdir_json_file = parsed.response_dir
     else:
-        resp_dir_path = MockOP.get_response_directory()
+        respdir_json_file = MockOP.get_response_directory()
 
     try:
-        directory = ResponseDirectory(resp_dir_path)
+        directory = ResponseDirectory(respdir_json_file)
     except ResponseDirectoryException as e:
         print(f"Error loading response directory: {e}")
         exit(1)
 
-    print(f"Directory path: {resp_dir_path}")
+    print(f"Directory path: {respdir_json_file}")
     commands = directory.commands
     response_dir = directory.response_dir
 
