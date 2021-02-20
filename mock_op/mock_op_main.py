@@ -22,3 +22,6 @@ def main():
         exit_status = -1
 
     return exit_status
+
+if __name__ == "__main__":
+    main()
