@@ -92,8 +92,8 @@ class MockOP:
         # namespace and the list of remaining argument strings
         parsed = parser.parse_known_args(args)[0]
         raw = parsed.raw
-        if parsed.account:
-            shorthand = parsed.account
+        if parsed.sign_in_address:
+            shorthand = parsed.sign_in_address
         else:
             shorthand = os.environ.get(SIGNIN_SHORTHAND_ENV_NAME)
 
