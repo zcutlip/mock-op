@@ -88,9 +88,43 @@ $ echo $?
 $
 ```
 
+## Automated Response Generation
+
+The response file & directory structure was designed to be fairly straightforward so that one could create it by hand or easily script it. However, `mock-op` comes with a tool to generate responses. You provide it a configuration file, and it'll sign in to your 1Password account (using the *real* `op` tool), perform the queries, and record the responses.
+
+> Note: response generation requires you install my `pyonepassword` Python package. It can be found in PyPI and installed via `pip`.
+
+Here's an example configuraiton file for generating responses:
+
+```INI
+[DEFAULT]
+config-path = ./tests/config/mock-op
+response-path = responses
+response_dir_file = response-directory.json
+
+[get-item-example-login-1-vault-test-data]
+type=get-item
+item_identifier = Example Login 1
+vault = Test Data
+
+[get-item-invalid-item]
+type = get-item
+item_identifier = Invalid Item
+```
+
+Then you can run `response-generator` and have it create your response directory:
+
+```Console
+response-generator ./response-generation.cfg
+1Password master password:
+
+Using account shorthand found in op config: my_onepassword_login
+Doing normal (non-initial) 1Password sign-in
+```
+
 ## Using the OP Response Generation API
 
-`mock-op` provides API to execute the real `op` and record its responses. In order to do this, the `pyonepassword` package is required, and is not automatically installed as a dependency of this package:
+In addition, `mock-op` provides API to execute `op` and record its responses. In order to do this, the `pyonepassword` package is required, and is not automatically installed as a dependency of this package:
 
     pip install pyonepassword
 
