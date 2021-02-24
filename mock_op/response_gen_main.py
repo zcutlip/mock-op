@@ -59,7 +59,7 @@ def main():
         op = do_signin()
     except Exception as e:
         print(str(e))
-        # exit(1)
+        exit(1)
     directory = ResponseDirectory(
         respdir_json_file, create=True, response_dir=response_path)
 
