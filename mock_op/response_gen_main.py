@@ -74,8 +74,6 @@ def main():
         else:
             raise Exception(f"Unknown query type: {query_definition['type']}")
 
-        directory.add_command_invocation(invocation, overwrite=True, save=True)
-
 
 if __name__ == "__main__":
     main()
