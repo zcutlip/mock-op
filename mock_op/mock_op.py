@@ -37,14 +37,16 @@ class MockOP:
 
     def _mock_op_arg_parser(self) -> ArgumentParser:
         parser = ArgumentParser()
-        parser.add_argument("--account", metavar="shorthand", help="use the account with this shorthand")
+        parser.add_argument("--account", metavar="shorthand",
+                            help="use the account with this shorthand")
         subparsers = parser.add_subparsers(
             description="Available Commands", metavar="[command]", dest="command", required=True)
 
         parser_signin = subparsers.add_parser(
             "signin", help="Signs in to a 1Password account and returns a session token.")
         parser_signin.add_argument("sign_in_address", nargs="?", default=None)
-        parser_signin.add_argument("-r", "--raw", help="only return the session token", action='store_true')
+        parser_signin.add_argument(
+            "-r", "--raw", help="only return the session token", action='store_true')
 
         parser_get = subparsers.add_parser("get", help="the get command")
 
@@ -98,9 +100,11 @@ class MockOP:
             shorthand = os.environ.get(SIGNIN_SHORTHAND_ENV_NAME)
 
         if signin_success is None:
-            raise MockOPSigninException("{} environment variable not found".format(SIGNIN_SUCCESS_ENV_NAME))
+            raise MockOPSigninException(
+                "{} environment variable not found".format(SIGNIN_SUCCESS_ENV_NAME))
         if signin_success not in ["0", "1"]:
-            raise MockOPSigninException("{} environment variable should be 0 or 1".format(SIGNIN_SUCCESS_ENV_NAME))
+            raise MockOPSigninException(
+                "{} environment variable should be 0 or 1".format(SIGNIN_SUCCESS_ENV_NAME))
         elif signin_success == "0":
             signin_success = False
         elif signin_success == "1":
@@ -109,7 +113,8 @@ class MockOP:
         if shorthand is None:
             raise MockOPSigninException("No account shorthand provided")
 
-        response = MockOPSigninResponse(shorthand, signin_success=signin_success, raw=raw)
+        response = MockOPSigninResponse(
+            shorthand, signin_success=signin_success, raw=raw)
         exit_status = response.respond()
         return exit_status
 
