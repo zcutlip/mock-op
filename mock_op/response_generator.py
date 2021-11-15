@@ -13,14 +13,18 @@ class OPResponseGenerator(OP):
                                 stderr,
                                 returncode):
         query_args = argv_obj.query_args()
-        query_response = CommandInvocation(query_args, stdout, stderr, returncode, query_name)
+        query_response = CommandInvocation(
+            query_args, stdout, stderr, returncode, query_name)
 
         return query_response
 
     def get_item_generate_response(self, item_name_or_uuid, query_name, vault=None, fields=None):
-        get_item_argv = self._get_item_argv(item_name_or_uuid, vault=vault, fields=fields)
-        stdout, stderr, returncode = self._run_raw(get_item_argv, capture_stdout=True, ignore_error=True)
-        resp_dict = self._generate_response_dict(get_item_argv, query_name, stdout, stderr, returncode)
+        get_item_argv = self._get_item_argv(
+            item_name_or_uuid, vault=vault, fields=fields)
+        stdout, stderr, returncode = self._run_raw(
+            get_item_argv, capture_stdout=True, ignore_error=True)
+        resp_dict = self._generate_response_dict(
+            get_item_argv, query_name, stdout, stderr, returncode)
 
         return resp_dict
 
@@ -29,6 +33,7 @@ class OPResponseGenerator(OP):
             document_name_or_uuid, vault=vault)
         stdout, stderr, returncode = self._run_raw(
             get_doc_argv, capture_stdout=True, ignore_error=True)
-        resp_dict = self._generate_response_dict(get_doc_argv, query_name, stdout, stderr, returncode)
+        resp_dict = self._generate_response_dict(
+            get_doc_argv, query_name, stdout, stderr, returncode)
 
         return resp_dict
