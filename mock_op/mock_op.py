@@ -39,8 +39,11 @@ class MockOP:
         parser = ArgumentParser()
         parser.add_argument("--account", metavar="shorthand",
                             help="use the account with this shorthand")
+        parser.add_argument(
+            "--version", help="version for op", action='store_true')
+
         subparsers = parser.add_subparsers(
-            description="Available Commands", metavar="[command]", dest="command", required=True)
+            description="Available Commands", metavar="[command]", dest="command", required=False)
 
         parser_signin = subparsers.add_parser(
             "signin", help="Signs in to a 1Password account and returns a session token.")
