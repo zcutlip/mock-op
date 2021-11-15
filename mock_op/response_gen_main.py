@@ -50,6 +50,12 @@ def do_get_document(op: OPResponseGenerator, query_name, query_definition) -> Co
     return document_invocation, item_filename_invocation
 
 
+def do_get_vault(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
+    vault_id = query_definition["vault_identifier"]
+    invocation = op.get_vault_generate_response(vault_id, query_name)
+    return invocation
+
+
 def main():
     args = resp_gen_parse_args()
     conf_path = args.config
@@ -80,6 +86,10 @@ def main():
                 filename_invocation, overwrite=True)
             directory.add_command_invocation(
                 document_invocation, overwrite=True, save=True)
+        elif query_definition["type"] == "get-vault":
+            invocation = do_get_vault(op, query_name, query_definition)
+            directory.add_command_invocation(
+                invocation, overwrite=True, save=True)
         else:
             raise Exception(f"Unknown query type: {query_definition['type']}")
 
