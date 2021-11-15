@@ -1,0 +1,32 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "response generator",
+            "type": "python",
+            "request": "launch",
+            "module": "mock_op.response_gen_main",
+            "args": ["./example.cfg"]
+        },
+        {
+            "name": "example generate responses",
+            "type": "python",
+            "request": "launch",
+            "program": "examples/example-generate-responses.py",
+            "console": "integratedTerminal",
+            "justMyCode": false
+        },
+        {
+            "name": "mock-op signin",
+            "type": "python",
+            "request": "launch",
+            "module": "mock_op.mock_op_main",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": ["signin", "zach"]
+        }
+    ]
+}
