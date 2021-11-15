@@ -56,6 +56,11 @@ def do_get_vault(op: OPResponseGenerator, query_name, query_definition) -> Comma
     return invocation
 
 
+def do_cli_version(op: OPResponseGenerator, query_name) -> CommandInvocation:
+    invocation = op.cli_version(query_name)
+    return invocation
+
+
 def main():
     args = resp_gen_parse_args()
     conf_path = args.config
@@ -88,6 +93,10 @@ def main():
                 document_invocation, overwrite=True, save=True)
         elif query_definition["type"] == "get-vault":
             invocation = do_get_vault(op, query_name, query_definition)
+            directory.add_command_invocation(
+                invocation, overwrite=True, save=True)
+        elif query_definition["type"] == "cli-version":
+            invocation = do_cli_version(op, query_name)
             directory.add_command_invocation(
                 invocation, overwrite=True, save=True)
         else:
