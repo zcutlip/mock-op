@@ -37,3 +37,12 @@ class OPResponseGenerator(OP):
             get_doc_argv, query_name, stdout, stderr, returncode)
 
         return resp_dict
+
+    def get_vault_generate_response(self, vault_name_or_uuid, query_name):
+        get_vault_argv = self._get_vault_argv(vault_name_or_uuid)
+        stdout, stderr, returncode = self._run_raw(
+            get_vault_argv, capture_stdout=True, ignore_error=True)
+        resp_dict = self._generate_response_dict(
+            get_vault_argv, query_name, stdout, stderr, returncode)
+
+        return resp_dict
