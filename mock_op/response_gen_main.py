@@ -11,7 +11,8 @@ from .response_generator_config import OPResponseGenConfig
 
 def resp_gen_parse_args():
     parser = ArgumentParser()
-    parser.add_argument("config", help="Config file describing 'op' responses to generate")
+    parser.add_argument(
+        "config", help="Config file describing 'op' responses to generate")
 
     parsed = parser.parse_args()
     return parsed
@@ -31,7 +32,8 @@ def do_signin():
 def do_get_item(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
     item_id = query_definition["item_identifier"]
     vault = query_definition.get("vault")
-    invocation = op.get_item_generate_response(item_id, query_name, vault=vault)
+    invocation = op.get_item_generate_response(
+        item_id, query_name, vault=vault)
     return invocation
 
 
@@ -41,7 +43,8 @@ def do_get_document(op: OPResponseGenerator, query_name, query_definition) -> Co
         op, query_name_filename, query_definition)
     item_id = query_definition["item_identifier"]
     vault = query_definition.get("vault")
-    document_invocation = op.get_document_generate_response(item_id, query_name, vault=vault)
+    document_invocation = op.get_document_generate_response(
+        item_id, query_name, vault=vault)
     return document_invocation, item_filename_invocation
 
 
@@ -66,11 +69,15 @@ def main():
     for query_name, query_definition in generator_config.items():
         if query_definition["type"] == "get-item":
             invocation = do_get_item(op, query_name, query_definition)
-            directory.add_command_invocation(invocation, overwrite=True, save=True)
+            directory.add_command_invocation(
+                invocation, overwrite=True, save=True)
         elif query_definition["type"] == "get-document":
-            document_invocation, filename_invocation = do_get_document(op, query_name, query_definition)
-            directory.add_command_invocation(filename_invocation, overwrite=True)
-            directory.add_command_invocation(document_invocation, overwrite=True, save=True)
+            document_invocation, filename_invocation = do_get_document(
+                op, query_name, query_definition)
+            directory.add_command_invocation(
+                filename_invocation, overwrite=True)
+            directory.add_command_invocation(
+                document_invocation, overwrite=True, save=True)
         else:
             raise Exception(f"Unknown query type: {query_definition['type']}")
 
