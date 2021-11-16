@@ -56,6 +56,12 @@ def do_get_vault(op: OPResponseGenerator, query_name, query_definition) -> Comma
     return invocation
 
 
+def do_get_user(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
+    user_id = query_definition["user_identifier"]
+    invocation = op.get_user_generate_response(user_id, query_name)
+    return invocation
+
+
 def do_cli_version(op: OPResponseGenerator, query_name) -> CommandInvocation:
     invocation = op.cli_version(query_name)
     return invocation
@@ -93,6 +99,10 @@ def main():
                 document_invocation, overwrite=True, save=True)
         elif query_definition["type"] == "get-vault":
             invocation = do_get_vault(op, query_name, query_definition)
+            directory.add_command_invocation(
+                invocation, overwrite=True, save=True)
+        elif query_definition["type"] == "get-user":
+            invocation = do_get_user(op, query_name, query_definition)
             directory.add_command_invocation(
                 invocation, overwrite=True, save=True)
         elif query_definition["type"] == "cli-version":
