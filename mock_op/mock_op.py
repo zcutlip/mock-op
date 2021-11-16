@@ -77,6 +77,11 @@ class MockOP:
         parser_get_subcmd.add_argument(
             "vault", metavar="<vault>", help="The vault to get")
 
+        parser_get_subcmd = parser_get_subparsers.add_parser(
+            "user", description="Get details about a user.", help="Get details about a user")
+        parser_get_subcmd.add_argument(
+            "user", metavar="<user>", help="The user to get")
+
         return parser
 
     @classmethod
