@@ -47,6 +47,15 @@ class OPResponseGenerator(OP):
 
         return resp_dict
 
+    def get_user_generate_response(self, user_name_or_uuid, query_name):
+        get_user_argv = self._get_user_argv(user_name_or_uuid)
+        stdout, stderr, returncode = self._run_raw(
+            get_user_argv, capture_stdout=True, ignore_error=True)
+        resp_dict = self._generate_response_dict(
+            get_user_argv, query_name, stdout, stderr, returncode)
+
+        return resp_dict
+
     def cli_version(self, query_name):
         cli_version_argv = self._cli_version_argv()
         stdout, stderr, returncode = self._run_raw(
