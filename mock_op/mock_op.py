@@ -82,6 +82,11 @@ class MockOP:
         parser_get_subcmd.add_argument(
             "user", metavar="<user>", help="The user to get")
 
+        parser_get_subcmd = parser_get_subparsers.add_parser(
+            "group", description="Get details about a group.", help="Get details about a group")
+        parser_get_subcmd.add_argument(
+            "group", metavar="<group>", help="The group to get")
+
         return parser
 
     @classmethod
