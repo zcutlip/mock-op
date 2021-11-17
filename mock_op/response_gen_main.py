@@ -62,6 +62,12 @@ def do_get_user(op: OPResponseGenerator, query_name, query_definition) -> Comman
     return invocation
 
 
+def do_get_group(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
+    group_id = query_definition["group_identifier"]
+    invocation = op.get_group_generate_response(group_id, query_name)
+    return invocation
+
+
 def do_cli_version(op: OPResponseGenerator, query_name) -> CommandInvocation:
     invocation = op.cli_version(query_name)
     return invocation
