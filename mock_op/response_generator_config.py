@@ -18,7 +18,7 @@ class OPresponseDefinition(dict):
         return self.get('enabled', True)
 
 
-class OPResponseGenConfig(dict):
+class OPResponseGenConfig(dict[str, OPresponseDefinition]):
     CONF_PATH_KEY = "config-path"
     RESP_PATH_KEY = "response-path"
     RESP_DIR_KEY = "response_dir_file"
@@ -37,10 +37,8 @@ class OPResponseGenConfig(dict):
     def _get_response_defs(self, conf: ConfigParser):
         response_defs = {}
         for sname in conf.sections():
-            resp_def = {"name": sname}
             sect = conf[sname]
-            sect_dict = dict(sect)
-            resp_def.update(sect_dict)
+            resp_def = OPresponseDefinition(sname, sect)
             response_defs[sname] = resp_def
 
         return response_defs
