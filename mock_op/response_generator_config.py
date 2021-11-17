@@ -1,6 +1,23 @@
 from configparser import ConfigParser
 
 
+class OPresponseDefinition(dict):
+    def __init__(self, section_name, section):
+        super().__init__()
+        resp_def = {"name": section_name}
+        sect_dict = dict(section)
+        resp_def.update(sect_dict)
+        self.update(resp_def)
+
+    @property
+    def type(self) -> str:
+        return self["type"]
+
+    @property
+    def enabled(self) -> bool:
+        return self.get('enabled', True)
+
+
 class OPResponseGenConfig(dict):
     CONF_PATH_KEY = "config-path"
     RESP_PATH_KEY = "response-path"
