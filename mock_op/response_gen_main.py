@@ -111,7 +111,10 @@ def main():
             invocation = do_get_user(op, query_name, query_definition)
             directory.add_command_invocation(
                 invocation, overwrite=True, save=True)
-        elif query_definition["type"] == "cli-version":
+        elif query_definition.type == "get-group":
+            invocation = do_get_group(op, query_name, query_definition)
+            directory.add_command_invocation(
+                invocation, overwrite=True, save=True)
             invocation = do_cli_version(op, query_name)
             directory.add_command_invocation(
                 invocation, overwrite=True, save=True)
