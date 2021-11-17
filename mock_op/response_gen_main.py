@@ -92,6 +92,8 @@ def main():
         respdir_json_file, create=True, response_dir=response_path)
 
     for query_name, query_definition in generator_config.items():
+        if not query_definition.enabled:
+            continue
         if query_definition.type == "get-item":
             invocation = do_get_item(op, query_name, query_definition)
             directory.add_command_invocation(
