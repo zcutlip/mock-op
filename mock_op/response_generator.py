@@ -64,3 +64,11 @@ class OPResponseGenerator(OP):
             cli_version_argv, query_name, stdout, stderr, returncode)
 
         return resp_dict
+
+    def _resp_dict_from_argv(self, argv, query_name):
+        stdout, stderr, returncode = self._run_raw(
+            argv, capture_stdout=True, ignore_error=True)
+        resp_dict = self._generate_response_dict(
+            argv, query_name, stdout, stderr, returncode)
+
+        return resp_dict
