@@ -52,7 +52,7 @@ class OPResponseGenConfig(dict[str, OPresponseDefinition]):
 
     def __init__(self, config_path):
         super().__init__()
-        conf = ConfigParser()
+        conf = OPConfigParser()
         conf.read(config_path)
         defaults = conf.defaults()
         self.config_path = defaults[self.CONF_PATH_KEY]
@@ -61,7 +61,7 @@ class OPResponseGenConfig(dict[str, OPresponseDefinition]):
         response_defs = self._get_response_defs(conf)
         self.update(response_defs)
 
-    def _get_response_defs(self, conf: ConfigParser):
+    def _get_response_defs(self, conf: OPConfigParser):
         response_defs = {}
         for sname in conf.sections():
             sect = conf[sname]
