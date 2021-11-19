@@ -1,6 +1,33 @@
 from configparser import ConfigParser
 
 
+class OPConfigParser(ConfigParser):
+    _key_types = {
+        "enabled": "getboolean"
+    }
+
+    def items(self, section):
+        print("items")
+        _items = super().items(section)
+        d = dict()
+        for k, v in _items:
+            if k in self._key_types:
+                v = self._key_types[k](v)
+            d[k] = v
+        return d.items()
+
+    def get(self, section, option, *args, **kwargs):
+        get_fn = super().get
+        if option in self._key_types and 'raw' not in kwargs:
+            fn_name = self._key_types[option]
+            get_fn = getattr(self, fn_name)
+            val = get_fn(section, option, *args, **kwargs)
+        else:
+            val = get_fn(section, option, *args, **kwargs)
+
+        return val
+
+
 class OPresponseDefinition(dict):
     def __init__(self, section_name, section):
         super().__init__()
