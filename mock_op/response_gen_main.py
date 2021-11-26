@@ -94,33 +94,42 @@ def main():
     for query_name, query_definition in generator_config.items():
         if not query_definition.enabled:
             continue
+
         if query_definition.type == "get-item":
             invocation = do_get_item(op, query_name, query_definition)
             directory.add_command_invocation(
                 invocation, overwrite=True, save=True)
+
         elif query_definition.type == "get-document":
             document_invocation, filename_invocation = do_get_document(
                 op, query_name, query_definition)
+
             directory.add_command_invocation(
                 filename_invocation, overwrite=True)
+
             directory.add_command_invocation(
                 document_invocation, overwrite=True, save=True)
+
         elif query_definition.type == "get-vault":
             invocation = do_get_vault(op, query_name, query_definition)
             directory.add_command_invocation(
                 invocation, overwrite=True, save=True)
+
         elif query_definition.type == "get-user":
             invocation = do_get_user(op, query_name, query_definition)
             directory.add_command_invocation(
                 invocation, overwrite=True, save=True)
+
         elif query_definition.type == "get-group":
             invocation = do_get_group(op, query_name, query_definition)
             directory.add_command_invocation(
                 invocation, overwrite=True, save=True)
+
         elif query_definition.type == "cli-version":
             invocation = do_cli_version(op, query_name)
             directory.add_command_invocation(
                 invocation, overwrite=True, save=True)
+
         else:
             raise Exception(f"Unknown query type: {query_definition['type']}")
 
