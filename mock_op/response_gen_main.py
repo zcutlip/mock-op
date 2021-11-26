@@ -40,13 +40,26 @@ def do_get_item(op: OPResponseGenerator, query_name, query_definition) -> Comman
 
 
 def do_get_document(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
+    # Getting a document is a two-step process
+    # first:
+    #   op get item <document identifier"
+    # to get JSON details describing the document, including it's original filename
+    # second:
+    #   op get document <document identifier>
+    # to get the actual data representing the document
+
+    # query 1: get the document filename
     query_name_filename = f"{query_name}-filename"
     item_filename_invocation = do_get_item(
         op, query_name_filename, query_definition)
-    item_id = query_definition["item_identifier"]
+
+    # query 2: get the document bytes
     vault = query_definition.get("vault")
+    item_id = query_definition["item_identifier"]
     document_invocation = op.get_document_generate_response(
         item_id, query_name, vault=vault)
+
+    # return both invocations
     return document_invocation, item_filename_invocation
 
 
