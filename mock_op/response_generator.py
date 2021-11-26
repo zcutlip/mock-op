@@ -29,14 +29,24 @@ class OPResponseGenerator(OP):
 
         return resp_dict
 
-    def get_document_generate_response(self, document_name_or_uuid: str, query_name, vault: str = None):
-        get_doc_argv = self._get_document_argv(
-            document_name_or_uuid, vault=vault)
+    def get_document_generate_response(self, document_name_or_uuid: str, query_name, vault: str = None,
+                                       alternate_name: str = None):
+        if alternate_name:
+            doc_id = alternate_name
+            get_doc_argv = self._get_document_argv(doc_id, vault=vault)
+            normal_argv = self._get_document_argv(
+                document_name_or_uuid, vault=vault)
+        else:
+            doc_id = document_name_or_uuid
+            get_doc_argv = self._get_document_argv(doc_id, vault=vault)
+            normal_argv = get_doc_argv
+
         self.logger.info(f"About to run: {get_doc_argv.cmd_str()}")
         stdout, stderr, returncode = self._run_raw(
             get_doc_argv, capture_stdout=True, ignore_error=True)
+
         resp_dict = self._generate_response_dict(
-            get_doc_argv, query_name, stdout, stderr, returncode)
+            normal_argv, query_name, stdout, stderr, returncode)
 
         return resp_dict
 

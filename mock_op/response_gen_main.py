@@ -55,9 +55,14 @@ def do_get_document(op: OPResponseGenerator, query_name, query_definition) -> Co
 
     # query 2: get the document bytes
     vault = query_definition.get("vault")
+
+    # if we want to simulate document bytes being missing
+    # even though the "document item" is present, specify
+    # an alternate document identifier for step 2, that is known to fail
+    alt_item_id = query_definition.get("item_identifier_alternate")
     item_id = query_definition["item_identifier"]
     document_invocation = op.get_document_generate_response(
-        item_id, query_name, vault=vault)
+        item_id, query_name, vault=vault, alternate_name=alt_item_id)
 
     # return both invocations
     return document_invocation, item_filename_invocation
