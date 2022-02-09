@@ -91,6 +91,19 @@ def do_cli_version(op: OPResponseGenerator, query_name) -> CommandInvocation:
     return invocation
 
 
+def do_list_items(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
+    categories = query_definition.get("categories", [])
+    include_archive = query_definition.get("include_archive", False)
+    tags = query_definition.get("tags", [])
+    vault = query_definition.get("vault", None)
+
+    invocation = op.list_items_generate_response(
+        query_name, categories=categories, include_archive=include_archive,
+        tags=tags, vault=vault)
+
+    return invocation
+
+
 def main():
     args = resp_gen_parse_args()
     conf_path = args.config
@@ -145,6 +158,11 @@ def main():
 
         elif query_definition.type == "cli-version":
             invocation = do_cli_version(op, query_name)
+            directory.add_command_invocation(
+                invocation, overwrite=True, save=True)
+
+        elif query_definition.type == "list-items":
+            invocation = do_list_items(op, query_name, query_definition)
             directory.add_command_invocation(
                 invocation, overwrite=True, save=True)
 
