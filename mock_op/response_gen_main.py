@@ -104,6 +104,17 @@ def do_list_items(op: OPResponseGenerator, query_name, query_definition) -> Comm
     return invocation
 
 
+query_type_map = {
+    "get-item": do_get_item,
+    "get-document": do_get_document,
+    "get-vault": do_get_vault,
+    "get-user": do_get_user,
+    "get-group": do_get_group,
+    "cli-version": do_cli_version,
+    "list-items": do_list_items
+}
+
+
 def main():
     args = resp_gen_parse_args()
     conf_path = args.config
@@ -125,49 +136,13 @@ def main():
     for query_name, query_definition in generator_config.items():
         if not query_definition.enabled:
             continue
-
-        if query_definition.type == "get-item":
-            invocation = do_get_item(op, query_name, query_definition)
-            directory.add_command_invocation(
-                invocation, overwrite=True, save=True)
-
-        elif query_definition.type == "get-document":
-            document_invocation, filename_invocation = do_get_document(
-                op, query_name, query_definition)
-
-            directory.add_command_invocation(
-                filename_invocation, overwrite=True)
-
-            directory.add_command_invocation(
-                document_invocation, overwrite=True, save=True)
-
-        elif query_definition.type == "get-vault":
-            invocation = do_get_vault(op, query_name, query_definition)
-            directory.add_command_invocation(
-                invocation, overwrite=True, save=True)
-
-        elif query_definition.type == "get-user":
-            invocation = do_get_user(op, query_name, query_definition)
-            directory.add_command_invocation(
-                invocation, overwrite=True, save=True)
-
-        elif query_definition.type == "get-group":
-            invocation = do_get_group(op, query_name, query_definition)
-            directory.add_command_invocation(
-                invocation, overwrite=True, save=True)
-
-        elif query_definition.type == "cli-version":
-            invocation = do_cli_version(op, query_name)
-            directory.add_command_invocation(
-                invocation, overwrite=True, save=True)
-
-        elif query_definition.type == "list-items":
-            invocation = do_list_items(op, query_name, query_definition)
-            directory.add_command_invocation(
-                invocation, overwrite=True, save=True)
-
-        else:
+        try:
+            query_func = query_type_map[query_definition['type']]
+        except KeyError:
             raise Exception(f"Unknown query type: {query_definition['type']}")
+
+        invocation = query_func(op, query_name, query_definition)
+        directory.add_command_invocation(invocation, overwrite=True, save=True)
 
 
 if __name__ == "__main__":
