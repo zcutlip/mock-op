@@ -86,7 +86,7 @@ def do_get_group(op: OPResponseGenerator, query_name, query_definition) -> Comma
     return invocation
 
 
-def do_cli_version(op: OPResponseGenerator, query_name) -> CommandInvocation:
+def do_cli_version(op: OPResponseGenerator, query_name, _unused_query_definition) -> CommandInvocation:
     invocation = op.cli_version(query_name)
     return invocation
 
