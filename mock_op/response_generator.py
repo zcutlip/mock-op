@@ -52,13 +52,11 @@ class OPResponseGenerator(OP):
 
         return resp_dict
 
-    def get_vault_generate_response(self, vault_name_or_uuid, query_name):
-        get_vault_argv = self._get_vault_argv(vault_name_or_uuid)
-        self.logger.info(f"About to run: {get_vault_argv.cmd_str()}")
-        stdout, stderr, returncode = self._run_raw(
-            get_vault_argv, capture_stdout=True, ignore_error=True)
-        resp_dict = self._generate_response_dict(
-            get_vault_argv, query_name, stdout, stderr, returncode)
+    def vault_get_generate_response(self, vault_name_or_uuid, query_name, expected_return=0):
+        vault_get_argv = self._vault_get_argv(vault_name_or_uuid)
+
+        resp_dict = self._generate_response(
+            vault_get_argv, query_name, expected_return=expected_return)
 
         return resp_dict
 
