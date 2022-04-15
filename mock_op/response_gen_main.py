@@ -31,15 +31,15 @@ def do_signin():
     return op
 
 
-def do_get_item(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
+def item_get(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
     item_id = query_definition["item_identifier"]
     vault = query_definition.get("vault")
-    invocation = op.get_item_generate_response(
+    invocation = op.item_get_generate_response(
         item_id, query_name, vault=vault)
     return invocation
 
 
-def do_get_document(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
+def document_get(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
     # Getting a document is a two-step process
     # first:
     #   op get item <document identifier"
@@ -50,7 +50,7 @@ def do_get_document(op: OPResponseGenerator, query_name, query_definition) -> Co
 
     # query 1: get the document filename
     query_name_filename = f"{query_name}-filename"
-    item_filename_invocation = do_get_item(
+    item_filename_invocation = item_get(
         op, query_name_filename, query_definition)
 
     # query 2: get the document bytes
@@ -61,7 +61,7 @@ def do_get_document(op: OPResponseGenerator, query_name, query_definition) -> Co
     # an alternate document identifier for step 2, that is known to fail
     alt_item_id = query_definition.get("item_identifier_alternate")
     item_id = query_definition["item_identifier"]
-    document_invocation = op.get_document_generate_response(
+    document_invocation = op.document_get_generate_response(
         item_id, query_name, vault=vault, alternate_name=alt_item_id)
 
     # return both invocations
@@ -105,8 +105,8 @@ def do_list_items(op: OPResponseGenerator, query_name, query_definition) -> Comm
 
 
 query_type_map = {
-    "get-item": do_get_item,
-    "get-document": do_get_document,
+    "get-item": item_get,
+    "get-document": document_get,
     "get-vault": do_get_vault,
     "get-user": do_get_user,
     "get-group": do_get_group,
