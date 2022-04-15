@@ -5,6 +5,10 @@ from mock_cli import CommandInvocation
 from ._op import OP
 
 
+class OPResponseGenerationException(Exception):
+    pass
+
+
 class OPResponseGenerator(OP):
 
     def _generate_response_dict(self, argv_obj,
@@ -18,14 +22,12 @@ class OPResponseGenerator(OP):
 
         return query_response
 
-    def get_item_generate_response(self, item_name_or_uuid, query_name, vault=None, fields=None):
-        get_item_argv = self._get_item_argv(
+    def item_get_generate_response(self, item_name_or_uuid, query_name, vault=None, fields=None, expected_return=0):
+        item_get_argv = self._item_get_argv(
             item_name_or_uuid, vault=vault, fields=fields)
-        self.logger.info(f"About to run: {get_item_argv.cmd_str()}")
-        stdout, stderr, returncode = self._run_raw(
-            get_item_argv, capture_stdout=True, ignore_error=True)
-        resp_dict = self._generate_response_dict(
-            get_item_argv, query_name, stdout, stderr, returncode)
+
+        resp_dict = self._generate_response(
+            item_get_argv, query_name, expected_return=expected_return)
 
         return resp_dict
 
@@ -95,11 +97,18 @@ class OPResponseGenerator(OP):
             list_items_argv, query_name, stdout, stderr, returncode)
         return resp_dict
 
-    def _resp_dict_from_argv(self, argv, query_name):
-        self.logger.info(f"About to run: {argv.cmd_str()}")
+    def _generate_response(self, run_argv, query_name, record_argv=None, expected_return=0):
+        self.logger.info(f"About to run: {run_argv.cmd_str()}")
+        if record_argv is None:
+            record_argv = run_argv
         stdout, stderr, returncode = self._run_raw(
-            argv, capture_stdout=True, ignore_error=True)
+            run_argv, capture_stdout=True, ignore_error=True)
+
+        if returncode != expected_return:
+            raise OPResponseGenerationException(
+                f"Unexpected return code: expected {expected_return}, got {returncode}")
+
         resp_dict = self._generate_response_dict(
-            argv, query_name, stdout, stderr, returncode)
+            record_argv, query_name, stdout, stderr, returncode)
 
         return resp_dict
