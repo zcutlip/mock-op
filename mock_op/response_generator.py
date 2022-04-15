@@ -75,13 +75,10 @@ class OPResponseGenerator(OP):
         resp_dict = self._resp_dict_from_argv(get_group_argv, query_name)
         return resp_dict
 
-    def cli_version(self, query_name):
+    def cli_version(self, query_name, expected_ret=0):
         cli_version_argv = self._cli_version_argv()
-        self.logger.info(f"About to run: {cli_version_argv.cmd_str()}")
-        stdout, stderr, returncode = self._run_raw(
-            cli_version_argv, capture_stdout=True, ignore_error=True)
-        resp_dict = self._generate_response_dict(
-            cli_version_argv, query_name, stdout, stderr, returncode)
+        resp_dict = self._generate_response(
+            cli_version_argv, query_name, expected_return=expected_ret)
 
         return resp_dict
 
