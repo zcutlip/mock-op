@@ -3,7 +3,9 @@ from configparser import ConfigParser
 
 class OPConfigParser(ConfigParser):
     _key_types = {
-        "enabled": "getboolean"
+        "enabled": "getboolean",
+        "expected-return": "getint",
+        "expected-return-2": "getint"
     }
 
     def items(self, section):
