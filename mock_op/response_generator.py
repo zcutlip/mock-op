@@ -81,14 +81,19 @@ class OPResponseGenerator(OP):
 
         return resp_dict
 
-    def list_items_generate_response(self, query_name, categories=[], include_archive=False, tags=[], vault=None):
+    def list_items_generate_response(self,
+                                     query_name,
+                                     categories=[],
+                                     include_archive=False,
+                                     tags=[],
+                                     vault=None,
+                                     expected_ret=0):
         list_items_argv = self._list_items_argv(
             categories=categories, include_archive=include_archive, tags=tags, vault=vault)
-        self.logger.info(f"About to run: {list_items_argv.cmd_str()}")
-        stdout, stderr, returncode = self._run_raw(
-            list_items_argv, capture_stdout=True, ignore_error=True)
-        resp_dict = self._generate_response_dict(
-            list_items_argv, query_name, stdout, stderr, returncode)
+
+        resp_dict = self._generate_response(
+            list_items_argv, query_name, expected_return=expected_ret)
+
         return resp_dict
 
     def account_list_generate_response(self, query_name, expected_ret=0):
