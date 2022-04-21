@@ -42,50 +42,82 @@ class MockOP:
         parser.add_argument(
             "--version", help="version for op", action='store_true')
 
+        parser.add_argument(
+            "--format", help="Use this output format. Can be 'human-readable' or 'json'.")
+
         subparsers = parser.add_subparsers(
             description="Available Commands", metavar="[command]", dest="command", required=False)
 
+        # -- account --
+        parser_account = subparsers.add_parser(
+            "account", help="Manage your locally configured 1Password accounts")
+        parser_account_subparsers = parser_account.add_subparsers(
+            title="Available Commands", metavar="[command]", dest="subcommand", required=True)
+        parser_acct_subcmd = parser_account_subparsers.add_parser(
+            "list", help="List users and accounts set up on this device")
+        parser_acct_subcmd.add_argument("list", action="store_true")
+
+        # parser_account.add_argument("sign_in_address", nargs="?", default=None)
+        # parser_signin.add_argument(
+        #     "-r", "--raw", help="only return the session token", action='store_true')
+
+        # -- signin --
         parser_signin = subparsers.add_parser(
-            "signin", help="Signs in to a 1Password account and returns a session token.")
+            "signin", help="Sign in to a 1Password account")
         parser_signin.add_argument("sign_in_address", nargs="?", default=None)
         parser_signin.add_argument(
             "-r", "--raw", help="only return the session token", action='store_true')
 
-        parser_get = subparsers.add_parser("get", help="the get command")
+        # -- item --
+        parser_item = subparsers.add_parser(
+            "item", help="Perform CRUD operations on the 1Password items in your vaults")
 
-        parser_get_subparsers = parser_get.add_subparsers(
+        parser_item_subparsers = parser_item.add_subparsers(
             title="Available Commands", metavar="[command]", dest="subcommand", required=True)
 
-        parser_get_subcmd = parser_get_subparsers.add_parser(
-            "document", description="Download & print a document to standard output", help="Download a document")
-        parser_get_subcmd.add_argument(
-            "document", metavar="<document>", help="The document to get")
-        parser_get_subcmd.add_argument(
-            "--vault", help="The vault to look up and item from")
+        parser_item_subcmd = parser_item_subparsers.add_parser(
+            "get", description="Return details about an item.", help="Get an item's details")
+        parser_item_subcmd.add_argument(
+            "item", metavar="<itemName>", help="The item to get")
+        parser_item_subcmd.add_argument(
+            "--vault", help="Look for the item in this vault.")
 
-        parser_get_subcmd = parser_get_subparsers.add_parser(
-            "item", description="Returns details about an item.", help="Get item details")
-        parser_get_subcmd.add_argument(
-            "item", metavar="<item>", help="The item to get")
-        parser_get_subcmd.add_argument(
-            "--fields", help="comma-separated list of fields to get about the item")
-        parser_get_subcmd.add_argument(
-            "--vault", help="The vault to look up and item from")
+        # -- item --
+        parser_document = subparsers.add_parser(
+            "document", help="Perform CRUD operations on Document items in your vaults")
+        parser_document_subparsers = parser_document.add_subparsers(
+            title="Available Commands", metavar="[command]", dest="subcommand", required=True)
+        parser_doc_subcmd = parser_document_subparsers.add_parser(
+            "get", description="Download a document and print the contents.", help="Download a document")
+        parser_doc_subcmd.add_argument(
+            "document", metavar="<documentName>", help="The document to download")
 
-        parser_get_subcmd = parser_get_subparsers.add_parser(
-            "vault", description="Get details about a vault.", help="Get details about a vault")
-        parser_get_subcmd.add_argument(
-            "vault", metavar="<vault>", help="The vault to get")
+        parser_doc_subcmd.add_argument(
+            "--vault", help="Look for the document in this vault")
 
-        parser_get_subcmd = parser_get_subparsers.add_parser(
-            "user", description="Get details about a user.", help="Get details about a user")
-        parser_get_subcmd.add_argument(
-            "user", metavar="<user>", help="The user to get")
+        # parser_get_subcmd = parser_get_subparsers.add_parser(
+        #     "item", description="Returns details about an item.", help="Get item details")
+        # parser_get_subcmd.add_argument(
+        #     "item", metavar="<item>", help="The item to get")
+        # parser_get_subcmd.add_argument(
+        #     "--fields", help="comma-separated list of fields to get about the item")
+        # parser_get_subcmd.add_argument(
+        #     "--vault", help="The vault to look up and item from")
 
-        parser_get_subcmd = parser_get_subparsers.add_parser(
-            "group", description="Get details about a group.", help="Get details about a group")
-        parser_get_subcmd.add_argument(
-            "group", metavar="<group>", help="The group to get")
+        # parser_get_subcmd = parser_get_subparsers.add_parser(
+        #     "vault", description="Get details about a vault.", help="Get details about a vault")
+        # parser_get_subcmd.add_argument(
+        #     "vault", metavar="<vault>", help="The vault to get")
+
+        # parser_get_subcmd = parser_get_subparsers.add_parser(
+        #     "user", description="Get details about a user.", help="Get details about a user")
+        # parser_get_subcmd.add_argument(
+        #     "user", metavar="<user>", help="The user to get")
+
+        # parser_get_subcmd = parser_get_subparsers.add_parser(
+        #     "group", description="Get details about a group.", help="Get details about a group")
+        # parser_get_subcmd.add_argument(
+        #     "group", metavar="<group>", help="The group to get")
 
         return parser
 
