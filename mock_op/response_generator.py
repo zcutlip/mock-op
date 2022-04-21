@@ -92,6 +92,12 @@ class OPResponseGenerator(OP):
             list_items_argv, query_name, stdout, stderr, returncode)
         return resp_dict
 
+    def account_list_generate_response(self, query_name, expected_ret=0):
+        account_list_argv = self._account_list_argv()
+        resp_dict = self._generate_response(
+            account_list_argv, query_name, expected_return=expected_ret)
+        return resp_dict
+
     def _generate_response(self, run_argv, query_name, record_argv=None, expected_return=0):
         self.logger.info(f"About to run: {run_argv.cmd_str()}")
         if record_argv is None:

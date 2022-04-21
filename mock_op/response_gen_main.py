@@ -110,6 +110,13 @@ def do_list_items(op: OPResponseGenerator, query_name, query_definition) -> Comm
     return invocation
 
 
+def account_list(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
+    expected_return = query_definition.get("expected-return", 0)
+    invocation = op.account_list_generate_response(
+        query_name, expected_ret=expected_return)
+    return invocation
+
+
 query_type_map = {
     "item-get": item_get,
     "document-get": document_get,
@@ -117,7 +124,8 @@ query_type_map = {
     "get-user": do_get_user,
     "get-group": do_get_group,
     "cli-version": do_cli_version,
-    "list-items": do_list_items
+    "list-items": do_list_items,
+    "account-list": account_list
 }
 
 
