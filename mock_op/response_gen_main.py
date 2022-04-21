@@ -74,9 +74,9 @@ def document_get(op: OPResponseGenerator, query_name, query_definition) -> Comma
     return document_invocation, item_filename_invocation
 
 
-def do_get_vault(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
+def vault_get(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
     vault_id = query_definition["vault_identifier"]
-    invocation = op.get_vault_generate_response(vault_id, query_name)
+    invocation = op.vault_get_generate_response(vault_id, query_name)
     return invocation
 
 
@@ -113,7 +113,7 @@ def do_list_items(op: OPResponseGenerator, query_name, query_definition) -> Comm
 query_type_map = {
     "item-get": item_get,
     "document-get": document_get,
-    "get-vault": do_get_vault,
+    "vault-get": vault_get,
     "get-user": do_get_user,
     "get-group": do_get_group,
     "cli-version": do_cli_version,
