@@ -14,6 +14,7 @@ RESPONSE_DIRECTORY_PATH = Path(
 RESP_DIR_ENV_NAME = "MOCK_OP_RESPONSE_DIRECTORY"
 SIGNIN_SUCCESS_ENV_NAME = "MOCK_OP_SIGNIN_SUCCEED"
 SIGNIN_SHORTHAND_ENV_NAME = "MOCK_OP_SIGNIN_SHORTHAND"
+USES_BIO_ENV_NAME = "MOCK_OP_SIGNIN_USES_BIO"
 
 
 class MockOPSigninException(Exception):
@@ -136,6 +137,19 @@ class MockOP:
 
         return parsed
 
+    def _uses_bio(self):
+        uses_bio = os.environ.get(USES_BIO_ENV_NAME)
+        if uses_bio not in ["0", "1"]:
+            raise MockOPSigninException(
+                f"{USES_BIO_ENV_NAME} environment variable should be 0 or 1")
+        if uses_bio == "0":
+            uses_bio = False
+        elif uses_bio == "1":
+            uses_bio = True
+        else:
+            raise Exception(f"unknown uses_bio value {uses_bio}")
+        return uses_bio
+
     def _handle_signin(self, args):
         signin_success = os.environ.get(SIGNIN_SUCCESS_ENV_NAME)
         parser = self._mock_op_arg_parser()
@@ -160,7 +174,7 @@ class MockOP:
         elif signin_success == "1":
             signin_success = True
 
-        if shorthand is None:
+        if shorthand is None and not self._uses_bio():
             raise MockOPSigninException("No account shorthand provided")
 
         response = MockOPSigninResponse(
