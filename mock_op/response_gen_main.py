@@ -34,8 +34,11 @@ def do_signin():
 def item_get(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
     item_id = query_definition["item_identifier"]
     vault = query_definition.get("vault")
+    expected_return = query_definition.get("expected-return", 0)
+    if expected_return != 0:
+        print(type(expected_return))
     invocation = op.item_get_generate_response(
-        item_id, query_name, vault=vault)
+        item_id, query_name, vault=vault, expected_return=expected_return)
     return invocation
 
 
@@ -55,6 +58,9 @@ def document_get(op: OPResponseGenerator, query_name, query_definition) -> Comma
 
     # query 2: get the document bytes
     vault = query_definition.get("vault")
+    expected_return = query_definition.get("expected-return", 0)
+    expected_return_2 = query_definition.get(
+        "expected-return-2", expected_return)
 
     # if we want to simulate document bytes being missing
     # even though the "document item" is present, specify
@@ -62,7 +68,7 @@ def document_get(op: OPResponseGenerator, query_name, query_definition) -> Comma
     alt_item_id = query_definition.get("item_identifier_alternate")
     item_id = query_definition["item_identifier"]
     document_invocation = op.document_get_generate_response(
-        item_id, query_name, vault=vault, alternate_name=alt_item_id)
+        item_id, query_name, vault=vault, alternate_name=alt_item_id, expected_return=expected_return_2)
 
     # return both invocations
     return document_invocation, item_filename_invocation
@@ -105,8 +111,8 @@ def do_list_items(op: OPResponseGenerator, query_name, query_definition) -> Comm
 
 
 query_type_map = {
-    "get-item": item_get,
-    "get-document": document_get,
+    "item-get": item_get,
+    "document-get": document_get,
     "get-vault": do_get_vault,
     "get-user": do_get_user,
     "get-group": do_get_group,
