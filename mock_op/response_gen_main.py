@@ -156,7 +156,15 @@ def main():
             raise Exception(f"Unknown query type: {query_definition['type']}")
 
         invocation = query_func(op, query_name, query_definition)
-        directory.add_command_invocation(invocation, overwrite=True, save=True)
+        if isinstance(invocation, tuple):
+            document_invocation, item_filename_invoation = invocation
+            directory.add_command_invocation(
+                document_invocation, overwrite=True)
+            directory.add_command_invocation(
+                item_filename_invoation, overwrite=True, save=True)
+        else:
+            directory.add_command_invocation(
+                invocation, overwrite=True, save=True)
 
 
 if __name__ == "__main__":
