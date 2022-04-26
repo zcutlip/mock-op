@@ -35,10 +35,8 @@ def item_get(op: OPResponseGenerator, query_name, query_definition) -> CommandIn
     item_id = query_definition["item_identifier"]
     vault = query_definition.get("vault")
     expected_return = query_definition.get("expected-return", 0)
-    if expected_return != 0:
-        print(type(expected_return))
     invocation = op.item_get_generate_response(
-        item_id, query_name, vault=vault, expected_return=expected_return)
+        item_id, query_name, vault=vault, expected_ret=expected_return)
     return invocation
 
 
@@ -68,7 +66,7 @@ def document_get(op: OPResponseGenerator, query_name, query_definition) -> Comma
     alt_item_id = query_definition.get("item_identifier_alternate")
     item_id = query_definition["item_identifier"]
     document_invocation = op.document_get_generate_response(
-        item_id, query_name, vault=vault, alternate_name=alt_item_id, expected_return=expected_return_2)
+        item_id, query_name, vault=vault, alternate_name=alt_item_id, expected_ret=expected_return_2)
 
     # return both invocations
     return document_invocation, item_filename_invocation
@@ -76,7 +74,9 @@ def document_get(op: OPResponseGenerator, query_name, query_definition) -> Comma
 
 def vault_get(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
     vault_id = query_definition["vault_identifier"]
-    invocation = op.vault_get_generate_response(vault_id, query_name)
+    expected_return = query_definition.get("expected-return", 0)
+    invocation = op.vault_get_generate_response(
+        vault_id, query_name, expected_ret=expected_return)
     return invocation
 
 

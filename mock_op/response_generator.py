@@ -22,12 +22,12 @@ class OPResponseGenerator(OP):
 
         return query_response
 
-    def item_get_generate_response(self, item_name_or_uuid, query_name, vault=None, fields=None, expected_return=0):
+    def item_get_generate_response(self, item_name_or_uuid, query_name, vault=None, fields=None, expected_ret=0):
         item_get_argv = self._item_get_argv(
             item_name_or_uuid, vault=vault, fields=fields)
 
         resp_dict = self._generate_response(
-            item_get_argv, query_name, expected_return=expected_return)
+            item_get_argv, query_name, expected_return=expected_ret)
 
         return resp_dict
 
@@ -36,7 +36,7 @@ class OPResponseGenerator(OP):
                                        query_name,
                                        vault: str = None,
                                        alternate_name: str = None,
-                                       expected_return=0):
+                                       expected_ret=0):
         if alternate_name:
             doc_id = alternate_name
             get_doc_argv = self._get_document_argv(doc_id, vault=vault)
@@ -48,15 +48,15 @@ class OPResponseGenerator(OP):
             normal_argv = get_doc_argv
 
         resp_dict = self._generate_response(
-            get_doc_argv, query_name, record_argv=normal_argv, expected_return=expected_return)
+            get_doc_argv, query_name, record_argv=normal_argv, expected_return=expected_ret)
 
         return resp_dict
 
-    def vault_get_generate_response(self, vault_name_or_uuid, query_name, expected_return=0):
+    def vault_get_generate_response(self, vault_name_or_uuid, query_name, expected_ret=0):
         vault_get_argv = self._vault_get_argv(vault_name_or_uuid)
 
         resp_dict = self._generate_response(
-            vault_get_argv, query_name, expected_return=expected_return)
+            vault_get_argv, query_name, expected_return=expected_ret)
 
         return resp_dict
 
