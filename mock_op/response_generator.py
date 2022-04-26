@@ -110,6 +110,12 @@ class OPResponseGenerator(OP):
             run_argv, capture_stdout=True, ignore_error=True)
 
         if returncode != expected_return:
+            self.logger.error(
+                f"Unexpected return code: expected {expected_return}, got {returncode}")
+            if returncode == 0:
+                self.logger.warn(f"stdout: {stdout.decode('utf-8')}")
+            else:
+                self.logger.warn(f"stderr: {stderr.decode('utf-8')}")
             raise OPResponseGenerationException(
                 f"Unexpected return code: expected {expected_return}, got {returncode}")
 
