@@ -88,9 +88,11 @@ def user_get(op: OPResponseGenerator, query_name, query_definition) -> CommandIn
     return invocation
 
 
-def do_get_group(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
+def group_get(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
     group_id = query_definition["group_identifier"]
-    invocation = op.get_group_generate_response(group_id, query_name)
+    expected_return = query_definition.get("expected-return", 0)
+    invocation = op.group_get_generate_response(
+        group_id, query_name, expected_ret=expected_return)
     return invocation
 
 
@@ -124,7 +126,7 @@ query_type_map = {
     "document-get": document_get,
     "vault-get": vault_get,
     "user-get": user_get,
-    "get-group": do_get_group,
+    "group-get": group_get,
     "cli-version": do_cli_version,
     "list-items": do_list_items,
     "account-list": account_list

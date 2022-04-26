@@ -68,10 +68,10 @@ class OPResponseGenerator(OP):
 
         return resp_dict
 
-    def get_group_generate_response(self, group_name_or_uuid, query_name, expected_ret=0):
-        get_group_argv = self._get_group_argv(group_name_or_uuid)
+    def group_get_generate_response(self, group_name_or_uuid, query_name, expected_ret=0):
+        group_get_argv = self._group_get_argv(group_name_or_uuid)
         resp_dict = self._generate_response(
-            get_group_argv, query_name, expected_return=expected_ret)
+            group_get_argv, query_name, expected_return=expected_ret)
         return resp_dict
 
     def cli_version(self, query_name, expected_ret=0):
