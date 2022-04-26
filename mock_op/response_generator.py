@@ -60,11 +60,11 @@ class OPResponseGenerator(OP):
 
         return resp_dict
 
-    def get_user_generate_response(self, user_name_or_uuid, query_name, expected_ret=0):
-        get_user_argv = self._get_user_argv(user_name_or_uuid)
+    def user_get_generate_response(self, user_name_or_uuid, query_name, expected_ret=0):
+        user_get_argv = self._user_get_argv(user_name_or_uuid)
 
         resp_dict = self._generate_response(
-            get_user_argv, query_name, expected_return=expected_ret)
+            user_get_argv, query_name, expected_return=expected_ret)
 
         return resp_dict
 
