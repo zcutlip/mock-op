@@ -101,13 +101,13 @@ def do_cli_version(op: OPResponseGenerator, query_name, _unused_query_definition
     return invocation
 
 
-def do_list_items(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
+def item_list(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
     categories = query_definition.get("categories", [])
     include_archive = query_definition.get("include_archive", False)
     tags = query_definition.get("tags", [])
     vault = query_definition.get("vault", None)
 
-    invocation = op.list_items_generate_response(
+    invocation = op.item_list_generate_response(
         query_name, categories=categories, include_archive=include_archive,
         tags=tags, vault=vault)
 
@@ -128,7 +128,7 @@ query_type_map = {
     "user-get": user_get,
     "group-get": group_get,
     "cli-version": do_cli_version,
-    "list-items": do_list_items,
+    "item-list": item_list,
     "account-list": account_list
 }
 

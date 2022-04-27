@@ -81,18 +81,18 @@ class OPResponseGenerator(OP):
 
         return resp_dict
 
-    def list_items_generate_response(self,
-                                     query_name,
-                                     categories=[],
-                                     include_archive=False,
-                                     tags=[],
-                                     vault=None,
-                                     expected_ret=0):
-        list_items_argv = self._list_items_argv(
+    def item_list_generate_response(self,
+                                    query_name,
+                                    categories=[],
+                                    include_archive=False,
+                                    tags=[],
+                                    vault=None,
+                                    expected_ret=0):
+        item_list_argv = self._item_list_argv(
             categories=categories, include_archive=include_archive, tags=tags, vault=vault)
 
         resp_dict = self._generate_response(
-            list_items_argv, query_name, expected_return=expected_ret)
+            item_list_argv, query_name, expected_return=expected_ret)
 
         return resp_dict
 
