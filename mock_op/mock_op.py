@@ -116,30 +116,6 @@ class MockOP:
         parser_user_subcmd.add_argument(
             "user", metavar="{ <email> | <name> | <userID> }", help="The user email address, name, or ID")
 
-        # parser_get_subcmd = parser_get_subparsers.add_parser(
-        #     "item", description="Returns details about an item.", help="Get item details")
-        # parser_get_subcmd.add_argument(
-        #     "item", metavar="<item>", help="The item to get")
-        # parser_get_subcmd.add_argument(
-        #     "--fields", help="comma-separated list of fields to get about the item")
-        # parser_get_subcmd.add_argument(
-        #     "--vault", help="The vault to look up and item from")
-
-        # parser_get_subcmd = parser_get_subparsers.add_parser(
-        #     "vault", description="Get details about a vault.", help="Get details about a vault")
-        # parser_get_subcmd.add_argument(
-        #     "vault", metavar="<vault>", help="The vault to get")
-
-        # parser_get_subcmd = parser_get_subparsers.add_parser(
-        #     "user", description="Get details about a user.", help="Get details about a user")
-        # parser_get_subcmd.add_argument(
-        #     "user", metavar="<user>", help="The user to get")
-
-        # parser_get_subcmd = parser_get_subparsers.add_parser(
-        #     "group", description="Get details about a group.", help="Get details about a group")
-        # parser_get_subcmd.add_argument(
-        #     "group", metavar="<group>", help="The group to get")
-
         return parser
 
     @classmethod
