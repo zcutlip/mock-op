@@ -116,6 +116,16 @@ class MockOP:
         parser_user_subcmd.add_argument(
             "user", metavar="{ <email> | <name> | <userID> }", help="The user email address, name, or ID")
 
+        # -- vault --
+        parser_vault = subparsers.add_parser(
+            "vault", help="Manage permissions and perform CRUD operations on your 1Password vaults")
+        parser_vault_subparsers = parser_vault.add_subparsers(
+            title="Available Commands", metavar="[command]", dest="subcommand", required=True)
+        parser_vault_subcmd = parser_vault_subparsers.add_parser(
+            "get", description="Get details about a vault", help="Get details about a vault")
+        parser_vault_subcmd.add_argument(
+            "vault", metavar="{ <vaultName> | <vaultID> }", help="The user email address, name, or ID")
+
         return parser
 
     @classmethod
