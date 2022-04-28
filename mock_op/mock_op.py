@@ -104,7 +104,7 @@ class MockOP:
         parser_group_subcmd = parser_group_subparsers.add_parser(
             "get", description="Get details about a group", help="Get details about a group")
         parser_group_subcmd.add_argument(
-            "document", metavar="{ <groupName> | <groupID> }", help="The group name or ID")
+            "group", metavar="{ <groupName> | <groupID> }", help="The group name or ID")
 
         # -- user --
         parser_user = subparsers.add_parser(
@@ -114,7 +114,7 @@ class MockOP:
         parser_user_subcmd = parser_user_subparsers.add_parser(
             "get", description="Get details about a user", help="Get details about a user")
         parser_user_subcmd.add_argument(
-            "document", metavar="{ <email> | <name> | <userID> }", help="The user email address, name, or ID")
+            "user", metavar="{ <email> | <name> | <userID> }", help="The user email address, name, or ID")
 
         # parser_get_subcmd = parser_get_subparsers.add_parser(
         #     "item", description="Returns details about an item.", help="Get item details")
