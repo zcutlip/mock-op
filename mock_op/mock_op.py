@@ -96,7 +96,7 @@ class MockOP:
         parser_doc_subcmd.add_argument(
             "--vault", help="Look for the document in this vault")
 
-        # -- document --
+        # -- group --
         parser_group = subparsers.add_parser(
             "group", help="Perform CRUD operations on the groups of users in your 1Password account")
         parser_group_subparsers = parser_group.add_subparsers(
@@ -105,8 +105,16 @@ class MockOP:
             "get", description="Get details about a group", help="Get details about a group")
         parser_group_subcmd.add_argument(
             "document", metavar="{ <groupName> | <groupID> }", help="The group name or ID")
-        parser_group_subcmd.add_argument(
-            "--vault", help="Look for the document in this vault")
+
+        # -- user --
+        parser_user = subparsers.add_parser(
+            "user", help="Perform CRUD operations on the groups of users in your 1Password account")
+        parser_user_subparsers = parser_user.add_subparsers(
+            title="Available Commands", metavar="[command]", dest="subcommand", required=True)
+        parser_user_subcmd = parser_user_subparsers.add_parser(
+            "get", description="Get details about a user", help="Get details about a user")
+        parser_user_subcmd.add_argument(
+            "document", metavar="{ <email> | <name> | <userID> }", help="The user email address, name, or ID")
 
         # parser_get_subcmd = parser_get_subparsers.add_parser(
         #     "item", description="Returns details about an item.", help="Get item details")
