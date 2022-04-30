@@ -90,6 +90,8 @@ class MockOP:
         parser_item_subcmd.add_argument(
             "--include-archive", help="Include items in the Archive.", action='store_true'
         )
+        parser_item_subcmd.add_argument(
+            "--categories", help="Only list items in these categories (comma-separated).")
 
         # -- document --
         parser_document = subparsers.add_parser(
