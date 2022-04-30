@@ -5,7 +5,9 @@ class OPConfigParser(ConfigParser):
     _key_types = {
         "enabled": "getboolean",
         "expected-return": "getint",
-        "expected-return-2": "getint"
+        "expected-return-2": "getint",
+        "include-arhive": "getboolean",
+        "categories": "getcsvlist",
     }
 
     def items(self, section):
@@ -28,6 +30,11 @@ class OPConfigParser(ConfigParser):
             val = get_fn(section, option, *args, **kwargs)
 
         return val
+
+    def getcsvlist(self, section, option, *args, **kwargs):
+        val = super().get(section, option, *args, **kwargs)
+        val_list = val.split(",")
+        return val_list
 
 
 class OPresponseDefinition(dict):
