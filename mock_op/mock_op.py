@@ -83,6 +83,14 @@ class MockOP:
         parser_item_subcmd.add_argument(
             "--vault", help="Look for the item in this vault.")
 
+        parser_item_subcmd = parser_item_subparsers.add_parser(
+            "list", description="List items.", help="List items")
+        parser_item_subcmd.add_argument(
+            "--vault", help="Look for the item in this vault.")
+        parser_item_subcmd.add_argument(
+            "--include-archive", help="Include items in the Archive.", action='store_true'
+        )
+
         # -- document --
         parser_document = subparsers.add_parser(
             "document", help="Perform CRUD operations on Document items in your vaults")
@@ -140,7 +148,6 @@ class MockOP:
             parsed = self._arg_parser.parse_args()
         else:
             parsed = self._arg_parser.parse_args(argv)
-
         return parsed
 
     def _uses_bio(self):
