@@ -2,6 +2,7 @@ import getpass
 
 from argparse import ArgumentParser
 from pathlib import Path
+from typing import List
 
 from mock_cli import CommandInvocation, ResponseDirectory
 
@@ -11,9 +12,19 @@ from .response_generator_config import OPResponseGenConfig
 
 
 def resp_gen_parse_args():
+
+    def split_args(arg_string: str) -> List[str]:
+        # Be sure to strip, maybe they have spaces where they don't belong and wrapped the arg value in quotes
+        csv_list = [v.strip() for v in arg_string.split(",")]
+        return csv_list
+
     parser = ArgumentParser()
     parser.add_argument(
         "config", help="Config file describing 'op' responses to generate")
+    parser.add_argument(
+        "--definition", help="Only run the specified query definition",
+        type=split_args
+    )
 
     parsed = parser.parse_args()
     return parsed
