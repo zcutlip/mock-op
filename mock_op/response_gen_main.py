@@ -108,6 +108,15 @@ def user_get(op: OPResponseGenerator, query_name, query_definition) -> CommandIn
     return invocation
 
 
+def user_list(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
+    expected_return = query_definition.get("expected-return", 0)
+    group_id = query_definition.get("group_identifier", None)
+    vault = query_definition.get("vault", None)
+    invocation = op.user_list_generate_response(
+        query_name, group_name_or_id=group_id, vault=vault, expected_ret=expected_return)
+    return invocation
+
+
 def group_get(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
     group_id = query_definition["group_identifier"]
     expected_return = query_definition.get("expected-return", 0)
@@ -147,6 +156,7 @@ query_type_map = {
     "document-get": document_get,
     "vault-get": vault_get,
     "user-get": user_get,
+    "user-list": user_list,
     "group-get": group_get,
     "cli-version": do_cli_version,
     "item-list": item_list,
