@@ -51,6 +51,15 @@ def item_get(op: OPResponseGenerator, query_name, query_definition) -> CommandIn
     return invocation
 
 
+def item_get_totp(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
+    item_id = query_definition["item_identifier"]
+    vault = query_definition.get("vault")
+    expected_return = query_definition.get("expected-return", 0)
+    invocation = op.item_get_generate_response(
+        item_id, query_name, vault=vault, expected_ret=expected_return, fields="type=otp")
+    return invocation
+
+
 def document_get(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
     # Getting a document is a two-step process
     # first:
@@ -134,6 +143,7 @@ def account_list(op: OPResponseGenerator, query_name, query_definition) -> Comma
 
 query_type_map = {
     "item-get": item_get,
+    "item-get-totp": item_get_totp,
     "document-get": document_get,
     "vault-get": vault_get,
     "user-get": user_get,
