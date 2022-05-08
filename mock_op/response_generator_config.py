@@ -1,4 +1,5 @@
 from configparser import ConfigParser
+from typing import List
 
 
 class OPConfigParser(ConfigParser):
@@ -59,7 +60,7 @@ class OPResponseGenConfig(dict[str, OPresponseDefinition]):
     RESP_PATH_KEY = "response-path"
     RESP_DIR_KEY = "response_dir_file"
 
-    def __init__(self, config_path):
+    def __init__(self, config_path, definition_whitelist=[]):
         super().__init__()
         conf = OPConfigParser()
         conf.read(config_path)
@@ -67,14 +68,20 @@ class OPResponseGenConfig(dict[str, OPresponseDefinition]):
         self.config_path = defaults[self.CONF_PATH_KEY]
         self.response_path = defaults[self.RESP_PATH_KEY]
         self.respdir_json_file = defaults[self.RESP_DIR_KEY]
-        response_defs = self._get_response_defs(conf)
+        response_defs = self._get_response_defs(conf, definition_whitelist)
         self.update(response_defs)
 
-    def _get_response_defs(self, conf: OPConfigParser):
+    def _get_response_defs(self, conf: OPConfigParser, whitelist: List[str]):
         response_defs = {}
         for sname in conf.sections():
+            if whitelist and sname not in whitelist:
+                continue
             sect = conf[sname]
             resp_def = OPresponseDefinition(sname, sect)
             response_defs[sname] = resp_def
+        for definition in whitelist:
+            if definition not in response_defs:
+                raise Exception(
+                    f"Whitelisted definition not found: {definition}")
 
         return response_defs

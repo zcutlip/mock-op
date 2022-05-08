@@ -147,7 +147,11 @@ query_type_map = {
 def main():
     args = resp_gen_parse_args()
     conf_path = args.config
-    generator_config = OPResponseGenConfig(conf_path)
+    definition_list = []
+    if args.definition:
+        definition_list = args.definition
+    generator_config = OPResponseGenConfig(
+        conf_path, definition_whitelist=definition_list)
     config_dir = Path(generator_config.config_path).expanduser()
 
     respdir_json_file = Path(
