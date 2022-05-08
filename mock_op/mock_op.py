@@ -82,6 +82,8 @@ class MockOP:
             "item", metavar="<itemName>", help="The item to get")
         parser_item_subcmd.add_argument(
             "--vault", help="Look for the item in this vault.")
+        parser_item_subcmd.add_argument(
+            "--fields", help="Only return data from these fields. Use 'label=' to get the field by name or 'type=' to filter fields by type.", choices=["type=otp"])
 
         parser_item_subcmd = parser_item_subparsers.add_parser(
             "list", description="List items.", help="List items")
