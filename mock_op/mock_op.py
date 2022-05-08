@@ -123,10 +123,23 @@ class MockOP:
             "user", help="Perform CRUD operations on the groups of users in your 1Password account")
         parser_user_subparsers = parser_user.add_subparsers(
             title="Available Commands", metavar="[command]", dest="subcommand", required=True)
+
+        # user get
         parser_user_subcmd = parser_user_subparsers.add_parser(
             "get", description="Get details about a user", help="Get details about a user")
         parser_user_subcmd.add_argument(
             "user", metavar="{ <email> | <name> | <userID> }", help="The user email address, name, or ID")
+
+        # user list
+        parser_user_subcmd = parser_user_subparsers.add_parser(
+            "list", description="List users.", help="List users")
+        parser_user_subcmd.add_argument(
+            "list", help="List users", action='store_true')
+        parser_user_subcmd.add_argument(
+            "--group", help=" List users who belong to a group.")
+        parser_user_subcmd.add_argument(
+            "--vault", help="List users who have direct access to vault."
+        )
 
         # -- vault --
         parser_vault = subparsers.add_parser(
