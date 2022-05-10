@@ -126,7 +126,7 @@ class MockOP:
         parser_group_subcmd.add_argument(
             "list", help="List groups", action='store_true')
         parser_group_subcmd.add_argument(
-            "--group", help=" List groups that a user belongs to.")
+            "--user", help=" List groups that a user belongs to.")
         parser_group_subcmd.add_argument(
             "--vault", help="List groups who have direct access to vault.")
         # -- user --
