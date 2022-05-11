@@ -1,7 +1,7 @@
 import sys
 from datetime import datetime
-from string import ascii_letters, digits
 from random import choice
+from string import ascii_letters, digits
 
 
 class MockOPSigninResponse:
@@ -22,7 +22,8 @@ class MockOPSigninResponse:
             if raw:
                 self._output = token
             else:
-                self._output = self.SUCCESS_TEMPLATE.format(shorthand, token, shorthand)
+                self._output = self.SUCCESS_TEMPLATE.format(
+                    shorthand, token, shorthand)
             self._error_output = None
             self.exit_status = self.SUCCESS_STATUS
         else:
@@ -33,7 +34,8 @@ class MockOPSigninResponse:
 
     def _generate_token(self):
         string_format = ascii_letters + digits
-        _token = "".join(choice(string_format) for x in range(0, self.TOKEN_LEN))
+        _token = "".join(choice(string_format)
+                         for x in range(0, self.TOKEN_LEN))
         return _token
 
     def respond(self, *args):

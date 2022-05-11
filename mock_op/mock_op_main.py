@@ -1,9 +1,6 @@
 import sys
 
-from mock_cli import (
-    ResponseDirectoryException,
-    ResponseLookupException
-)
+from mock_cli import ResponseDirectoryException, ResponseLookupException
 
 from .mock_op import MockOP
 

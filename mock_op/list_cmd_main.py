@@ -1,11 +1,7 @@
 import os
-
 from argparse import ArgumentParser
 
-from mock_cli import (
-    ResponseDirectory,
-    ResponseDirectoryException
-)
+from mock_cli import ResponseDirectory, ResponseDirectoryException
 from mock_cli.argv_conversion import arg_shlex_from_string
 
 from .mock_op import MockOP
@@ -13,8 +9,10 @@ from .mock_op import MockOP
 
 def parse_args():
     parser = ArgumentParser()
-    parser.add_argument("--response-dir", help="Path to response directory JSON file")
-    parser.add_argument("--verbose", help="Include additional command response detail", action="store_true")
+    parser.add_argument(
+        "--response-dir", help="Path to response directory JSON file")
+    parser.add_argument(
+        "--verbose", help="Include additional command response detail", action="store_true")
 
     parsed = parser.parse_args()
     return parsed
