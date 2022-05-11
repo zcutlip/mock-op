@@ -100,6 +100,16 @@ def vault_get(op: OPResponseGenerator, query_name, query_definition) -> CommandI
     return invocation
 
 
+def vault_list(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
+    expected_return = query_definition.get("expected-return", 0)
+    group_id = query_definition.get("group_identifier", None)
+    user_id = query_definition.get("user_identifier", None)
+
+    invocation = op.vault_list_generate_response(
+        query_name, group_name_or_id=group_id, user_name_or_id=user_id, expected_ret=expected_return)
+    return invocation
+
+
 def user_get(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
     user_id = query_definition["user_identifier"]
     expected_return = query_definition.get("expected-return", 0)
@@ -164,6 +174,7 @@ query_type_map = {
     "item-get-totp": item_get_totp,
     "document-get": document_get,
     "vault-get": vault_get,
+    "vault-list": vault_list,
     "user-get": user_get,
     "user-list": user_list,
     "group-get": group_get,

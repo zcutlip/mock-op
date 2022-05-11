@@ -60,6 +60,15 @@ class OPResponseGenerator(OP):
 
         return resp_dict
 
+    def vault_list_generate_response(self, query_name, group_name_or_id=None, user_name_or_id=None, expected_ret=0):
+        vault_list_argv = self._vault_list_argv(
+            group_name_or_id=group_name_or_id, user_name_or_id=user_name_or_id)
+
+        resp_dict = self._generate_response(
+            vault_list_argv, query_name, expected_return=expected_ret)
+
+        return resp_dict
+
     def user_get_generate_response(self, user_name_or_uuid, query_name, expected_ret=0):
         user_get_argv = self._user_get_argv(user_name_or_uuid)
 
