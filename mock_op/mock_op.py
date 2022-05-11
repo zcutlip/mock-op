@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 import os
-from pathlib import Path
+from argparse import SUPPRESS as ARGPARSE_SUPRESS
 from argparse import ArgumentParser
+from pathlib import Path
 
 from mock_cli import MockCommand
 
 from .signin_responses import MockOPSigninResponse
-
 
 RESPONSE_DIRECTORY_PATH = Path(
     Path.home(), ".config", "mock-op", "response-directory.json")
@@ -157,11 +157,22 @@ class MockOP:
             "vault", help="Manage permissions and perform CRUD operations on your 1Password vaults")
         parser_vault_subparsers = parser_vault.add_subparsers(
             title="Available Commands", metavar="[command]", dest="subcommand", required=True)
+
+        # vault get
         parser_vault_subcmd = parser_vault_subparsers.add_parser(
             "get", description="Get details about a vault", help="Get details about a vault")
         parser_vault_subcmd.add_argument(
             "vault", metavar="{ <vaultName> | <vaultID> }", help="The user email address, name, or ID")
 
+        # vault list
+        parser_vault_subcmd = parser_vault_subparsers.add_parser(
+            "list", description="List vaults.", help="List all vaults in the account")
+        parser_vault_subcmd.add_argument(
+            "list", help=ARGPARSE_SUPRESS, action='store_true')
+        parser_vault_subcmd.add_argument(
+            "--group", metavar="string", help="List vaults a group has access to.")
+        parser_vault_subcmd.add_argument(
+            "--user", metavar="string", help="List vaults that a given user has access to.")
         return parser
 
     @classmethod
