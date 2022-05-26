@@ -16,7 +16,7 @@ class OPResponseGenerator(OP):
                                 stdout,
                                 stderr,
                                 returncode):
-        query_args = argv_obj.query_args()
+        query_args = list(argv_obj)[1:]
         query_response = CommandInvocation(
             query_args, stdout, stderr, returncode, query_name)
 
