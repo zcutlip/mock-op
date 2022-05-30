@@ -149,6 +149,7 @@ def do_cli_version(op: OPResponseGenerator, query_name, _unused_query_definition
 
 
 def item_list(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
+    expected_return = query_definition.get("expected-return", 0)
     categories = query_definition.get("categories", [])
     include_archive = query_definition.get("include_archive", False)
     tags = query_definition.get("tags", [])
@@ -156,7 +157,7 @@ def item_list(op: OPResponseGenerator, query_name, query_definition) -> CommandI
 
     invocation = op.item_list_generate_response(
         query_name, categories=categories, include_archive=include_archive,
-        tags=tags, vault=vault)
+        tags=tags, vault=vault, expected_ret=expected_return)
 
     return invocation
 
