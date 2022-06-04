@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import argparse
 import os
 from argparse import SUPPRESS as ARGPARSE_SUPRESS
 from argparse import ArgumentParser
@@ -94,6 +95,19 @@ class MockOP:
         )
         parser_item_subcmd.add_argument(
             "--categories", help="Only list items in these categories (comma-separated).")
+
+        # -- op item template --
+        parser_item_subcmd = parser_item_subparsers.add_parser(
+            "template", description="Manage templates.", help="Get a list of templates")
+
+        parser_item_template_subparsers = parser_item_subcmd.add_subparsers(
+            title="Available Commands", metavar="[command]", dest="subcommand", required=True)
+
+        # -- op item template list --
+        parser_template_subcmd = parser_item_template_subparsers.add_parser(
+            "list", description="Lists available item type templates.", help="Get a list of templates")
+        parser_template_subcmd.add_argument(
+            "list", action="store_true", help=argparse.SUPPRESS)
 
         # -- document --
         parser_document = subparsers.add_parser(
