@@ -162,6 +162,14 @@ def item_list(op: OPResponseGenerator, query_name, query_definition) -> CommandI
     return invocation
 
 
+def item_template_list(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
+    expected_return = query_definition.get("expected-return", 0)
+    invocation = op.item_template_list_generate_response(
+        query_name, expected_ret=expected_return)
+
+    return invocation
+
+
 def account_list(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
     expected_return = query_definition.get("expected-return", 0)
     invocation = op.account_list_generate_response(
@@ -181,7 +189,8 @@ query_type_map = {
     "group-list": group_list,
     "cli-version": do_cli_version,
     "item-list": item_list,
-    "account-list": account_list
+    "account-list": account_list,
+    "item-template-list": item_template_list
 }
 
 

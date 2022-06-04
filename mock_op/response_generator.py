@@ -2,7 +2,7 @@ from mock_cli import CommandInvocation
 
 # Private imports, but we control both projects, so shouldn't be a problem
 # Better than exporting API from pyonepassword that shouldn't be exposed
-from ._op import OP
+from ._op import OP, _OPArgv
 
 
 class OPResponseGenerationException(Exception):
@@ -120,6 +120,12 @@ class OPResponseGenerator(OP):
         resp_dict = self._generate_response(
             item_list_argv, query_name, expected_return=expected_ret)
 
+        return resp_dict
+
+    def item_template_list_generate_response(self, query_name, expected_ret=0):
+        template_list_argv = _OPArgv.item_template_list_argv('op')
+        resp_dict = self._generate_response(
+            template_list_argv, query_name, expected_return=expected_ret)
         return resp_dict
 
     def account_list_generate_response(self, query_name, expected_ret=0):
