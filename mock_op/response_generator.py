@@ -1,3 +1,4 @@
+import logging
 from mock_cli import CommandInvocation
 
 # Private imports, but we control both projects, so shouldn't be a problem
@@ -10,8 +11,11 @@ class OPResponseGenerationException(Exception):
 
 
 class OPResponseGenerator(OP):
+    logging.basicConfig(format="%(message)s", level=logging.DEBUG)
+    logger = logging.getLogger()
 
-    def _generate_response_dict(self, argv_obj,
+    @classmethod
+    def _generate_response_dict(cls, argv_obj,
                                 query_name,
                                 stdout,
                                 stderr,
@@ -122,9 +126,10 @@ class OPResponseGenerator(OP):
 
         return resp_dict
 
-    def item_template_list_generate_response(self, query_name, expected_ret=0):
+    @classmethod
+    def item_template_list_generate_response(cls, query_name, expected_ret=0):
         template_list_argv = _OPArgv.item_template_list_argv('op')
-        resp_dict = self._generate_response(
+        resp_dict = cls._generate_response(
             template_list_argv, query_name, expected_return=expected_ret)
         return resp_dict
 
@@ -134,24 +139,25 @@ class OPResponseGenerator(OP):
             account_list_argv, query_name, expected_return=expected_ret)
         return resp_dict
 
-    def _generate_response(self, run_argv, query_name, record_argv=None, expected_return=0):
-        self.logger.info(f"About to run: {run_argv.cmd_str()}")
+    @classmethod
+    def _generate_response(cls, run_argv, query_name, record_argv=None, expected_return=0):
+        cls.logger.info(f"About to run: {run_argv.cmd_str()}")
         if record_argv is None:
             record_argv = run_argv
-        stdout, stderr, returncode = self._run_raw(
+        stdout, stderr, returncode = cls._run_raw(
             run_argv, capture_stdout=True, ignore_error=True)
 
         if returncode != expected_return:
-            self.logger.error(
+            cls.logger.error(
                 f"Unexpected return code: expected {expected_return}, got {returncode}")
             if returncode == 0:
-                self.logger.warn(f"stdout: {stdout.decode('utf-8')}")
+                cls.logger.warn(f"stdout: {stdout.decode('utf-8')}")
             else:
-                self.logger.warn(f"stderr: {stderr.decode('utf-8')}")
+                cls.logger.warn(f"stderr: {stderr.decode('utf-8')}")
             raise OPResponseGenerationException(
                 f"Unexpected return code: expected {expected_return}, got {returncode}")
 
-        resp_dict = self._generate_response_dict(
+        resp_dict = cls._generate_response_dict(
             record_argv, query_name, stdout, stderr, returncode)
 
         return resp_dict
