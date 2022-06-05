@@ -5,7 +5,7 @@ from typing import List
 
 from mock_cli import CommandInvocation, ResponseDirectory
 
-from ._op import OPNotSignedInException
+from ._op import OPNotSignedInException, OPSigninException
 from .response_generator import OPResponseGenerator
 from .response_generator_config import OPResponseGenConfig
 
@@ -194,6 +194,11 @@ query_type_map = {
 }
 
 
+def signin_fail(excaption: Exception):
+    print(str(excaption))
+    exit(1)
+
+
 def main():
     args = resp_gen_parse_args()
     conf_path = args.config
@@ -210,9 +215,16 @@ def main():
 
     try:
         op = do_signin()
+    except OPSigninException as e:
+        if generator_config.ignore_signin_fail:
+            # some actions only require class methods and don't require sign-in success
+            # if this blows up on other actions that's our fault for setting the env variable
+            op = OPResponseGenerator
+        else:
+            signin_fail(e)
     except Exception as e:
-        print(str(e))
-        exit(1)
+        signin_fail(e)
+
     directory = ResponseDirectory(
         respdir_json_file, create=True, response_dir=response_path)
 
