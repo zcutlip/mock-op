@@ -12,7 +12,8 @@ quit(){
 }
 
 branch_is_master_or_main(){
-    local branch=$(git rev-parse --abbrev-ref HEAD)
+    local branch
+    branch=$(git rev-parse --abbrev-ref HEAD)
     if [ $branch == "master" ] || [ $branch == "main" ];
     then
         return $SUCCESS;
@@ -32,7 +33,8 @@ branch_is_clean(){
 }
 
 current_version() {
-    local version="$(python ./setup.py --version)" || quit "Unable to detect package version" $?
+    local version
+    branch="$(python ./setup.py --version)" || quit "Unable to detect package version" $?
     printf "%s" "$version"
 }
 
