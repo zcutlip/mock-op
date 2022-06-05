@@ -69,7 +69,7 @@ class OPResponseGenConfig(dict[str, OPresponseDefinition]):
         self.config_path = defaults[self.CONF_PATH_KEY]
         self.response_path = defaults[self.RESP_PATH_KEY]
         self.respdir_json_file = defaults[self.RESP_DIR_KEY]
-        self.ignore_signin_fail = defaults[self.IGN_SIGNIN_FAIL_KEY]
+        self.ignore_signin_fail = defaults.get(self.IGN_SIGNIN_FAIL_KEY, False)
         response_defs = self._get_response_defs(conf, definition_whitelist)
         self.update(response_defs)
 
