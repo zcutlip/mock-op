@@ -58,7 +58,7 @@ class OPresponseDefinition(dict):
 class OPResponseGenConfig(dict[str, OPresponseDefinition]):
     CONF_PATH_KEY = "config-path"
     RESP_PATH_KEY = "response-path"
-    RESP_DIR_KEY = "response_dir_file"
+    RESP_DIR_KEY = "response-dir-file"
 
     def __init__(self, config_path, definition_whitelist=[]):
         super().__init__()

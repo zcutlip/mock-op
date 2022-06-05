@@ -100,7 +100,7 @@ Here's an example configuraiton file for generating responses:
 [DEFAULT]
 config-path = ./tests/config/mock-op
 response-path = responses
-response_dir_file = response-directory.json
+response-dir-file = response-directory.json
 
 [get-item-example-login-1-vault-test-data]
 type=get-item
