@@ -104,9 +104,10 @@ class OPResponseGenerator(OP):
 
         return resp_dict
 
-    def cli_version(self, query_name, expected_ret=0):
-        cli_version_argv = self._cli_version_argv()
-        resp_dict = self._generate_response(
+    @classmethod
+    def cli_version(cls, query_name, expected_ret=0):
+        cli_version_argv = _OPArgv.cli_version_argv('op')
+        resp_dict = cls._generate_response(
             cli_version_argv, query_name, expected_return=expected_ret)
 
         return resp_dict
@@ -133,9 +134,10 @@ class OPResponseGenerator(OP):
             template_list_argv, query_name, expected_return=expected_ret)
         return resp_dict
 
-    def account_list_generate_response(self, query_name, expected_ret=0):
-        account_list_argv = self._account_list_argv()
-        resp_dict = self._generate_response(
+    @classmethod
+    def account_list_generate_response(cls, query_name, expected_ret=0):
+        account_list_argv = cls._account_list_argv()
+        resp_dict = cls._generate_response(
             account_list_argv, query_name, expected_return=expected_ret)
         return resp_dict
 
