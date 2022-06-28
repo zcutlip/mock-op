@@ -24,7 +24,7 @@ def resp_gen_parse_args():
     parser.add_argument(
         "config", help="Config file describing 'op' responses to generate. defaults to './response-generation.cfg", nargs="?")
     parser.add_argument(
-        "--definition", help="Only run the specified query definition",
+        "-D", "--definition", help="Only run the specified query definition",
         type=split_args
     )
 
