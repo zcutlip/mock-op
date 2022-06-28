@@ -10,6 +10,9 @@ from .response_generator import OPResponseGenerator
 from .response_generator_config import OPResponseGenConfig
 
 
+DEFAULT_CONFIG_PATH = Path(".", "response-generation.cfg")
+
+
 def resp_gen_parse_args():
 
     def split_args(arg_string: str) -> List[str]:
@@ -19,7 +22,7 @@ def resp_gen_parse_args():
 
     parser = ArgumentParser()
     parser.add_argument(
-        "config", help="Config file describing 'op' responses to generate")
+        "config", help="Config file describing 'op' responses to generate. defaults to './response-generation.cfg", nargs="?")
     parser.add_argument(
         "--definition", help="Only run the specified query definition",
         type=split_args
@@ -202,6 +205,9 @@ def signin_fail(excaption: Exception):
 def main():
     args = resp_gen_parse_args()
     conf_path = args.config
+    if not conf_path:
+        conf_path = DEFAULT_CONFIG_PATH
+
     definition_list = []
     if args.definition:
         definition_list = args.definition
