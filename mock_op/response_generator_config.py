@@ -87,3 +87,7 @@ class OPResponseGenConfig(dict[str, OPresponseDefinition]):
                     f"Whitelisted definition not found: {definition}")
 
         return response_defs
+
+    @property
+    def sections(self) -> List[str]:
+        return self.keys()
