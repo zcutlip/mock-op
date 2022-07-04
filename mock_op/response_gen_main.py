@@ -27,6 +27,9 @@ def resp_gen_parse_args():
         "-D", "--definition", help="Only run the specified query definition",
         type=split_args
     )
+    parser.add_argument(
+        "-l", "--list-definitions", help="List response definitions and exit", action="store_true"
+    )
 
     parsed = parser.parse_args()
     return parsed
@@ -214,6 +217,11 @@ def main():
     generator_config = OPResponseGenConfig(
         conf_path, definition_whitelist=definition_list)
     config_dir = Path(generator_config.config_path).expanduser()
+
+    if args.list_definitions:
+        for sect in generator_config.sections:
+            print(sect)
+        return 0
 
     respdir_json_file = Path(
         config_dir, generator_config.respdir_json_file)
