@@ -1,1 +1,0 @@
-DISTRIBUTION_NAME="mock-op"
