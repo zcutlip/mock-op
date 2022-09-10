@@ -183,6 +183,14 @@ def account_list(op: OPResponseGenerator, query_name, query_definition) -> Comma
     return invocation
 
 
+def whoami(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
+    expected_return = query_definition.get("expected-return", 0)
+    account = query_definition.get("account_id", None)
+    invocation = op.whoami_generate_response(
+        query_name, expected_ret=expected_return, account=account)
+    return invocation
+
+
 query_type_map = {
     "item-get": item_get,
     "item-get-totp": item_get_totp,
@@ -196,7 +204,8 @@ query_type_map = {
     "cli-version": do_cli_version,
     "item-list": item_list,
     "account-list": account_list,
-    "item-template-list": item_template_list
+    "item-template-list": item_template_list,
+    "whoami": whoami
 }
 
 

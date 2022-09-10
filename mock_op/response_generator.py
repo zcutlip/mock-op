@@ -1,6 +1,7 @@
 import logging
 from mock_cli import CommandInvocation
 
+
 # Private imports, but we control both projects, so shouldn't be a problem
 # Better than exporting API from pyonepassword that shouldn't be exposed
 from ._op import OP, _OPArgv
@@ -139,6 +140,15 @@ class OPResponseGenerator(OP):
         account_list_argv = cls._account_list_argv()
         resp_dict = cls._generate_response(
             account_list_argv, query_name, expected_return=expected_ret)
+        return resp_dict
+
+    @classmethod
+    def whoami_generate_response(cls, query_name, account=None, expected_ret=0):
+        print(account)
+        whoami_argv = _OPArgv.whoami_argv('op', account=account)
+        print(whoami_argv)
+        resp_dict = cls._generate_response(
+            whoami_argv, query_name, expected_return=expected_ret)
         return resp_dict
 
     @classmethod

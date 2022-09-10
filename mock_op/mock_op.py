@@ -39,8 +39,8 @@ class MockOP:
 
     def _mock_op_arg_parser(self) -> ArgumentParser:
         parser = ArgumentParser()
-        parser.add_argument("--account", metavar="shorthand",
-                            help="use the account with this shorthand")
+        parser.add_argument("--account", metavar="account",
+                            help="use the account with this identifier")
         parser.add_argument(
             "--version", help="version for op", action='store_true')
 
@@ -66,7 +66,7 @@ class MockOP:
         # -- signin --
         parser_signin = subparsers.add_parser(
             "signin", help="Sign in to a 1Password account")
-        parser_signin.add_argument("sign_in_address", nargs="?", default=None)
+        # parser_signin.add_argument("sign_in_address", nargs="?", default=None)
         parser_signin.add_argument(
             "-r", "--raw", help="only return the session token", action='store_true')
 
@@ -187,6 +187,11 @@ class MockOP:
             "--group", metavar="string", help="List vaults a group has access to.")
         parser_vault_subcmd.add_argument(
             "--user", metavar="string", help="List vaults that a given user has access to.")
+
+        # -- whoami --
+        _ = subparsers.add_parser(
+            "whoami", help="Get information about a signed-in account")
+
         return parser
 
     @classmethod
@@ -224,10 +229,10 @@ class MockOP:
         # namespace and the list of remaining argument strings
         parsed = parser.parse_known_args(args)[0]
         raw = parsed.raw
-        if parsed.sign_in_address:
-            shorthand = parsed.sign_in_address
+        if parsed.account:
+            account = parsed.account
         else:
-            shorthand = os.environ.get(SIGNIN_SHORTHAND_ENV_NAME)
+            account = os.environ.get(SIGNIN_SHORTHAND_ENV_NAME)
 
         if signin_success is None:
             raise MockOPSigninException(
@@ -240,11 +245,11 @@ class MockOP:
         elif signin_success == "1":
             signin_success = True
 
-        if shorthand is None and not self._uses_bio():
-            raise MockOPSigninException("No account shorthand provided")
+        if account is None and not self._uses_bio():
+            raise MockOPSigninException("No account identifier provided")
 
         response = MockOPSigninResponse(
-            shorthand, signin_success=signin_success, raw=raw)
+            account, signin_success=signin_success, raw=raw)
         exit_status = response.respond()
         return exit_status
 
