@@ -36,7 +36,7 @@ def main():
     if parsed.response_dir:
         respdir_json_file = parsed.response_dir
     else:
-        respdir_json_file = MockOP.get_response_directory()
+        respdir_json_file = MockOP()._response_directory
 
     try:
         directory = ResponseDirectory(respdir_json_file)
