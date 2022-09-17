@@ -20,19 +20,26 @@ class OPResponseGenerator(OP):
                                 query_name,
                                 stdout,
                                 stderr,
-                                returncode):
+                                returncode,
+                                changes_state):
         query_args = list(argv_obj)[1:]
         query_response = CommandInvocation(
-            query_args, stdout, stderr, returncode, query_name)
+            query_args, stdout, stderr, returncode, query_name, changes_state)
 
         return query_response
 
-    def item_get_generate_response(self, item_name_or_uuid, query_name, vault=None, fields=None, expected_ret=0):
+    def item_get_generate_response(self,
+                                   item_name_or_uuid,
+                                   query_name,
+                                   vault=None,
+                                   fields=None,
+                                   expected_ret=0,
+                                   changes_state=False):
         item_get_argv = self._item_get_argv(
             item_name_or_uuid, vault=vault, fields=fields)
 
         resp_dict = self._generate_response(
-            item_get_argv, query_name, expected_ret)
+            item_get_argv, query_name, expected_ret, changes_state)
 
         return resp_dict
 
@@ -41,7 +48,8 @@ class OPResponseGenerator(OP):
                                        query_name,
                                        vault: str = None,
                                        alternate_name: str = None,
-                                       expected_ret=0):
+                                       expected_ret=0,
+                                       changes_state=False):
         if alternate_name:
             doc_id = alternate_name
             get_doc_argv = self._get_document_argv(doc_id, vault=vault)
@@ -53,63 +61,90 @@ class OPResponseGenerator(OP):
             normal_argv = get_doc_argv
 
         resp_dict = self._generate_response(
-            get_doc_argv, query_name, expected_ret, record_argv=normal_argv)
+            get_doc_argv, query_name, expected_ret, changes_state, record_argv=normal_argv)
 
         return resp_dict
 
-    def vault_get_generate_response(self, vault_name_or_uuid, query_name, expected_ret=0):
+    def vault_get_generate_response(self,
+                                    vault_name_or_uuid,
+                                    query_name,
+                                    expected_ret=0,
+                                    changes_state=False):
         vault_get_argv = self._vault_get_argv(vault_name_or_uuid)
 
         resp_dict = self._generate_response(
-            vault_get_argv, query_name, expected_ret)
+            vault_get_argv, query_name, expected_ret, changes_state)
 
         return resp_dict
 
-    def vault_list_generate_response(self, query_name, group_name_or_id=None, user_name_or_id=None, expected_ret=0):
+    def vault_list_generate_response(self,
+                                     query_name,
+                                     group_name_or_id=None,
+                                     user_name_or_id=None,
+                                     expected_ret=0,
+                                     changes_state=False):
         vault_list_argv = self._vault_list_argv(
             group_name_or_id=group_name_or_id, user_name_or_id=user_name_or_id)
 
         resp_dict = self._generate_response(
-            vault_list_argv, query_name, expected_ret)
+            vault_list_argv, query_name, expected_ret, changes_state)
 
         return resp_dict
 
-    def user_get_generate_response(self, user_name_or_uuid, query_name, expected_ret=0):
+    def user_get_generate_response(self,
+                                   user_name_or_uuid,
+                                   query_name,
+                                   expected_ret=0,
+                                   changes_state=False):
         user_get_argv = self._user_get_argv(user_name_or_uuid)
 
         resp_dict = self._generate_response(
-            user_get_argv, query_name, expected_ret)
+            user_get_argv, query_name, expected_ret, changes_state)
 
         return resp_dict
 
-    def user_list_generate_response(self, query_name, group_name_or_id=None, vault=None, expected_ret=0):
+    def user_list_generate_response(self,
+                                    query_name,
+                                    group_name_or_id=None,
+                                    vault=None,
+                                    expected_ret=0,
+                                    changes_state=False):
         user_list_argv = self._user_list_argv(
             group_name_or_id=group_name_or_id, vault=vault)
 
         resp_dict = self._generate_response(
-            user_list_argv, query_name, expected_ret)
+            user_list_argv, query_name, expected_ret, changes_state)
 
         return resp_dict
 
-    def group_get_generate_response(self, group_name_or_uuid, query_name, expected_ret=0):
+    def group_get_generate_response(self,
+                                    group_name_or_uuid,
+                                    query_name,
+                                    expected_ret=0,
+                                    changes_state=False):
         group_get_argv = self._group_get_argv(group_name_or_uuid)
         resp_dict = self._generate_response(
-            group_get_argv, query_name, expected_ret)
+            group_get_argv, query_name, expected_ret, changes_state)
         return resp_dict
 
-    def group_list_generate_response(self, query_name, user_name_or_id=None, vault=None, expected_ret=0):
+    def group_list_generate_response(self,
+                                     query_name,
+                                     user_name_or_id=None,
+                                     vault=None,
+                                     expected_ret=0,
+                                     changes_state=False):
         group_list_argv = self._group_list_argv(
             user_name_or_id=user_name_or_id, vault=vault)
         resp_dict = self._generate_response(
-            group_list_argv, query_name, expected_ret)
+            group_list_argv, query_name, expected_ret, changes_state)
 
         return resp_dict
 
     @classmethod
-    def cli_version(cls, query_name, expected_ret=0):
+    def cli_version(cls, query_name, expected_ret=0, changes_state=False):
         cli_version_argv = _OPArgv.cli_version_argv('op')
         resp_dict = cls._generate_response(
-            cli_version_argv, query_name, expected_ret)
+            cli_version_argv, query_name, expected_ret, changes_state)
 
         return resp_dict
 
@@ -119,40 +154,41 @@ class OPResponseGenerator(OP):
                                     include_archive=False,
                                     tags=[],
                                     vault=None,
-                                    expected_ret=0):
+                                    expected_ret=0,
+                                    changes_state=False):
         item_list_argv = self._item_list_argv(
             categories=categories, include_archive=include_archive, tags=tags, vault=vault)
 
         resp_dict = self._generate_response(
-            item_list_argv, query_name, expected_ret)
+            item_list_argv, query_name, expected_ret, changes_state)
 
         return resp_dict
 
     @classmethod
-    def item_template_list_generate_response(cls, query_name, expected_ret=0):
+    def item_template_list_generate_response(cls, query_name, expected_ret=0, changes_state=False):
         template_list_argv = _OPArgv.item_template_list_argv('op')
         resp_dict = cls._generate_response(
-            template_list_argv, query_name, expected_ret)
+            template_list_argv, query_name, expected_ret, changes_state)
         return resp_dict
 
     @classmethod
-    def account_list_generate_response(cls, query_name, expected_ret=0):
+    def account_list_generate_response(cls, query_name, expected_ret=0, changes_state=False):
         account_list_argv = cls._account_list_argv()
         resp_dict = cls._generate_response(
-            account_list_argv, query_name, expected_ret)
+            account_list_argv, query_name, expected_ret, changes_state)
         return resp_dict
 
     @classmethod
-    def whoami_generate_response(cls, query_name, account=None, expected_ret=0):
+    def whoami_generate_response(cls, query_name, account=None, expected_ret=0, changes_state=False):
         print(account)
         whoami_argv = _OPArgv.whoami_argv('op', account=account)
         print(whoami_argv)
         resp_dict = cls._generate_response(
-            whoami_argv, query_name, expected_ret)
+            whoami_argv, query_name, expected_ret, changes_state)
         return resp_dict
 
     @classmethod
-    def _generate_response(cls, run_argv, query_name, expected_return, record_argv=None):
+    def _generate_response(cls, run_argv, query_name, expected_return, changes_state, record_argv=None):
         cls.logger.info(f"About to run: {run_argv.cmd_str()}")
         if record_argv is None:
             record_argv = run_argv
@@ -170,6 +206,6 @@ class OPResponseGenerator(OP):
                 f"Unexpected return code: expected {expected_return}, got {returncode}")
 
         resp_dict = cls._generate_response_dict(
-            record_argv, query_name, stdout, stderr, returncode)
+            record_argv, query_name, stdout, stderr, returncode, changes_state)
 
         return resp_dict
