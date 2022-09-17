@@ -246,13 +246,15 @@ class MockOP:
 
         response = MockOPSigninResponse(
             account, signin_success=signin_success, raw=raw)
-        exit_status = response.respond()
+        exit_status = response.respond([])
         return exit_status
 
     def respond(self, args):
         if self.SIGNIN_CMD in args:
             exit_status = self._handle_signin(args)
         else:
-            cmd = MockCommand(self._response_directory)
+            cmd = MockCommand(
+                response_directory=self._response_directory, state_dir=self._state_dir)
             exit_status = cmd.respond(args)
+
         return exit_status
