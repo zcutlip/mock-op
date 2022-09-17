@@ -16,6 +16,7 @@ RESP_DIR_ENV_NAME = "MOCK_OP_RESPONSE_DIRECTORY"
 SIGNIN_SUCCESS_ENV_NAME = "MOCK_OP_SIGNIN_SUCCEED"
 SIGNIN_SHORTHAND_ENV_NAME = "MOCK_OP_SIGNIN_SHORTHAND"
 USES_BIO_ENV_NAME = "MOCK_OP_SIGNIN_USES_BIO"
+STATE_DIR_ENV_NAME = "MOCK_OP_STATE_DIR"
 
 
 class MockOPSigninException(Exception):
@@ -29,8 +30,10 @@ class MockOP:
         if arg_parser is None:
             arg_parser = self._mock_op_arg_parser()
         self._arg_parser = arg_parser
+        self._state_dir = os.environ.get(STATE_DIR_ENV_NAME)
+
         if response_directory is None:
-            response_directory = self.get_response_directory()
+            response_directory = os.environ.get(RESP_DIR_ENV_NAME)
         self._response_directory = response_directory
 
     @property
@@ -193,13 +196,6 @@ class MockOP:
             "whoami", help="Get information about a signed-in account")
 
         return parser
-
-    @classmethod
-    def get_response_directory(cls):
-        rdpath = os.environ.get(RESP_DIR_ENV_NAME)
-        if not rdpath:
-            rdpath = RESPONSE_DIRECTORY_PATH
-        return rdpath
 
     def parse_args(self, argv=None):
         if argv is None:
