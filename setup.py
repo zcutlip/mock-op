@@ -26,6 +26,6 @@ setup(name='mock-op',
               'list-cmds=mock_op.list_cmd_main:main',
               'response-generator=mock_op.response_gen_main:main'], },
       python_requires='>=3.7',
-      install_requires=['mock-cli-framework>=0.1.1'],
+      install_requires=['mock-cli-framework>=0.2.1'],
       package_data={'mock_op': ['config/*']},
       )
