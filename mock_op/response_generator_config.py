@@ -9,6 +9,7 @@ class OPConfigParser(ConfigParser):
         "expected-return-2": "getint",
         "include-arhive": "getboolean",
         "categories": "getcsvlist",
+        "tags": "getcsvlist"
     }
 
     def items(self, section):

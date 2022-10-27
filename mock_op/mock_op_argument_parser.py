@@ -146,6 +146,9 @@ def arg_subparser_item(subparsers: _SubParsersAction):
     parser_item_subcmd.add_argument(
         "--categories", help="Only list items in these categories (comma-separated).")
 
+    parser_item_subcmd.add_argument(
+        "--tags", help="Only list items with these tags (comma-separated).")
+
     arg_subparser_item_template(parser_item_subparsers)
     arg_subparser_item_create(parser_item_subparsers)
 
