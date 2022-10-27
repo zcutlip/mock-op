@@ -15,7 +15,7 @@
             "name": "example generate responses",
             "type": "python",
             "request": "launch",
-            "program": "examples/example-generate-responses.py",
+            "program": "examples/example.py",
             "console": "integratedTerminal",
             "justMyCode": false
         },
