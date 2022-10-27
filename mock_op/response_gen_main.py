@@ -5,10 +5,9 @@ from typing import List
 
 from mock_cli import CommandInvocation, ResponseDirectory
 
-from ._op import OPNotSignedInException, OPSigninException
+from ._op import EXISTING_AUTH_AVAIL, OPNotSignedInException, OPSigninException
 from .response_generator import OPResponseGenerator
 from .response_generator_config import OPResponseGenConfig
-
 
 DEFAULT_CONFIG_PATH = Path(".", "response-generation.cfg")
 
@@ -40,7 +39,7 @@ def do_signin():
     # account details on future sign-ins. Just master password
     try:
         op = OPResponseGenerator(
-            use_existing_session=True, password_prompt=False)
+            existing_auth=EXISTING_AUTH_AVAIL, password_prompt=False)
     except OPNotSignedInException:
         my_password = getpass.getpass(prompt="1Password master password:\n")
         op = OPResponseGenerator(password=my_password)
