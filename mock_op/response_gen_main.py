@@ -55,6 +55,15 @@ def item_get(op: OPResponseGenerator, query_name, query_definition) -> CommandIn
     return invocation
 
 
+def item_delete(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
+    item_id = query_definition["item_identifier"]
+    vault = query_definition.get("vault")
+    expected_return = query_definition.get("expected-return", 0)
+    invocation = op.item_delete_generate_response(
+        item_id, query_name, vault=vault, expected_ret=expected_return)
+    return invocation
+
+
 def item_get_totp(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
     item_id = query_definition["item_identifier"]
     vault = query_definition.get("vault")
@@ -193,6 +202,7 @@ def whoami(op: OPResponseGenerator, query_name, query_definition) -> CommandInvo
 query_type_map = {
     "item-get": item_get,
     "item-get-totp": item_get_totp,
+    "item-delete": item_delete,
     "document-get": document_get,
     "vault-get": vault_get,
     "vault-list": vault_list,

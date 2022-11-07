@@ -43,6 +43,20 @@ class OPResponseGenerator(OP):
 
         return resp_dict
 
+    def item_delete_generate_response(self,
+                                      item_name_or_uuid,
+                                      query_name,
+                                      vault=None,
+                                      expected_ret=0,
+                                      changes_state=False):
+        item_delete_argv = self._item_delete_argv(
+            item_name_or_uuid, vault=vault)
+
+        resp_dict = self._generate_response(
+            item_delete_argv, query_name, expected_ret, changes_state)
+
+        return resp_dict
+
     def document_get_generate_response(self,
                                        document_name_or_uuid: str,
                                        query_name,
