@@ -147,6 +147,15 @@ def arg_subparser_item(subparsers: _SubParsersAction):
     parser_item_subcmd.add_argument(
         "--tags", help="Only list items with these tags (comma-separated).")
 
+    parser_item_subcmd = parser_item_subparsers.add_parser(
+        "delete", description="Permanently delete an item.", help="Delete or archive an item")
+    parser_item_subcmd.add_argument(
+        "item", metavar="<itemName>", help="The item to get")
+    parser_item_subcmd.add_argument(
+        "--archive", help="Move the item to the Archive.", action='store_true')
+    parser_item_subcmd.add_argument(
+        "--vault", metavar="string", help="Look for the item in this vault.")
+
     arg_subparser_item_template(parser_item_subparsers)
     arg_subparser_item_create(parser_item_subparsers)
 
