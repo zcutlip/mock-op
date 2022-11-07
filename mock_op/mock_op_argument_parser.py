@@ -141,11 +141,9 @@ def arg_subparser_item(subparsers: _SubParsersAction):
     parser_item_subcmd.add_argument(
         "--vault", help="Look for the item in this vault.")
     parser_item_subcmd.add_argument(
-        "--include-archive", help="Include items in the Archive.", action='store_true'
-    )
+        "--include-archive", help="Include items in the Archive.", action='store_true')
     parser_item_subcmd.add_argument(
         "--categories", help="Only list items in these categories (comma-separated).")
-
     parser_item_subcmd.add_argument(
         "--tags", help="Only list items with these tags (comma-separated).")
 
