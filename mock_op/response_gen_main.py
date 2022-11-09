@@ -59,9 +59,10 @@ def item_get(op: OPResponseGenerator, query_name, query_definition) -> CommandIn
 def item_delete(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
     item_id = query_definition["item_identifier"]
     vault = query_definition.get("vault")
+    archive = query_definition.get("archive", False)
     expected_return = query_definition.get("expected-return", 0)
     invocation = op.item_delete_generate_response(
-        item_id, query_name, vault=vault, expected_ret=expected_return)
+        item_id, query_name, vault=vault, archive=archive, expected_ret=expected_return)
     return invocation
 
 

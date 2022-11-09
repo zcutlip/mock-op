@@ -48,10 +48,11 @@ class OPResponseGenerator(OP):
                                       item_name_or_uuid,
                                       query_name,
                                       vault=None,
+                                      archive=False,
                                       expected_ret=0,
                                       changes_state=False):
         item_delete_argv = self._item_delete_argv(
-            item_name_or_uuid, vault=vault)
+            item_name_or_uuid, archive=archive, vault=vault)
 
         resp_dict = self._generate_response(
             item_delete_argv, query_name, expected_ret, changes_state)
