@@ -33,10 +33,11 @@ class OPResponseGenerator(OP):
                                    query_name,
                                    vault=None,
                                    fields=None,
+                                   include_archive=False,
                                    expected_ret=0,
                                    changes_state=False):
         item_get_argv = self._item_get_argv(
-            item_name_or_uuid, vault=vault, fields=fields)
+            item_name_or_uuid, vault=vault, include_archive=include_archive, fields=fields)
 
         resp_dict = self._generate_response(
             item_get_argv, query_name, expected_ret, changes_state)

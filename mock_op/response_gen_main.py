@@ -49,9 +49,10 @@ def do_signin():
 def item_get(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
     item_id = query_definition["item_identifier"]
     vault = query_definition.get("vault")
+    include_archive = query_definition.get("include_archive", False)
     expected_return = query_definition.get("expected-return", 0)
     invocation = op.item_get_generate_response(
-        item_id, query_name, vault=vault, expected_ret=expected_return)
+        item_id, query_name, vault=vault, include_archive=include_archive, expected_ret=expected_return)
     return invocation
 
 
