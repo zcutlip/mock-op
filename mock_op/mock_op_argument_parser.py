@@ -89,6 +89,15 @@ def arg_subparser_document(subparsers: _SubParsersAction):
     parser_doc_subcmd.add_argument(
         "document", metavar="<documentName>", help="The document to download")
 
+    parser_doc_subcmd = parser_document_subparsers.add_parser(
+        "delete",
+        description="""Permanently delete a document.
+            Use the '--archive' option to move it to the Archive instead.""", help="Delete or archive a document item")
+    parser_doc_subcmd.add_argument(
+        "document", metavar="<documentName>", help="The document to delete")
+
+    parser_doc_subcmd.add_argument(
+        "--archive", help="Move the document to the Archive.", action='store_true')
     parser_doc_subcmd.add_argument(
         "--vault", help="Look for the document in this vault")
 
