@@ -81,6 +81,21 @@ class OPResponseGenerator(OP):
 
         return resp_dict
 
+    def document_delete_generate_response(self,
+                                          document_name_or_uuid,
+                                          query_name,
+                                          vault=None,
+                                          archive=False,
+                                          expected_ret=0,
+                                          changes_state=False):
+        document_delete_argv = self._document_delete_argv(
+            document_name_or_uuid, archive=archive, vault=vault)
+
+        resp_dict = self._generate_response(
+            document_delete_argv, query_name, expected_ret, changes_state)
+
+        return resp_dict
+
     def vault_get_generate_response(self,
                                     vault_name_or_uuid,
                                     query_name,
