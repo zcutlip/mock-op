@@ -1,5 +1,5 @@
 import getpass
-from argparse import ArgumentParser
+from argparse import ArgumentParser, RawTextHelpFormatter
 from pathlib import Path
 from typing import List
 
@@ -19,11 +19,14 @@ def resp_gen_parse_args():
         csv_list = [v.strip() for v in arg_string.split(",")]
         return csv_list
 
-    parser = ArgumentParser()
+    parser = ArgumentParser(formatter_class=RawTextHelpFormatter)
     parser.add_argument(
         "config", help="Config file describing 'op' responses to generate. defaults to './response-generation.cfg", nargs="?")
     parser.add_argument(
-        "-D", "--definition", help="Only run the specified query definition",
+        "-D", "--definition", help="""Only run the specified query definition
+        NOTE: definition spec may be a comma-separated list.
+        E.g., -D example-item,example-delete-me
+        """,
         type=split_args
     )
     parser.add_argument(
