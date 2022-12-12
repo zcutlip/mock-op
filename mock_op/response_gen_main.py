@@ -110,6 +110,16 @@ def document_get(op: OPResponseGenerator, query_name, query_definition) -> Comma
     return document_invocation, item_filename_invocation
 
 
+def document_delete(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
+    document_id = query_definition["document_identifier"]
+    vault = query_definition.get("vault")
+    archive = query_definition.get("archive", False)
+    expected_return = query_definition.get("expected-return", 0)
+    invocation = op.document_delete_generate_response(
+        document_id, query_name, vault=vault, archive=archive, expected_ret=expected_return)
+    return invocation
+
+
 def vault_get(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
     vault_id = query_definition["vault_identifier"]
     expected_return = query_definition.get("expected-return", 0)
@@ -209,6 +219,7 @@ query_type_map = {
     "item-get-totp": item_get_totp,
     "item-delete": item_delete,
     "document-get": document_get,
+    "document-delete": document_delete,
     "vault-get": vault_get,
     "vault-list": vault_list,
     "user-get": user_get,
