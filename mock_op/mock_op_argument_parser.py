@@ -90,6 +90,8 @@ def arg_subparser_document(subparsers: _SubParsersAction):
         "document", metavar="<documentName>", help="The document to download")
     parser_doc_subcmd.add_argument(
         "--vault", help="Look for the document in this vault")
+    parser_doc_subcmd.add_argument(
+        "--include-archive", help="Include document items in the Archive.", action='store_true')
 
     parser_doc_subcmd = parser_document_subparsers.add_parser(
         "delete",
