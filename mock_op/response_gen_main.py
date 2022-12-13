@@ -93,6 +93,7 @@ def document_get(op: OPResponseGenerator, query_name, query_definition) -> Comma
         op, query_name_filename, query_definition)
 
     # query 2: get the document bytes
+    include_archive = query_definition.get("include_archive", False)
     vault = query_definition.get("vault")
     expected_return = query_definition.get("expected-return", 0)
     expected_return_2 = query_definition.get(
@@ -103,8 +104,12 @@ def document_get(op: OPResponseGenerator, query_name, query_definition) -> Comma
     # an alternate document identifier for step 2, that is known to fail
     alt_item_id = query_definition.get("item_identifier_alternate")
     item_id = query_definition["item_identifier"]
-    document_invocation = op.document_get_generate_response(
-        item_id, query_name, vault=vault, alternate_name=alt_item_id, expected_ret=expected_return_2)
+    document_invocation = op.document_get_generate_response(item_id,
+                                                            query_name,
+                                                            vault=vault,
+                                                            include_archive=include_archive,
+                                                            alternate_name=alt_item_id,
+                                                            expected_ret=expected_return_2)
 
     # return both invocations
     return document_invocation, item_filename_invocation

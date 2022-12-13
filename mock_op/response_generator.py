@@ -63,17 +63,21 @@ class OPResponseGenerator(OP):
                                        document_name_or_uuid: str,
                                        query_name,
                                        vault: str = None,
+                                       include_archive: bool = False,
                                        alternate_name: str = None,
                                        expected_ret=0,
                                        changes_state=False):
+        print(f"include_archive: {include_archive}")
         if alternate_name:
             doc_id = alternate_name
-            get_doc_argv = self._get_document_argv(doc_id, vault=vault)
-            normal_argv = self._get_document_argv(
+            get_doc_argv = self._document_get_argv(
+                doc_id, vault=vault, include_archive=include_archive)
+            normal_argv = self._document_get_argv(
                 document_name_or_uuid, vault=vault)
         else:
             doc_id = document_name_or_uuid
-            get_doc_argv = self._get_document_argv(doc_id, vault=vault)
+            get_doc_argv = self._document_get_argv(
+                doc_id, vault=vault, include_archive=include_archive)
             normal_argv = get_doc_argv
 
         resp_dict = self._generate_response(
