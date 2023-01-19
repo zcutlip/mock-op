@@ -78,9 +78,9 @@ responses
 With that directory in place, the `mock-op` utility will look up responses and exit status based on the set of command-line arguments given:
 
 ```Console
-$ mock-op get item nok7367v4vbsfgg2fczwu4ei44 --fields username,password
+$ mock-op item get nok7367v4vbsfgg2fczwu4ei44 --fields username,password
 {"password":"weak password","username":"janedoe123"}
-$ mock-op get item "Invalid Item"
+$ mock-op item get "Invalid Item"
 [ERROR] 2021/02/03 13:39:42 "Invalid Item" doesn't seem to be an item. Specify
 the item with its UUID, name, or domain.
 $ echo $?
@@ -137,7 +137,7 @@ Then generate and record responses in the following order:
 1. Obtain master password for the 1Password account
 2. Create an OPResponseGenerator object, which signs in to a real 1Password account (whichever account `op` has signed into previously on the command line)
 3. Create a `ResponseDirectory` instance
-4. Generate a command invocation for either the `op get item` or `op get document` subcommand
+4. Generate a command invocation for either the `op item get` or `op document get` subcommand
 5. Add the command invocation (a bundle of the command-line arguments, the response output, and the exit status) to the response directory
 
 > Note: Although generating the command invocation communicates to the live 1Password account, it will not raise exceptions if the `op` query fails. The invocation captures context describing the success or failure.
@@ -245,11 +245,11 @@ List all simulated `op` commands:
 ```Console
 $ list-cmds
 Directory path: ~/.config/mock-op/response-directory.json
-op get item 'Example Login 1' --vault 'Test Data'
-op get item nok7367v4vbsfgg2fczwu4ei44
-op get item nok7367v4vbsfgg2fczwu4ei44 --fields username,password
-op get document 'Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp'
-op get item 'Invalid Item'
+op item get 'Example Login 1' --vault 'Test Data'
+op item get nok7367v4vbsfgg2fczwu4ei44
+op item get nok7367v4vbsfgg2fczwu4ei44 --fields username,password
+op document get 'Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp'
+op item get 'Invalid Item'
 ```
 
 List all simulated `op` commands with response context (and alternate directory location):
@@ -258,27 +258,27 @@ List all simulated `op` commands with response context (and alternate directory 
 $ list-cmds --response-dir ./response-directory.json --verbose
 Directory path: ./response-directory.json
 ./responses
-op get item 'Example Login 1' --vault 'Test Data'
+op item get 'Example Login 1' --vault 'Test Data'
 	output: ./responses/item-get-[example-login-1]-[vault-test-data]/output
 	error output: ./responses/item-get-[example-login-1]-[vault-test-data]/error_output
 	exit status: 0
 
-op get item nok7367v4vbsfgg2fczwu4ei44
+op item get nok7367v4vbsfgg2fczwu4ei44
 	output: ./responses/item-get-by-uuid[example-login-1]/output
 	error output: ./responses/item-get-by-uuid[example-login-1]/error_output
 	exit status: 0
 
-op get item nok7367v4vbsfgg2fczwu4ei44 --fields username,password
+op item get nok7367v4vbsfgg2fczwu4ei44 --fields username,password
 	output: ./responses/item-get-[example-login-2]-[fields-username-password]/output
 	error output: ./responses/item-get-[example-login-2]-[fields-username-password]/error_output
 	exit status: 0
 
-op get document 'Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp'
+op document get 'Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp'
 	output: ./responses/document-get-[spongebob image]/output
 	error output: ./responses/document-get-[spongebob image]/error_output
 	exit status: 0
 
-op get item 'Invalid Item'
+op item get 'Invalid Item'
 	output: ./responses/item-get-[invalid-item]/output
 	error output: ./responses/item-get-[invalid-item]/error_output
 	exit status: 1
