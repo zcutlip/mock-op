@@ -41,19 +41,19 @@ JSON Dictionary of command invocations:
       "exit_status": 0,
       "stdout": "output",
       "stderr": "error_output",
-      "name": "get-item-[example-login-1]-[vault-test-data]"
+      "name": "item-get-[example-login-1]-[vault-test-data]"
     },
     "get|item|nok7367v4vbsfgg2fczwu4ei44|--fields|username,password": {
       "exit_status": 0,
       "stdout": "output",
       "stderr": "error_output",
-      "name": "get-item-[example-login-2]-[fields-username-password]"
+      "name": "item-get-[example-login-2]-[fields-username-password]"
     },
     "get|item|Invalid Item": {
       "exit_status": 1,
       "stdout": "output",
       "stderr": "error_output",
-      "name": "get-item-[invalid-item]"
+      "name": "item-get-[invalid-item]"
     }
   }
 }
@@ -64,13 +64,13 @@ And an on-disk repository of response files:
 
 ```
 responses
-├── get-item-[example-login-1]-[vault-test-data]
+├── item-get-[example-login-1]-[vault-test-data]
 │   ├── error_output
 │   └── output
-├── get-item-[example-login-2]-[fields-username-password]
+├── item-get-[example-login-2]-[fields-username-password]
 │   ├── error_output
 │   └── output
-└── get-item-[invalid-item]
+└── item-get-[invalid-item]
     ├── error_output
     └── output
 ```
@@ -102,13 +102,13 @@ config-path = ./tests/config/mock-op
 response-path = responses
 response-dir-file = response-directory.json
 
-[get-item-example-login-1-vault-test-data]
-type=get-item
+[item-get-example-login-1-vault-test-data]
+type=item-get
 item_identifier = Example Login 1
 vault = Test Data
 
-[get-item-invalid-item]
-type = get-item
+[item-get-invalid]
+type = item-get
 item_identifier = Invalid Item
 ```
 
@@ -164,11 +164,11 @@ def do_get_document(op: OPResponseGenerator):
     invocation: CommandInvocation = op.get_document_generate_response(document_name, query_name)
     return invocation
 
-def do_get_invalid_item(op: OPResponseGenerator):
+def do_item_get_invalid(op: OPResponseGenerator):
     item_name = "Invalid Item"
 
     # Arbitrary but descriptive name
-    query_name = "get-item-[invalid-item]"
+    query_name = "item-get-[invalid-item]"
     invocation: CommandInvocation = op.get_item_generate_response(item_name, query_name)
     return invocation
 
@@ -185,7 +185,7 @@ def main():
     # add the invocation to the directory, saving the updated directory to disk
     directory.add_command_invocation(invocation, save=True)
 
-    invocation = do_get_invalid_item(op)
+    invocation = do_item_get_invalid(op)
     directory.add_command_invocation(invocation, save=True)
 
 ```
@@ -259,18 +259,18 @@ $ list-cmds --response-dir ./response-directory.json --verbose
 Directory path: ./response-directory.json
 ./responses
 op get item 'Example Login 1' --vault 'Test Data'
-	output: ./responses/get-item-[example-login-1]-[vault-test-data]/output
-	error output: ./responses/get-item-[example-login-1]-[vault-test-data]/error_output
+	output: ./responses/item-get-[example-login-1]-[vault-test-data]/output
+	error output: ./responses/item-get-[example-login-1]-[vault-test-data]/error_output
 	exit status: 0
 
 op get item nok7367v4vbsfgg2fczwu4ei44
-	output: ./responses/get-item-by-uuid[example-login-1]/output
-	error output: ./responses/get-item-by-uuid[example-login-1]/error_output
+	output: ./responses/item-get-by-uuid[example-login-1]/output
+	error output: ./responses/item-get-by-uuid[example-login-1]/error_output
 	exit status: 0
 
 op get item nok7367v4vbsfgg2fczwu4ei44 --fields username,password
-	output: ./responses/get-item-[example-login-2]-[fields-username-password]/output
-	error output: ./responses/get-item-[example-login-2]-[fields-username-password]/error_output
+	output: ./responses/item-get-[example-login-2]-[fields-username-password]/output
+	error output: ./responses/item-get-[example-login-2]-[fields-username-password]/error_output
 	exit status: 0
 
 op get document 'Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp'
@@ -279,7 +279,7 @@ op get document 'Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.pn
 	exit status: 0
 
 op get item 'Invalid Item'
-	output: ./responses/get-item-[invalid-item]/output
-	error output: ./responses/get-item-[invalid-item]/error_output
+	output: ./responses/item-get-[invalid-item]/output
+	error output: ./responses/item-get-[invalid-item]/error_output
 	exit status: 1
 ```

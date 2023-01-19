@@ -26,38 +26,42 @@ def do_signin():
     return OPResponseGenerator(password=my_password)
 
 
-def do_get_item_1(op: OPResponseGenerator):
-    query_name = "get-item-[example-login-1]-[vault-test-data]"
-    invocation: CommandInvocation = op.get_item_generate_response(
+def do_item_get_1(op: OPResponseGenerator):
+    query_name = "item-get-[example-login-1]-[vault-test-data]"
+    invocation: CommandInvocation = op.item_get_generate_response(
         "Example Login 1", query_name, vault="Test Data")
     return invocation
 
 
-def do_get_item_2(op: OPResponseGenerator):
+def do_item_get_2(op: OPResponseGenerator):
     item_uuid = "nok7367v4vbsfgg2fczwu4ei44"
-    query_name = "get-item-by-uuid[example-login-2]"
-    invocation: CommandInvocation = op.get_item_generate_response(item_uuid, query_name)
+    query_name = "item-get-by-uuid[example-login-2]"
+    invocation: CommandInvocation = op.item_get_generate_response(
+        item_uuid, query_name)
     return invocation
 
 
-def do_get_item_3(op: OPResponseGenerator):
+def do_item_get_3(op: OPResponseGenerator):
     # 'Example Login' --vault Archive
-    query_name = "get-item-[example-login]-[vault-archive]"
-    invocation = op.get_item_generate_response("Example Login", query_name, vault="Archive")
+    query_name = "item-get-[example-login]-[vault-archive]"
+    invocation = op.item_get_generate_response(
+        "Example Login", query_name, vault="Archive")
     return invocation
 
 
 def do_get_document(op: OPResponseGenerator):
     document_name = "Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp"
-    query_name = "get-document-[spongebob image]"
-    invocation: CommandInvocation = op.get_document_generate_response(document_name, query_name)
+    query_name = "document-get-[spongebob image]"
+    invocation: CommandInvocation = op.get_document_generate_response(
+        document_name, query_name)
     return invocation
 
 
-def do_get_invalid_item(op: OPResponseGenerator):
+def do_item_get_invalid(op: OPResponseGenerator):
     item_name = "Invalid Item"
-    query_name = "get-item-[invalid-item]"
-    invocation: CommandInvocation = op.get_item_generate_response(item_name, query_name)
+    query_name = "item-get-[invalid-item]"
+    invocation: CommandInvocation = op.item_get_generate_response(
+        item_name, query_name)
     return invocation
 
 
@@ -86,17 +90,17 @@ if __name__ == "__main__":
     directory = ResponseDirectory(
         respdir_json_file, create=True, response_dir=response_dir)
 
-    invocation = do_get_item_1(op)
+    invocation = do_item_get_1(op)
     directory.add_command_invocation(invocation, save=True)
 
-    invocation = do_get_item_2(op)
+    invocation = do_item_get_2(op)
     directory.add_command_invocation(invocation, save=True)
 
-    invocation = do_get_item_3(op)
+    invocation = do_item_get_3(op)
     directory.add_command_invocation(invocation, save=True)
 
     invocation = do_get_document(op)
     directory.add_command_invocation(invocation, save=True)
 
-    invocation = do_get_invalid_item(op)
+    invocation = do_item_get_invalid(op)
     directory.add_command_invocation(invocation, save=True)
