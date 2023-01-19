@@ -156,12 +156,12 @@ def do_signin():
     # Or we'll try to look up account shorthand from your latest sign-in in op's config file
     return OPResponseGenerator(password=my_password)
 
-def do_get_document(op: OPResponseGenerator):
+def do_document_get(op: OPResponseGenerator):
     document_name = "Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp"
 
     # Arbitrary but descriptive name
-    query_name = "get-document-[spongebob image]"
-    invocation: CommandInvocation = op.get_document_generate_response(document_name, query_name)
+    query_name = "document-get-[spongebob image]"
+    invocation: CommandInvocation = op.document_get_generate_response(document_name, query_name)
     return invocation
 
 def do_item_get_invalid(op: OPResponseGenerator):
@@ -169,7 +169,7 @@ def do_item_get_invalid(op: OPResponseGenerator):
 
     # Arbitrary but descriptive name
     query_name = "item-get-[invalid-item]"
-    invocation: CommandInvocation = op.get_item_generate_response(item_name, query_name)
+    invocation: CommandInvocation = op.item_get_generate_response(item_name, query_name)
     return invocation
 
 def main():
@@ -181,7 +181,7 @@ def main():
     directory = ResponseDirectory(respdir_json_file, create=True, response_dir=response_dir)
 
 
-    invocation = do_get_document(op)
+    invocation = do_document_get(op)
     # add the invocation to the directory, saving the updated directory to disk
     directory.add_command_invocation(invocation, save=True)
 
@@ -274,8 +274,8 @@ op get item nok7367v4vbsfgg2fczwu4ei44 --fields username,password
 	exit status: 0
 
 op get document 'Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp'
-	output: ./responses/get-document-[spongebob image]/output
-	error output: ./responses/get-document-[spongebob image]/error_output
+	output: ./responses/document-get-[spongebob image]/output
+	error output: ./responses/document-get-[spongebob image]/error_output
 	exit status: 0
 
 op get item 'Invalid Item'

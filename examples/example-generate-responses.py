@@ -49,10 +49,10 @@ def do_item_get_3(op: OPResponseGenerator):
     return invocation
 
 
-def do_get_document(op: OPResponseGenerator):
+def do_document_get(op: OPResponseGenerator):
     document_name = "Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp"
     query_name = "document-get-[spongebob image]"
-    invocation: CommandInvocation = op.get_document_generate_response(
+    invocation: CommandInvocation = op.document_get_generate_response(
         document_name, query_name)
     return invocation
 
@@ -99,7 +99,7 @@ if __name__ == "__main__":
     invocation = do_item_get_3(op)
     directory.add_command_invocation(invocation, save=True)
 
-    invocation = do_get_document(op)
+    invocation = do_document_get(op)
     directory.add_command_invocation(invocation, save=True)
 
     invocation = do_item_get_invalid(op)
