@@ -37,19 +37,19 @@ JSON Dictionary of command invocations:
     "response_dir": "./responses"
   },
   "commands": {
-    "get|item|Example Login 1|--vault|Test Data": {
+    "item|get|Example Login 1|--vault|Test Data": {
       "exit_status": 0,
       "stdout": "output",
       "stderr": "error_output",
       "name": "item-get-[example-login-1]-[vault-test-data]"
     },
-    "get|item|nok7367v4vbsfgg2fczwu4ei44|--fields|username,password": {
+    "item|get|nok7367v4vbsfgg2fczwu4ei44|--fields|username,password": {
       "exit_status": 0,
       "stdout": "output",
       "stderr": "error_output",
       "name": "item-get-[example-login-2]-[fields-username-password]"
     },
-    "get|item|Invalid Item": {
+    "item|get|Invalid Item": {
       "exit_status": 1,
       "stdout": "output",
       "stderr": "error_output",
