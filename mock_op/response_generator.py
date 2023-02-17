@@ -1,6 +1,6 @@
 import logging
-from mock_cli import CommandInvocation
 
+from mock_cli import CommandInvocation
 
 # Private imports, but we control both projects, so shouldn't be a problem
 # Better than exporting API from pyonepassword that shouldn't be exposed
@@ -21,10 +21,11 @@ class OPResponseGenerator(OP):
                                 stdout,
                                 stderr,
                                 returncode,
-                                changes_state):
+                                changes_state,
+                                input=None):
         query_args = list(argv_obj)[1:]
         query_response = CommandInvocation(
-            query_args, stdout, stderr, returncode, query_name, changes_state)
+            query_args, stdout, stderr, returncode, query_name, changes_state, input=input)
 
         return query_response
 
@@ -223,12 +224,12 @@ class OPResponseGenerator(OP):
         return resp_dict
 
     @classmethod
-    def _generate_response(cls, run_argv, query_name, expected_return, changes_state, record_argv=None):
+    def _generate_response(cls, run_argv, query_name, expected_return, changes_state, record_argv=None, input=None):
         cls.logger.info(f"About to run: {run_argv.cmd_str()}")
         if record_argv is None:
             record_argv = run_argv
         stdout, stderr, returncode = cls._run_raw(
-            run_argv, capture_stdout=True, ignore_error=True)
+            run_argv, capture_stdout=True, ignore_error=True, input_string=input)
 
         if returncode != expected_return:
             cls.logger.error(
@@ -241,6 +242,6 @@ class OPResponseGenerator(OP):
                 f"Unexpected return code: expected {expected_return}, got {returncode}")
 
         resp_dict = cls._generate_response_dict(
-            record_argv, query_name, stdout, stderr, returncode, changes_state)
+            record_argv, query_name, stdout, stderr, returncode, changes_state, input=input)
 
         return resp_dict
