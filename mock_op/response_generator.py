@@ -4,7 +4,7 @@ from mock_cli import CommandInvocation
 
 # Private imports, but we control both projects, so shouldn't be a problem
 # Better than exporting API from pyonepassword that shouldn't be exposed
-from ._op import OP, _OPArgv
+from ._op import OP, OPItemList, _OPArgv
 
 
 class OPResponseGenerationException(Exception):
@@ -59,6 +59,40 @@ class OPResponseGenerator(OP):
             item_delete_argv, query_name, expected_ret, changes_state)
 
         return resp_dict
+
+    def item_delete_multiple_generate_response(self,
+                                               vault,
+                                               query_name,
+                                               categories=[],
+                                               include_archive=False,
+                                               tags=[],
+                                               archive=False,
+                                               expected_ret=0,
+                                               changes_state=False,
+                                               name_glob=None,
+                                               batch_size=25):
+        item_list = self.item_list(
+            categories=categories, include_archive=include_archive, tags=tags, vault=vault, generic_okay=True)
+        start = 0
+        end = len(item_list)
+
+        item_id = "-"
+        item_delete_argv = self._item_delete_argv(
+            item_id, vault=vault, archive=archive)
+        response_list = []
+        print(f"item count: {len(item_list)}")
+        for i in range(start, end, batch_size):
+            chunk = item_list[i:i+batch_size]
+            print(f"chunk {len(chunk)}")
+            chunk = OPItemList(chunk)
+            chunk_json = chunk.serialize()
+            response = self._generate_response(item_delete_argv,
+                                               query_name,
+                                               expected_ret,
+                                               changes_state=changes_state,
+                                               input=chunk_json)
+            response_list.append(response)
+        return response_list
 
     def document_get_generate_response(self,
                                        document_name_or_uuid: str,
