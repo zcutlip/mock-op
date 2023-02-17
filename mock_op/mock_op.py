@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import os
-
 from pathlib import Path
 
 from mock_cli import MockCommand
@@ -91,12 +90,12 @@ class MockOP:
         exit_status = response.respond([])
         return exit_status
 
-    def respond(self, args):
+    def respond(self, args, input):
         if self.SIGNIN_CMD in args:
             exit_status = self._handle_signin(args)
         else:
             cmd = MockCommand(
                 response_directory=self._response_directory, state_dir=self._state_dir)
-            exit_status = cmd.respond(args)
+            exit_status = cmd.respond(args, input=input)
 
         return exit_status

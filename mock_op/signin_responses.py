@@ -2,7 +2,7 @@ from datetime import datetime
 from random import choice
 from string import ascii_letters, digits
 
-from mock_cli import MockCommand, CommandResponse
+from mock_cli import CommandResponse, MockCommand
 
 
 class MockOPSigninResponse(MockCommand):
@@ -53,7 +53,7 @@ class MockOPSigninResponse(MockCommand):
     def _get_response_directory(self, *args):
         return None
 
-    def get_response(self, *args) -> CommandResponse:
+    def get_response(self, *args, **kwargs) -> CommandResponse:
         return self._response
 
     def _generate_token(self):
