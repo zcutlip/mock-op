@@ -69,6 +69,35 @@ def item_delete(op: OPResponseGenerator, query_name, query_definition) -> Comman
     return invocation
 
 
+def item_delete_multiple(op: OPResponseGenerator, query_name, query_definition) -> List[CommandInvocation]:
+    # def item_delete_multiple_generate_response(self,
+    #                                            vault,
+    #                                            query_name,
+    #                                            categories=[],
+    #                                            include_archive=False,
+    #                                            tags=[],
+    #                                            archive=False,
+    #                                            expected_ret=0,
+    #                                            changes_state=False,
+    #                                            name_glob=None,
+    #                                            batch_size=25):
+    vault = query_definition["vault"]
+    categories = query_definition.get("categories", [])
+    include_archive = query_definition.get("include-archive", False)
+    tags = query_definition.get("tags", [])
+    archive = query_definition.get("archive", False)
+    expected_return = query_definition.get("expected-return", 0)
+    invocation_list = op.item_delete_multiple_generate_response(vault,
+                                                                query_name,
+                                                                categories=categories,
+                                                                include_archive=include_archive,
+                                                                tags=tags,
+                                                                archive=archive,
+                                                                expected_ret=expected_return)
+
+    return invocation_list
+
+
 def item_get_totp(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
     item_id = query_definition["item_identifier"]
     vault = query_definition.get("vault")
@@ -223,6 +252,7 @@ query_type_map = {
     "item-get": item_get,
     "item-get-totp": item_get_totp,
     "item-delete": item_delete,
+    "item-delete-multiple": item_delete_multiple,
     "document-get": document_get,
     "document-delete": document_delete,
     "vault-get": vault_get,
@@ -265,6 +295,9 @@ def main():
     respdir_json_file = Path(
         config_dir, generator_config.respdir_json_file)
     response_path = Path(config_dir, generator_config.response_path)
+    input_path = None
+    if generator_config.input_path:
+        input_path = Path(config_dir, generator_config.input_path)
 
     try:
         op = do_signin()
@@ -279,7 +312,7 @@ def main():
         signin_fail(e)
 
     directory = ResponseDirectory(
-        respdir_json_file, create=True, response_dir=response_path)
+        respdir_json_file, create=True, response_dir=response_path, input_dir=input_path)
 
     for query_name, query_definition in generator_config.items():
         if not query_definition.enabled:
@@ -291,11 +324,17 @@ def main():
 
         invocation = query_func(op, query_name, query_definition)
         if isinstance(invocation, tuple):
-            document_invocation, item_filename_invoation = invocation
+            document_invocation, item_filename_invocation = invocation
             directory.add_command_invocation(
                 document_invocation, overwrite=True)
             directory.add_command_invocation(
-                item_filename_invoation, overwrite=True, save=True)
+                item_filename_invocation, overwrite=True, save=True)
+        elif isinstance(invocation, list):
+            from pprint import pprint
+            for _invocation in invocation:
+                pprint(_invocation, sort_dicts=False, indent=2)
+                directory.add_command_invocation(
+                    _invocation, overwrite=True, save=True)
         else:
             directory.add_command_invocation(
                 invocation, overwrite=True, save=True)
