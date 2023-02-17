@@ -7,7 +7,7 @@ class OPConfigParser(ConfigParser):
         "enabled": "getboolean",
         "expected-return": "getint",
         "expected-return-2": "getint",
-        "include-arhive": "getboolean",
+        "include-archive": "getboolean",
         "categories": "getcsvlist",
         "tags": "getcsvlist"
     }
