@@ -330,9 +330,7 @@ def main():
             directory.add_command_invocation(
                 item_filename_invocation, overwrite=True, save=True)
         elif isinstance(invocation, list):
-            from pprint import pprint
             for _invocation in invocation:
-                pprint(_invocation, sort_dicts=False, indent=2)
                 directory.add_command_invocation(
                     _invocation, overwrite=True, save=True)
         else:

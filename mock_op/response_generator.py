@@ -80,10 +80,10 @@ class OPResponseGenerator(OP):
         item_delete_argv = self._item_delete_argv(
             item_id, vault=vault, archive=archive)
         response_list = []
-        print(f"item count: {len(item_list)}")
+
         for i in range(start, end, batch_size):
             chunk = item_list[i:i+batch_size]
-            print(f"chunk {len(chunk)}")
+
             chunk = OPItemList(chunk)
             chunk_json = chunk.serialize()
             response = self._generate_response(item_delete_argv,
@@ -102,7 +102,6 @@ class OPResponseGenerator(OP):
                                        alternate_name: str = None,
                                        expected_ret=0,
                                        changes_state=False):
-        print(f"include_archive: {include_archive}")
         if alternate_name:
             doc_id = alternate_name
             get_doc_argv = self._document_get_argv(
