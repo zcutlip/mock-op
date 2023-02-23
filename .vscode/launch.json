@@ -20,13 +20,20 @@
             "justMyCode": false
         },
         {
-            "name": "mock-op signin",
+            "name": "mock-op item delete",
             "type": "python",
             "request": "launch",
             "module": "mock_op.mock_op_main",
             "console": "integratedTerminal",
             "justMyCode": false,
-            "args": ["signin", "zach"]
+            "args": [
+                "--format", "json",
+                "item", "delete", "-",
+                "--vault", "Test Data 3"],
+            "env": {
+                "MOCK_OP_STATE_DIR": "/Users/zach/Sync/Projects/src/mock-op/tests/config/mock-op/response_state",
+                "MOCK_OP_READ_INPUT_FILE": "tests/config/mock-op/input/13b443862f8c72fd8ec966efa2565e9d/input.bin"
+            }
         }
     ]
 }
