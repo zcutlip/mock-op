@@ -70,17 +70,6 @@ def item_delete(op: OPResponseGenerator, query_name, query_definition) -> Comman
 
 
 def item_delete_multiple(op: OPResponseGenerator, query_name, query_definition) -> List[CommandInvocation]:
-    # def item_delete_multiple_generate_response(self,
-    #                                            vault,
-    #                                            query_name,
-    #                                            categories=[],
-    #                                            include_archive=False,
-    #                                            tags=[],
-    #                                            archive=False,
-    #                                            expected_ret=0,
-    #                                            changes_state=False,
-    #                                            name_glob=None,
-    #                                            batch_size=25):
     vault = query_definition["vault"]
     categories = query_definition.get("categories", [])
     include_archive = query_definition.get("include-archive", False)
