@@ -1,3 +1,4 @@
+import os
 import sys
 
 from mock_cli import ResponseDirectoryException, ResponseLookupException
@@ -5,8 +6,19 @@ from mock_cli.hashing import digest_input
 
 from .mock_op import MockOP
 
+READ_INPUT_FILE_ENV_NAME = "MOCK_OP_READ_INPUT_FILE"
+
+
+def optionally_replace_stdin():
+    # for debugging purposes in vscode which can't
+    # pipe to stdin of the target
+    if os.environ.get(READ_INPUT_FILE_ENV_NAME):
+        fh = open(os.environ[READ_INPUT_FILE_ENV_NAME], "rb")
+        sys.stdin = fh
+
 
 def main():
+    optionally_replace_stdin()
     mock_op_cmd = MockOP()
     # We parse args in order to fail on args we don't understand
     # even though we don't actually use them
