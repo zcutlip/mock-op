@@ -47,9 +47,19 @@ def main():
     print(f"Directory path: {respdir_json_file}")
     commands = directory.commands
     response_dir = directory.response_dir
+    commands_with_input = directory.commands_with_input
 
     for cmd, response in commands.items():
         cmd_string = arg_shlex_from_string(cmd, popped_args=['op'])
+        if verbose:
+            print_command_verbose(response, cmd_string, response_dir)
+        else:
+            print(f"{cmd_string}")
+
+    for input_hash, input_dict in commands_with_input.items():
+        print(f"For input hash: {input_hash}:")
+        for cmd, response in input_dict.items():
+            cmd_string = arg_shlex_from_string(cmd, popped_args=['op'])
         if verbose:
             print_command_verbose(response, cmd_string, response_dir)
         else:
