@@ -82,14 +82,21 @@ class OPResponseGenerator(OP):
         response_list = []
 
         for i in range(start, end, batch_size):
+            # override "changes_state" for all except the
+            # last chunk
+            _changes_state = False
             chunk = item_list[i:i+batch_size]
 
+            if i + batch_size >= end:
+                # at the last chunk, reset _changes_state
+                # to whatever was passed in
+                _changes_state = changes_state
             chunk = OPItemList(chunk)
             chunk_json = chunk.serialize()
             response = self._generate_response(item_delete_argv,
                                                query_name,
                                                expected_ret,
-                                               changes_state=changes_state,
+                                               changes_state=_changes_state,
                                                input=chunk_json)
             response_list.append(response)
         return response_list
