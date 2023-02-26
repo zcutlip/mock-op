@@ -69,10 +69,13 @@ class OPResponseGenerator(OP):
                                                archive=False,
                                                expected_ret=0,
                                                changes_state=False,
-                                               name_glob=None,
+                                               title_glob=None,
                                                batch_size=25):
-        item_list = self.item_list(
-            categories=categories, include_archive=include_archive, tags=tags, vault=vault, generic_okay=True)
+        item_list = self.item_list(categories=categories,
+                                   include_archive=include_archive,
+                                   tags=tags,
+                                   title_glob=title_glob,
+                                   vault=vault, generic_okay=True)
         start = 0
         end = len(item_list)
 

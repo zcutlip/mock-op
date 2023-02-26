@@ -77,6 +77,7 @@ def item_delete_multiple(op: OPResponseGenerator, query_name, query_definition) 
     archive = query_definition.get("archive", False)
     expected_return = query_definition.get("expected-return", 0)
     changes_state = query_definition.get("changes_state", False)
+    title_glob = query_definition.get("title-glob", None)
     invocation_list = op.item_delete_multiple_generate_response(vault,
                                                                 query_name,
                                                                 categories=categories,
@@ -84,7 +85,8 @@ def item_delete_multiple(op: OPResponseGenerator, query_name, query_definition) 
                                                                 tags=tags,
                                                                 archive=archive,
                                                                 expected_ret=expected_return,
-                                                                changes_state=changes_state)
+                                                                changes_state=changes_state,
+                                                                title_glob=title_glob)
 
     return invocation_list
 
