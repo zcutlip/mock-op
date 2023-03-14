@@ -1,7 +1,8 @@
 import os
 import sys
 
-from mock_cli import ResponseDirectoryException, ResponseLookupException
+from mock_cli import (ResponseDirectoryException, ResponseLookupException,
+                      ResponseReadException)
 from mock_cli.hashing import digest_input
 
 from .mock_op import MockOP
@@ -30,7 +31,9 @@ def main():
     args = sys.argv[1:]
     try:
         exit_status = mock_op_cmd.respond(args, input)
-    except (ResponseDirectoryException, ResponseLookupException) as e:
+    except (ResponseDirectoryException,
+            ResponseLookupException,
+            ResponseReadException) as e:
         input_hash = digest_input(input)
         err_msg = f"Error looking up response: [{e}]"
 
