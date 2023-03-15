@@ -21,6 +21,7 @@ The reason for a "mock-op" that simulates the real `op` is primarily for the aut
 - An actual, paid 1Password account must exist and contain data
   - This would need to be a test account in order to avoid exposing sensitive passwords, etc. and to share the account across an engineering team, which may be impractical
 - The time required for `op` to execute a single query and return a response may be impractical, particularly in a testing environment with very many test cases
+- It's generally preferred to keep test data corpus in version control, which isn't possible when testing against a live 1Password account
 
 ## Usage
 
