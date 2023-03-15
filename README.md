@@ -203,3 +203,22 @@ op --format json item get 'Example Login 2 - 1200px-SpongeBob_SquarePants_charac
 	error output: tests/config/mock-op/responses/document-get-spongebob-image-filename/error_output
 	exit status: 0
 ```
+
+
+## Advanced Usage
+
+### mock-op Environment Variabes
+
+section about environment variables that change `mock-op`'s behavior
+
+### response-generation.cfg Advanced Options
+
+section about various options that can be specified in the `response-generator` config
+
+### Queries with Stdin Hashing
+
+section about query definitions & responses where input over stdin is required
+
+### State-changing Responses
+
+section about queries and responses that cause state to change
