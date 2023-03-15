@@ -1,7 +1,13 @@
-flake8
+# allow dependencies to be found locally in case we're offline
+# this is harmless if deps haven't been downloaded
+--find-links=file:./deps
 autopep8
+colored-traceback
+flake8
+ipython
 pycodestyle
-bpython
-nose
+# pyonepassword is required for respons-generator
+pyonepassword
+
 -e .
 -r requirements.txt
