@@ -126,11 +126,33 @@ item_identifier = Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.p
 Then you can run `response-generator` and have it create your response directory:
 
 ```Console
-response-generator ./response-generation.cfg
+❱ response-generator ./response-generation.cfg
 1Password master password:
 
 Using account shorthand found in op config: my_onepassword_login
 Doing normal (non-initial) 1Password sign-in
+...
+❱ tree tests/config/mock-op
+tests/config/mock-op
+├── response-directory.json
+└── responses
+    ├── document-get-spongebob-image
+    │   ├── error_output
+    │   └── output
+    ├── document-get-spongebob-image-filename
+    │   ├── error_output
+    │   └── output
+    ├── item-get-example-login-1-vault-test-data
+    │   ├── error_output
+    │   └── output
+    └── item-get-invalid
+        ├── error_output
+        └── output
+
+6 directories, 9 files
+
+❱ file tests/config/mock-op/responses/document-get-spongebob-image/output
+tests/config/mock-op/responses/document-get-spongebob-image/output: RIFF (little-endian) data, Web/P image
 ```
 
 ## Listing known `op` invocations
