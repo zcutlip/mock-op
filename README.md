@@ -108,8 +108,19 @@ item_identifier = Example Login 1
 vault = Test Data
 
 [item-get-invalid]
+; this query is expected to fail
+; expected-return = 1 is required
 type = item-get
 item_identifier = Invalid Item
+expected-return = 1
+
+[document-get-spongebob-image]
+; this performs two operations and generates two responses
+; one for 'op item get <document identifier> to get the filename
+; a second for 'op document get <document identifier> to get the actual document bytes
+type = document-get
+vault=Test Data
+item_identifier = Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp
 ```
 
 Then you can run `response-generator` and have it create your response directory:
