@@ -170,43 +170,36 @@ A convenience utlitity is provided to list invocation information known by the r
 List all simulated `op` commands:
 
 ```Console
-$ list-cmds
-Directory path: ~/.config/mock-op/response-directory.json
-op item get 'Example Login 1' --vault 'Test Data'
-op item get nok7367v4vbsfgg2fczwu4ei44
-op item get nok7367v4vbsfgg2fczwu4ei44 --fields username,password
-op document get 'Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp'
-op item get 'Invalid Item'
+❱ list-cmds --response-dir tests/config/mock-op/response-directory.json
+Directory path: tests/config/mock-op/response-directory.json
+op --format json item get 'Example Login 1' --vault 'Test Data'
+op --format json item get 'Invalid Item'
+op --format json document get 'Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp' --vault 'Test Data'
+op --format json item get 'Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp' --vault 'Test Data'
 ```
 
-List all simulated `op` commands with response context (and alternate directory location):
+Use `--verbose` to list all simulated `op` commands with response context:
 
 ```Console
-$ list-cmds --response-dir ./response-directory.json --verbose
-Directory path: ./response-directory.json
-./responses
-op item get 'Example Login 1' --vault 'Test Data'
-	output: ./responses/item-get-[example-login-1]-[vault-test-data]/output
-	error output: ./responses/item-get-[example-login-1]-[vault-test-data]/error_output
+❱ list-cmds --response-dir tests/config/mock-op/response-directory.json --verbose
+Directory path: tests/config/mock-op/response-directory.json
+op --format json item get 'Example Login 1' --vault 'Test Data'
+	output: tests/config/mock-op/responses/item-get-example-login-1-vault-test-data/output
+	error output: tests/config/mock-op/responses/item-get-example-login-1-vault-test-data/error_output
 	exit status: 0
 
-op item get nok7367v4vbsfgg2fczwu4ei44
-	output: ./responses/item-get-by-uuid[example-login-1]/output
-	error output: ./responses/item-get-by-uuid[example-login-1]/error_output
-	exit status: 0
-
-op item get nok7367v4vbsfgg2fczwu4ei44 --fields username,password
-	output: ./responses/item-get-[example-login-2]-[fields-username-password]/output
-	error output: ./responses/item-get-[example-login-2]-[fields-username-password]/error_output
-	exit status: 0
-
-op document get 'Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp'
-	output: ./responses/document-get-[spongebob image]/output
-	error output: ./responses/document-get-[spongebob image]/error_output
-	exit status: 0
-
-op item get 'Invalid Item'
-	output: ./responses/item-get-[invalid-item]/output
-	error output: ./responses/item-get-[invalid-item]/error_output
+op --format json item get 'Invalid Item'
+	output: tests/config/mock-op/responses/item-get-invalid/output
+	error output: tests/config/mock-op/responses/item-get-invalid/error_output
 	exit status: 1
+
+op --format json document get 'Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp' --vault 'Test Data'
+	output: tests/config/mock-op/responses/document-get-spongebob-image/output
+	error output: tests/config/mock-op/responses/document-get-spongebob-image/error_output
+	exit status: 0
+
+op --format json item get 'Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp' --vault 'Test Data'
+	output: tests/config/mock-op/responses/document-get-spongebob-image-filename/output
+	error output: tests/config/mock-op/responses/document-get-spongebob-image-filename/error_output
+	exit status: 0
 ```
