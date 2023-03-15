@@ -92,7 +92,7 @@ $
 
 The response file & directory structure was designed to be fairly straightforward so that one could create it by hand or easily script it. However, `mock-op` comes with a tool to generate responses. You provide it a configuration file, and it'll sign in to your 1Password account (using the *real* `op` tool), perform the queries, and record the responses.
 
-> Note: response generation requires you install my `pyonepassword` Python package. It can be found in PyPI and installed via `pip`.
+> Note: response generation requires you install the `pyonepassword` Python package, which is not explicitly installed with `mock-op`. It can be found in PyPI and installed via `pip`. After responses have been generated, it's no longer required for `mock-op` operation. `mock-op` can be added and and used as a test dependency in your project without pulling in `pyonepassword`.
 
 Here's an example configuraiton file for generating responses:
 
