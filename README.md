@@ -207,9 +207,36 @@ op --format json item get 'Example Login 2 - 1200px-SpongeBob_SquarePants_charac
 
 ## Advanced Usage
 
-### mock-op Environment Variabes
+### `mock-op` Environment Variabes
 
-section about environment variables that change `mock-op`'s behavior
+Since `mock-op` works by looking up responses based on command-line arguments passed in, it can't determine its behavior based on command-line arguments. Therefore it must rely on environment variables to determine how to operate. The following describe environment variables that affect `mock-op`'s behavior
+
+#### Response Directory
+
+In order for `mock-op` to know where to locate the response directory, the following environment variable is mandatory:
+
+- `MOCK_OP_RESPONSE_DIRECTORY`: This is required in order for `mock-op` to find the response directory path.
+  - example: `MOCK_OP_RESPONSE_DIRECTORY=./tests/config/mock-op/response-directory.json`
+
+#### Signing In
+
+The `op signin` command is handled differently from other `op` operations. Rather than having a response in the directory, the sign-in behavior is determined by a combination of environment variables
+
+- `MOCK_OP_SIGNIN_SUCCEED`: whether to simulate sign-in failure or success
+  - example: `MOCK_OP_SIGNIN_SUCCEED=0` - simulate sign-in failure
+  - exmaple: `MOCK_OP_SIGNIN_SUCCEED=1` - simulate sign-in success
+- `MOCK_OP_SIGNIN_ACCOUNT`: Simulate signing in with this account identifier even if `--account` isn't provided
+  - This is equivalent to `op signin` to sign in to the most recently used accounts
+  - exmaple: `MOCK_OP_SIGNIN_ACCOUNT=5GHHPJK5HZC5BAT7WDUXW57G44`
+- `MOCK_OP_SIGNIN_USES_BIO`: Simulate signing in without any known current or previous sign-in account
+  - similar to the behavior of enabling biometric authentication in 1Password
+  - enables sign-in simulation to proceed without either the `--account` option or `MOCK_OP_SIGNIN_ACCOUNT` set
+  - example: `MOCK_OP_SIGNIN_USES_BIO=1` to simulate sign-in without specifying an account
+
+#### Other Environment Variables
+
+- `MOCK_OP_STATE_DIR`: path to a stateful response directory (see below) if one is in use
+  - example: `MOCK_OP_STATE_DIR=
 
 ### response-generation.cfg Advanced Options
 
