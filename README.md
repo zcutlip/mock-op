@@ -238,9 +238,56 @@ The `op signin` command is handled differently from other `op` operations. Rathe
 - `MOCK_OP_STATE_DIR`: path to a stateful response directory (see below) if one is in use
   - example: `MOCK_OP_STATE_DIR=
 
-### response-generation.cfg Advanced Options
+### Response Generation Configuration
 
-section about various options that can be specified in the `response-generator` config
+The `response-generator` utility requires a configuration file as described below.
+
+**Sections**
+
+There should be two or more sections: a `DEFAULT` section, and one or more query definitions mapping to `op` command invocations
+
+**Default Section Options**
+
+- `config-path`: directory to write the the response directory to
+  - example: `config-path = ./tests/config/mock-op`
+- `response-path`: directory under `config-path` to write responses to
+  - example: `response-path = responses` creates a directory: `./tests/config/mock-op/responses/`
+- `response-dir-file`: name of JSON response directory file to generate
+  - example: `response-dir-file = response-directory.json` creates `./tests/config/mock-op/responses/response-directory.json`
+- `ignore-signin-fail`: [OPTIONAL] Ignore failure of `op signin` operation
+  - This is used to capture responses for `op` operations that will fail due to lack of authentication
+
+**Query Definition Types**
+
+Every query definition stanza must have a `type` option. Below are the known query types, along with any related options.
+
+- `cli-version`: capture `op --version`
+- `item-get`: capture `op item get [options]`
+  - `item_identifier`: item name or UUID as in `op item get <item>`
+  - `vault`: vault name to retrieve item from, as in `op item get <item> --vault <vault>`
+  - `expected-return`: Numerical expected exit status. **default:** 0
+- `item-get-totp`: capture `op item get type=otp`
+  - `item_identifier`: item name or UUID as in `op item get <item>`
+  - `vault`: vault name to retrieve item from, as in `op item get <item> --vault <vault>`
+  - `expected-return`: Numerical expected exit status. **default:** 0
+- `item-delete`: capture `op item delete [options]`
+  - `item_identifier`: item name or UUID as in `op item delete <item>`
+  - `vault`: vault name to retrieve item from, as in `op item delete <item> --vault <vault>`
+  - `archive`: whether to archive vs permanently delete item, as in `op item delete <item> --archive`
+  - `expected-return`: Numerical expected exit status. **default:** 0
+- `item-delete-multiple`:
+- `document-get`:
+- `document-delete`:
+- `vault-get`:
+- `vault-list`:
+- `user-get`:
+- `user-list`:
+- `group-get`:
+- `group-list`:
+- `item-list`:
+- `account-list`:
+- `item-template-list`:
+- `whoami`:
 
 ### Queries with Stdin Hashing
 
