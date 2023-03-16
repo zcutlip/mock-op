@@ -12,7 +12,7 @@ RESPONSE_DIRECTORY_PATH = Path(
 
 RESP_DIR_ENV_NAME = "MOCK_OP_RESPONSE_DIRECTORY"
 SIGNIN_SUCCESS_ENV_NAME = "MOCK_OP_SIGNIN_SUCCEED"
-SIGNIN_SHORTHAND_ENV_NAME = "MOCK_OP_SIGNIN_SHORTHAND"
+SIGNIN_ACCOUNT_ENV_NAME = "MOCK_OP_SIGNIN_ACCOUNT"
 USES_BIO_ENV_NAME = "MOCK_OP_SIGNIN_USES_BIO"
 STATE_DIR_ENV_NAME = "MOCK_OP_STATE_DIR"
 
@@ -69,7 +69,7 @@ class MockOP:
         if parsed.account:
             account = parsed.account
         else:
-            account = os.environ.get(SIGNIN_SHORTHAND_ENV_NAME)
+            account = os.environ.get(SIGNIN_ACCOUNT_ENV_NAME)
 
         if signin_success is None:
             raise MockOPSigninException(
