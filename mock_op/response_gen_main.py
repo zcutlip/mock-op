@@ -5,7 +5,12 @@ from typing import List
 
 from mock_cli import CommandInvocation, ResponseDirectory
 
-from ._op import EXISTING_AUTH_AVAIL, OPNotSignedInException, OPSigninException
+from ._op import (
+    EXISTING_AUTH_AVAIL,
+    OPNotSignedInException,
+    OPSigninException,
+    op_logging
+)
 from .mock_op_env import resp_gen_load_dot_env
 from .response_generator import OPResponseGenerator
 from .response_generator_config import OPResponseGenConfig
@@ -41,12 +46,13 @@ def resp_gen_parse_args():
 def do_signin():
     # If you've already signed in at least once, you don't need to provide all
     # account details on future sign-ins. Just master password
+    logger = op_logging.console_logger("response-generator", op_logging.DEBUG)
     try:
         op = OPResponseGenerator(
-            existing_auth=EXISTING_AUTH_AVAIL, password_prompt=False)
+            existing_auth=EXISTING_AUTH_AVAIL, password_prompt=False, logger=logger)
     except OPNotSignedInException:
         my_password = getpass.getpass(prompt="1Password master password:\n")
-        op = OPResponseGenerator(password=my_password)
+        op = OPResponseGenerator(password=my_password, logger=logger)
     return op
 
 
