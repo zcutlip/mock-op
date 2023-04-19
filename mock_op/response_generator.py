@@ -1,10 +1,8 @@
-import logging
-
 from mock_cli import CommandInvocation
 
 # Private imports, but we control both projects, so shouldn't be a problem
 # Better than exporting API from pyonepassword that shouldn't be exposed
-from ._op import OP, OPItemList, _OPArgv
+from ._op import OP, OPItemList, _OPArgv, op_logging
 
 
 class OPResponseGenerationException(Exception):
@@ -12,8 +10,7 @@ class OPResponseGenerationException(Exception):
 
 
 class OPResponseGenerator(OP):
-    logging.basicConfig(format="%(message)s", level=logging.DEBUG)
-    logger = logging.getLogger()
+    logger = op_logging.console_logger("OPresponseGenerator", op_logging.DEBUG)
 
     @classmethod
     def _generate_response_dict(cls, argv_obj,
