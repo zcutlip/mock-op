@@ -6,6 +6,7 @@ from typing import List
 from mock_cli import CommandInvocation, ResponseDirectory
 
 from ._op import EXISTING_AUTH_AVAIL, OPNotSignedInException, OPSigninException
+from .mock_op_env import resp_gen_load_dot_env
 from .response_generator import OPResponseGenerator
 from .response_generator_config import OPResponseGenConfig
 
@@ -268,6 +269,7 @@ def signin_fail(excaption: Exception):
 
 
 def main():
+    resp_gen_load_dot_env()
     args = resp_gen_parse_args()
     conf_path = args.config
     if not conf_path:
