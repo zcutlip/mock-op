@@ -269,8 +269,8 @@ query_type_map = {
 }
 
 
-def signin_fail(excaption: Exception):
-    print(str(excaption))
+def signin_fail(exception: Exception):
+    print(str(exception))
     exit(1)
 
 
