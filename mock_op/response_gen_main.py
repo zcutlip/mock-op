@@ -7,6 +7,8 @@ from mock_cli import CommandInvocation, ResponseDirectory
 
 from ._op import (
     EXISTING_AUTH_AVAIL,
+    EXISTING_AUTH_IGNORE,
+    EXISTING_AUTH_REQD,
     OPNotSignedInException,
     OPSigninException,
     op_logging
@@ -43,16 +45,22 @@ def resp_gen_parse_args():
     return parsed
 
 
-def do_signin():
+def do_signin(existing_auth):
+    print(existing_auth)
     # If you've already signed in at least once, you don't need to provide all
     # account details on future sign-ins. Just master password
     logger = op_logging.console_logger("response-generator", op_logging.DEBUG)
     try:
         op = OPResponseGenerator(
-            existing_auth=EXISTING_AUTH_AVAIL, password_prompt=False, logger=logger)
-    except OPNotSignedInException:
-        my_password = getpass.getpass(prompt="1Password master password:\n")
-        op = OPResponseGenerator(password=my_password, logger=logger)
+            existing_auth=existing_auth, password_prompt=False, logger=logger)
+    except OPNotSignedInException as e:
+        if existing_auth != EXISTING_AUTH_REQD:
+            my_password = getpass.getpass(
+                prompt="1Password master password:\n")
+            op = OPResponseGenerator(password=my_password,
+                                     existing_auth=existing_auth, logger=logger)
+        else:
+            raise e
     return op
 
 
@@ -300,8 +308,18 @@ def main():
     if generator_config.input_path:
         input_path = Path(config_dir, generator_config.input_path)
 
+    if generator_config.existing_auth == "available":
+        existing_auth = EXISTING_AUTH_AVAIL
+    elif generator_config.existing_auth == "required":
+        existing_auth = EXISTING_AUTH_REQD
+    elif generator_config.existing_auth == "ignore":
+        existing_auth = EXISTING_AUTH_IGNORE
+    else:
+        raise Exception(
+            f"Unknown existing_auth setting: {generator_config.existing_auth}")
+
     try:
-        op = do_signin()
+        op = do_signin(existing_auth)
     except OPSigninException as e:
         if generator_config.ignore_signin_fail:
             # some actions only require class methods and don't require sign-in success
