@@ -63,6 +63,7 @@ class OPResponseGenConfig(dict[str, OPresponseDefinition]):
     INPUT_PATH_KEY = "input-path"
     RESP_DIR_KEY = "response-dir-file"
     IGN_SIGNIN_FAIL_KEY = "ignore-signin-fail"
+    EXISTING_AUTH_KEY = "existing-auth"
 
     def __init__(self, config_path, definition_whitelist=[]):
         super().__init__()
@@ -74,6 +75,8 @@ class OPResponseGenConfig(dict[str, OPresponseDefinition]):
         self.respdir_json_file = defaults[self.RESP_DIR_KEY]
         self.ignore_signin_fail = defaults.get(self.IGN_SIGNIN_FAIL_KEY, False)
         self.input_path = defaults.get(self.INPUT_PATH_KEY)
+        self.existing_auth = defaults.get(self.EXISTING_AUTH_KEY, "available")
+
         response_defs = self._get_response_defs(conf, definition_whitelist)
         self.update(response_defs)
 
