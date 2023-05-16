@@ -4,9 +4,15 @@ try:
     from pyonepassword import OP
     from pyonepassword import logging as op_logging
     from pyonepassword._op_cli_argv import _OPArgv
-    from pyonepassword.api.authentication import EXISTING_AUTH_AVAIL
-    from pyonepassword.api.exceptions import (OPNotSignedInException,
-                                              OPSigninException)
+    from pyonepassword.api.authentication import (
+        EXISTING_AUTH_AVAIL,
+        EXISTING_AUTH_IGNORE,
+        EXISTING_AUTH_REQD
+    )
+    from pyonepassword.api.exceptions import (
+        OPNotSignedInException,
+        OPSigninException
+    )
     from pyonepassword.api.object_types import OPItemList
 except ImportError as e:
     logging.basicConfig(format="%(message)s", level=logging.DEBUG)
@@ -17,5 +23,7 @@ except ImportError as e:
     OPSigninException = None
     _OPArgv = None
     EXISTING_AUTH_AVAIL = None
+    EXISTING_AUTH_IGNORE = None
+    EXISTING_AUTH_REQD = None
     OPItemList = None
     op_logging = None
