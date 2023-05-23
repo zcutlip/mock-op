@@ -46,7 +46,6 @@ def resp_gen_parse_args():
 
 
 def do_signin(existing_auth):
-    print(existing_auth)
     # If you've already signed in at least once, you don't need to provide all
     # account details on future sign-ins. Just master password
     logger = op_logging.console_logger("response-generator", op_logging.DEBUG)

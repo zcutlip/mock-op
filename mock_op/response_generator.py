@@ -257,9 +257,7 @@ class OPResponseGenerator(OP):
 
     @classmethod
     def whoami_generate_response(cls, query_name, account=None, expected_ret=0, changes_state=False):
-        print(account)
         whoami_argv = _OPArgv.whoami_argv('op', account=account)
-        print(whoami_argv)
         resp_dict = cls._generate_response(
             whoami_argv, query_name, expected_ret, changes_state)
         return resp_dict
