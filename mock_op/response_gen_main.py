@@ -9,8 +9,10 @@ from ._op import (
     EXISTING_AUTH_AVAIL,
     EXISTING_AUTH_IGNORE,
     EXISTING_AUTH_REQD,
+    OPCLIPanicException,
     OPNotSignedInException,
     OPSigninException,
+    OPWhoAmiException,
     op_logging
 )
 from .mock_op_env import resp_gen_load_dot_env
@@ -319,7 +321,9 @@ def main():
 
     try:
         op = do_signin(existing_auth)
-    except OPSigninException as e:
+    except (OPSigninException,
+            OPWhoAmiException,
+            OPCLIPanicException) as e:
         if generator_config.ignore_signin_fail:
             # some actions only require class methods and don't require sign-in success
             # if this blows up on other actions that's our fault for setting the env variable
