@@ -90,11 +90,11 @@ $
 
 ## Automated Response Generation
 
-The response file & directory structure was designed to be fairly straightforward so that one could create it by hand or easily script it. However, `mock-op` comes with a tool to generate responses. You provide it a configuration file, and it'll sign in to your 1Password account (using the *real* `op` tool), perform the queries, and record the responses.
+The response file & directory structure was designed to be fairly straightforward so that one could create it by hand or easily script it. However, `mock-op` comes with a tool to generate responses. You provide it a configuration file, and it will connect to your 1Password account (using the *real* `op` tool), perform the queries, and record the responses.
 
 > Note: response generation requires you install my `pyonepassword` Python package. It can be found in PyPI and installed via `pip`.
 
-Here's an example configuraiton file for generating responses:
+Here's an example configuraiton file for generating responses. Note that the invalid item definition has an `expected-return` value of 1. This tells `response-generator` that an error is expected and should be captured rather than failing.
 
 ```INI
 [DEFAULT]
@@ -110,6 +110,7 @@ vault = Test Data
 [item-get-invalid]
 type = item-get
 item_identifier = Invalid Item
+expected-return = 1
 ```
 
 Then you can run `response-generator` and have it create your response directory:
