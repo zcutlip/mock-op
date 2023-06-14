@@ -10,8 +10,8 @@ try:
         EXISTING_AUTH_REQD
     )
     from pyonepassword.api.exceptions import (
+        OPAuthenticationException,
         OPCLIPanicException,
-        OPNotSignedInException,
         OPSigninException
     )
     from pyonepassword.api.object_types import OPItemList
@@ -21,8 +21,8 @@ except ImportError as e:
     logger = logging.getLogger()
     logger.error(f"Unable to import from pyonepassword: {e}")
     OP = None
+    OPAuthenticationException = None
     OPCLIPanicException = None
-    OPNotSignedInException = None
     OPSigninException = None
     _OPArgv = None
     EXISTING_AUTH_AVAIL = None

@@ -9,8 +9,8 @@ from ._op import (
     EXISTING_AUTH_AVAIL,
     EXISTING_AUTH_IGNORE,
     EXISTING_AUTH_REQD,
+    OPAuthenticationException,
     OPCLIPanicException,
-    OPNotSignedInException,
     OPSigninException,
     OPWhoAmiException,
     op_logging
@@ -54,7 +54,7 @@ def do_signin(existing_auth):
     try:
         op = OPResponseGenerator(
             existing_auth=existing_auth, password_prompt=False, logger=logger)
-    except OPNotSignedInException as e:
+    except OPAuthenticationException as e:
         if existing_auth != EXISTING_AUTH_REQD:
             my_password = getpass.getpass(
                 prompt="1Password master password:\n")
