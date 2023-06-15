@@ -62,3 +62,15 @@ However, if you want to use a service account to generate responses so you don't
 ❱ export RESP_GEN_DOT_ENV_FILE=path/to/test/config/svc_acct_env
 ❱ response-generator ./tests/config/response-generation.cfg
 ```
+
+If the service account token isn't set for some reason, you may want to ensure `op` fails, rather than prompts for authentication. Add the `existing-auth = required` option to your configuration file's `DEFAULT` section:
+
+```ini
+[DEFAULT]
+config-path = ./tests/config/mock-op
+response-path = responses-svc-acct
+response-dir-file = svc-acct-response-directory.json
+# existing-auth required results in hard failure if there's
+# no existing authentication
+existing-auth = required
+```
