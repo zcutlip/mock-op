@@ -17,16 +17,22 @@ class MockOPSigninResponse(MockCommand):
         "# Use the --raw flag to only output the session token.\n"
     )
 
-    def __init__(self, shorthand, signin_success=True, raw=True):
+    def __init__(self, account_identifier, signin_success=True, raw=True):
         changes_state = False
         if signin_success:
-            changes_state = True
-            token = self._generate_token()
-            if raw:
-                output = token
+            if account_identifier:
+                changes_state = True
+                token = self._generate_token()
+                if raw:
+                    output = token
+                else:
+                    output = self.SUCCESS_TEMPLATE.format(
+                        account_identifier, token, account_identifier)
+
             else:
-                output = self.SUCCESS_TEMPLATE.format(
-                    shorthand, token, shorthand)
+                # if there's no account identifier, we must be using biometric auth
+                # in which case there's no output
+                output = ''
             error_output = ''
             exit_status = self.SUCCESS_STATUS
         else:
