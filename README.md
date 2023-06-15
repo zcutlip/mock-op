@@ -17,11 +17,14 @@ The `mock-op` package comes with several significant parts:
 
 The reason for a "mock-op" that simulates the real `op` is primarily for the automated testing of scripts or other programs that shell out to the `op` command in order to query 1Password cloud accounts. The real `op` is potentially unsuitable for automated testing for a variety of reasons:
 
-- It usually needs to be run interactively to authenticate
+- It often needs to be run interactively to authenticate
 - Cases where authentication can be performed programatically may require storing 1Password account credentials insecurely
 - An actual, paid 1Password account must exist and contain data
   - This would need to be a test account in order to avoid exposing sensitive passwords, etc. and to share the account across an engineering team, which may be impractical
+- Internet connectivity is required
 - The time required for `op` to execute a single query and return a response may be impractical, particularly in a testing environment with very many test cases
+
+The first few problems are (mostly) addressed by the recent addition of 1Password service accounts which allow querying of a vault without storing passwords. However you still need to keep the service account token, which itself is potentially sensitive, someplace probably not in version control. Then there's still the requirement for network connectivity and the performance of hitting 1Password.com for potentially hundreds or thousands of tests.
 
 ## Usage
 
@@ -92,7 +95,11 @@ $
 
 The response file & directory structure was designed to be fairly straightforward so that one could create it by hand or easily script it. However, `mock-op` comes with a tool to generate responses. You provide it a configuration file, and it will connect to your 1Password account (using the *real* `op` tool), perform the queries, and record the responses.
 
-> Note: response generation requires you install my `pyonepassword` Python package. It can be found in PyPI and installed via `pip`.
+> Note: response generation requires you install the `pyonepassword` Python package. It's resopnsible for driving the `op` command under the hood so its responses can be captured.
+>
+> It's only required during response generation, and is *not* required for subsequent use of `mock-op`.
+>
+> It can be found in PyPI and installed via: `pip3 install pyonepassword`.
 
 Here's an example configuraiton file for generating responses. Note that the invalid item definition has an `expected-return` value of 1. This tells `response-generator` that an error is expected and should be captured rather than failing.
 
@@ -101,6 +108,9 @@ Here's an example configuraiton file for generating responses. Note that the inv
 config-path = ./tests/config/mock-op
 response-path = responses
 response-dir-file = response-directory.json
+
+[whoami]
+type=whoami
 
 [item-get-example-login-1-vault-test-data]
 type=item-get
@@ -116,11 +126,16 @@ expected-return = 1
 Then you can run `response-generator` and have it create your response directory:
 
 ```Console
-response-generator ./response-generation.cfg
-1Password master password:
-
-Using account shorthand found in op config: my_onepassword_login
-Doing normal (non-initial) 1Password sign-in
+❱ response-generator ./examples/example-response-generation.cfg
+Running: op --version
+Running: op --format json account list
+Running: op --format json whoami
+Running: op signin --raw
+Running: op --format json whoami
+Signed in as User ID: *********************ERLHI
+About to run: op --format json whoami
+About to run: op --format json item get 'Example Login 1' --vault 'Test Data'
+About to run: op --format json item get 'Invalid Item'
 ```
 
 ## Listing known `op` invocations
@@ -138,43 +153,30 @@ A convenience utlitity is provided to list invocation information known by the r
 List all simulated `op` commands:
 
 ```Console
-$ list-cmds
-Directory path: ~/.config/mock-op/response-directory.json
-op item get 'Example Login 1' --vault 'Test Data'
-op item get nok7367v4vbsfgg2fczwu4ei44
-op item get nok7367v4vbsfgg2fczwu4ei44 --fields username,password
-op document get 'Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp'
-op item get 'Invalid Item'
+$  list-cmds --response-dir ./tests/config/mock-op/response-directory.json
+Directory path: ./tests/config/mock-op/response-directory.json
+op --format json whoami
+op --format json item get 'Example Login 1' --vault 'Test Data'
+op --format json item get 'Invalid Item'
 ```
 
-List all simulated `op` commands with response context (and alternate directory location):
+List all simulated `op` commands with response context:
 
 ```Console
-$ list-cmds --response-dir ./response-directory.json --verbose
-Directory path: ./response-directory.json
-./responses
-op item get 'Example Login 1' --vault 'Test Data'
-	output: ./responses/item-get-[example-login-1]-[vault-test-data]/output
-	error output: ./responses/item-get-[example-login-1]-[vault-test-data]/error_output
+❱ list-cmds --response-dir ./tests/config/mock-op/response-directory.json --verbose
+Directory path: ./tests/config/mock-op/response-directory.json
+op --format json whoami
+	output: tests/config/mock-op/responses/whoami/output
+	error output: tests/config/mock-op/responses/whoami/error_output
 	exit status: 0
 
-op item get nok7367v4vbsfgg2fczwu4ei44
-	output: ./responses/item-get-by-uuid[example-login-1]/output
-	error output: ./responses/item-get-by-uuid[example-login-1]/error_output
+op --format json item get 'Example Login 1' --vault 'Test Data'
+	output: tests/config/mock-op/responses/item-get-example-login-1-vault-test-data/output
+	error output: tests/config/mock-op/responses/item-get-example-login-1-vault-test-data/error_output
 	exit status: 0
 
-op item get nok7367v4vbsfgg2fczwu4ei44 --fields username,password
-	output: ./responses/item-get-[example-login-2]-[fields-username-password]/output
-	error output: ./responses/item-get-[example-login-2]-[fields-username-password]/error_output
-	exit status: 0
-
-op document get 'Example Login 2 - 1200px-SpongeBob_SquarePants_character.svg.png.webp'
-	output: ./responses/document-get-[spongebob image]/output
-	error output: ./responses/document-get-[spongebob image]/error_output
-	exit status: 0
-
-op item get 'Invalid Item'
-	output: ./responses/item-get-[invalid-item]/output
-	error output: ./responses/item-get-[invalid-item]/error_output
+op --format json item get 'Invalid Item'
+	output: tests/config/mock-op/responses/item-get-invalid/output
+	error output: tests/config/mock-op/responses/item-get-invalid/error_output
 	exit status: 1
 ```
