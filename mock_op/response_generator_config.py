@@ -58,6 +58,7 @@ class OPresponseDefinition(dict):
 
 
 class OPResponseGenConfig(dict[str, OPresponseDefinition]):
+    MAIN_SECTION = "MAIN"
     CONF_PATH_KEY = "config-path"
     RESP_PATH_KEY = "response-path"
     INPUT_PATH_KEY = "input-path"
@@ -69,13 +70,15 @@ class OPResponseGenConfig(dict[str, OPresponseDefinition]):
         super().__init__()
         conf = OPConfigParser()
         conf.read(config_path)
-        defaults = conf.defaults()
-        self.config_path = defaults[self.CONF_PATH_KEY]
-        self.response_path = defaults[self.RESP_PATH_KEY]
-        self.respdir_json_file = defaults[self.RESP_DIR_KEY]
-        self.ignore_signin_fail = defaults.get(self.IGN_SIGNIN_FAIL_KEY, False)
-        self.input_path = defaults.get(self.INPUT_PATH_KEY)
-        self.existing_auth = defaults.get(self.EXISTING_AUTH_KEY, "available")
+
+        self.config_path = conf.get(self.MAIN_SECTION, self.CONF_PATH_KEY)
+        self.response_path = conf.get(self.MAIN_SECTION, self.RESP_PATH_KEY)
+        self.respdir_json_file = conf.get(self.MAIN_SECTION, self.RESP_DIR_KEY)
+        self.ignore_signin_fail = conf.get(
+            self.MAIN_SECTION, self.IGN_SIGNIN_FAIL_KEY, fallback=False)
+        self.input_path = conf.get(self.MAIN_SECTION, self.INPUT_PATH_KEY)
+        self.existing_auth = conf.get(
+            self.MAIN_SECTION, self.EXISTING_AUTH_KEY, fallback="available")
 
         response_defs = self._get_response_defs(conf, definition_whitelist)
         self.update(response_defs)
@@ -83,11 +86,12 @@ class OPResponseGenConfig(dict[str, OPresponseDefinition]):
     def _get_response_defs(self, conf: OPConfigParser, whitelist: List[str]):
         response_defs = {}
         for sname in conf.sections():
-            if whitelist and sname not in whitelist:
-                continue
-            sect = conf[sname]
-            resp_def = OPresponseDefinition(sname, sect)
-            response_defs[sname] = resp_def
+            if sname != self.MAIN_SECTION:
+                if whitelist and sname not in whitelist:
+                    continue
+                sect = conf[sname]
+                resp_def = OPresponseDefinition(sname, sect)
+                response_defs[sname] = resp_def
         for definition in whitelist:
             if definition not in response_defs:
                 raise Exception(
