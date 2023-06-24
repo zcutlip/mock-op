@@ -3,7 +3,12 @@ from argparse import ArgumentParser, RawTextHelpFormatter
 from pathlib import Path
 from typing import List
 
-from mock_cli import CommandInvocation, ResponseDirectory
+from mock_cli import (
+    CommandInvocation,
+    MockCMDNewStateConfig,
+    MockCMDStateConfig,
+    ResponseDirectory
+)
 
 from ._op import (
     EXISTING_AUTH_AVAIL,
@@ -283,6 +288,22 @@ def signin_fail(exception: Exception):
     exit(1)
 
 
+def handle_state_config(mock_op_config: OPResponseGenConfig, respdir_json_path: Path):
+    state_conf_path = mock_op_config.state_conf
+    pop_vars = mock_op_config.pop_env_vars
+    set_vars = mock_op_config.set_env_vars
+    print(state_conf_path)
+    if state_conf_path:
+        state_conf_path = Path(state_conf_path)
+        if state_conf_path.exists():
+            state_config = MockCMDStateConfig(state_conf_path)
+        else:
+            state_config = MockCMDNewStateConfig.from_template(state_conf_path)
+        state_config.add_state(
+            respdir_json_path, set_vars=set_vars, pop_vars=pop_vars)
+        state_config.save_config()
+
+
 def main():
     resp_gen_load_dot_env()
     args = resp_gen_parse_args()
@@ -358,6 +379,8 @@ def main():
         else:
             directory.add_command_invocation(
                 invocation, overwrite=True, save=True)
+
+    handle_state_config(generator_config, respdir_json_file)
 
 
 if __name__ == "__main__":
