@@ -42,6 +42,9 @@ class OPConfigParser(ConfigParser):
         return val_list
 
     def get_dict_from_csv(self, section, option, *args, **kwargs):
+        # turn a string like:
+        # key_1:val_1,key_2:val2
+        # into a dictionary
         csv_list = self.getcsvlist(section, option, *args, **kwargs)
         tuple_list = [tuple(val.split(":")) for val in csv_list]
         val_dict = dict(tuple_list)
