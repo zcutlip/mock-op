@@ -10,7 +10,9 @@ class OPConfigParser(ConfigParser):
         "include-archive": "getboolean",
         "categories": "getcsvlist",
         "tags": "getcsvlist",
-        "changes_state": "getboolean"
+        "changes_state": "getboolean",
+        "set-env-vars": "get_dict_from_csv",
+        "pop-env-vars": "getcsvlist"
     }
 
     def items(self, section):
@@ -38,6 +40,12 @@ class OPConfigParser(ConfigParser):
         val = super().get(section, option, *args, **kwargs)
         val_list = val.split(",")
         return val_list
+
+    def get_dict_from_csv(self, section, option, *args, **kwargs):
+        csv_list = self.getcsvlist(section, option, *args, **kwargs)
+        tuple_list = [tuple(val.split(":")) for val in csv_list]
+        val_dict = dict(tuple_list)
+        return val_dict
 
 
 class OPresponseDefinition(dict):
