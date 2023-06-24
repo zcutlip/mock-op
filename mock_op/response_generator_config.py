@@ -73,6 +73,9 @@ class OPResponseGenConfig(dict[str, OPresponseDefinition]):
     RESP_DIR_KEY = "response-dir-file"
     IGN_SIGNIN_FAIL_KEY = "ignore-signin-fail"
     EXISTING_AUTH_KEY = "existing-auth"
+    STATE_CONF_KEY = "state-config"
+    SET_VARS_KEY = "set-env-vars"
+    POP_VARS_KEY = "pop-env-vars"
 
     def __init__(self, config_path, definition_whitelist=[]):
         super().__init__()
@@ -87,6 +90,12 @@ class OPResponseGenConfig(dict[str, OPresponseDefinition]):
         self.input_path = conf.get(self.MAIN_SECTION, self.INPUT_PATH_KEY)
         self.existing_auth = conf.get(
             self.MAIN_SECTION, self.EXISTING_AUTH_KEY, fallback="available")
+        self.state_conf = conf.get(
+            self.MAIN_SECTION, self.STATE_CONF_KEY, fallback=None)
+        self.set_env_vars = conf.get(
+            self.MAIN_SECTION, self.SET_VARS_KEY, fallback=None)
+        self.pop_env_vars = conf.get(
+            self.MAIN_SECTION, self.POP_VARS_KEY, fallback=None)
 
         response_defs = self._get_response_defs(conf, definition_whitelist)
         self.update(response_defs)
