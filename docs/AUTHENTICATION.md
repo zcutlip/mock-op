@@ -28,7 +28,7 @@ export OP_SESSION_testuser="nfC2Fuv8PbtD5sy5ytzH0wFhrzCsbAes7poAoe4XsKt"
 # Use the --raw flag to only output the session token.
 ```
 
-To simulate the same but with the 1Password app connection enabled, set `MOCK_OP_SIGNIN_USES_BIO=1`. Much like with `op signin` with biometric authenticatin, This will result in a successful exit status with zero output:
+To simulate the same but with the 1Password app connection enabled, set `MOCK_OP_SIGNIN_USES_BIO=1`. Much like with `op signin` with biometric authentication, this will result in a successful exit status with zero output:
 
 ```console
 ❱ export MOCK_OP_SIGNIN_USES_BIO=1
@@ -66,7 +66,7 @@ However, if you want to use a service account to generate responses so you don't
 If the service account token isn't set for some reason, you may want to ensure `op` fails, rather than prompts for authentication. Add the `existing-auth = required` option to your configuration file's `DEFAULT` section:
 
 ```ini
-[DEFAULT]
+[MAIN]
 config-path = ./tests/config/mock-op
 response-path = responses-svc-acct
 response-dir-file = svc-acct-response-directory.json
