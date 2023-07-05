@@ -104,7 +104,7 @@ The response file & directory structure was designed to be fairly straightforwar
 Here's an example configuraiton file for generating responses. Note that the invalid item definition has an `expected-return` value of 1. This tells `response-generator` that an error is expected and should be captured rather than failing.
 
 ```INI
-[DEFAULT]
+[MAIN]
 config-path = ./tests/config/mock-op
 response-path = responses
 response-dir-file = response-directory.json
