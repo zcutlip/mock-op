@@ -292,7 +292,7 @@ def handle_state_config(mock_op_config: OPResponseGenConfig, respdir_json_path: 
     state_conf_path = mock_op_config.state_conf
     pop_vars = mock_op_config.pop_env_vars
     set_vars = mock_op_config.set_env_vars
-    print(state_conf_path)
+
     if state_conf_path:
         state_conf_path = Path(state_conf_path)
         if state_conf_path.exists():
