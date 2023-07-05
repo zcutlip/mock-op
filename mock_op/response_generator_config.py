@@ -94,7 +94,8 @@ class OPResponseGenConfig(dict[str, OPresponseDefinition]):
         self.respdir_json_file = conf.get(self.MAIN_SECTION, self.RESP_DIR_KEY)
         self.ignore_signin_fail = conf.get(
             self.MAIN_SECTION, self.IGN_SIGNIN_FAIL_KEY, fallback=False)
-        self.input_path = conf.get(self.MAIN_SECTION, self.INPUT_PATH_KEY)
+        self.input_path = conf.get(
+            self.MAIN_SECTION, self.INPUT_PATH_KEY, fallback=None)
         self.existing_auth = conf.get(
             self.MAIN_SECTION, self.EXISTING_AUTH_KEY, fallback="available")
         self.state_conf = conf.get(
