@@ -38,7 +38,9 @@ class OPConfigParser(ConfigParser):
 
     def getcsvlist(self, section, option, *args, **kwargs):
         val = super().get(section, option, *args, **kwargs)
-        val_list = val.split(",")
+        val_list = None
+        if val:
+            val_list = val.split(",")
         return val_list
 
     def get_dict_from_csv(self, section, option, *args, **kwargs):
@@ -46,8 +48,10 @@ class OPConfigParser(ConfigParser):
         # key_1:val_1,key_2:val2
         # into a dictionary
         csv_list = self.getcsvlist(section, option, *args, **kwargs)
-        tuple_list = [tuple(val.split(":")) for val in csv_list]
-        val_dict = dict(tuple_list)
+        val_dict = None
+        if csv_list:
+            tuple_list = [tuple(val.split(":")) for val in csv_list]
+            val_dict = dict(tuple_list)
         return val_dict
 
 
