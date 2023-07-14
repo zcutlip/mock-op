@@ -48,6 +48,12 @@ To simulate authentication failure, set `MOCK_OP_SIGNIN_SUCCEED=0`. This will re
 [ERROR] 2023/06/15 15:21:21 Authentication: DB: 401: Unauthorized
 ```
 
+#### Specifying Sign-in Account
+
+Just as with `op`, you can specify the account identifier for sign-in simulation with `--account`. However, to emulate `op`'s automatic account selection without the command line argument, set the `MOCK_OP_SIGNIN_ACCOUNT` environment variable.
+
+Account specification determines the output from successful authentication. As such, it only affects scenarios simulating successful authentication, without biometric enabled.
+
 
 ### Service Accounts
 
