@@ -2,7 +2,7 @@
 
 ## Summary
 
-`mock-op` is a utility to stand-in for 1Password's `op` command-line utlity in scenarios such as automated testing.
+`mock-op` is a utility to stand-in for 1Password's `op` command-line utility in scenarios such as automated testing.
 
 ## Description
 
@@ -18,7 +18,7 @@ The `mock-op` package comes with several significant parts:
 The reason for a "mock-op" that simulates the real `op` is primarily for the automated testing of scripts or other programs that shell out to the `op` command in order to query 1Password cloud accounts. The real `op` is potentially unsuitable for automated testing for a variety of reasons:
 
 - It often needs to be run interactively to authenticate
-- Cases where authentication can be performed programatically may require storing 1Password account credentials insecurely
+- Cases where authentication can be performed programmatically may require storing 1Password account credentials insecurely
 - An actual, paid 1Password account must exist and contain data
   - This would need to be a test account in order to avoid exposing sensitive passwords, etc. and to share the account across an engineering team, which may be impractical
 - Internet connectivity is required
@@ -101,13 +101,13 @@ $
 
 The response file & directory structure was designed to be fairly straightforward so that one could create it by hand or easily script it. However, `mock-op` comes with a tool to generate responses. You provide it a configuration file, and it will connect to your 1Password account (using the *real* `op` tool), perform the queries, and record the responses.
 
-> Note: response generation requires you install the `pyonepassword` Python package. It's resopnsible for driving the `op` command under the hood so its responses can be captured.
+> Note: response generation requires you install the `pyonepassword` Python package. It's responsible for driving the `op` command under the hood so its responses can be captured.
 >
 > It's only required during response generation, and is *not* required for subsequent use of `mock-op`.
 >
 > It can be found in PyPI and installed via: `pip3 install pyonepassword`.
 
-Here's an example configuraiton file for generating responses. Note that the invalid item definition has an `expected-return` value of 1. This tells `response-generator` that an error is expected and should be captured rather than failing.
+Here's an example configuration file for generating responses. Note that the invalid item definition has an `expected-return` value of 1. This tells `response-generator` that an error is expected and should be captured rather than failing.
 
 ```INI
 [MAIN]
@@ -146,7 +146,7 @@ About to run: op --format json item get 'Invalid Item'
 
 ## Listing known `op` invocations
 
-A convenience utlitity is provided to list invocation information known by the response directory.
+A convenience utility is provided to list invocation information known by the response directory.
 
     usage: list-cmds [-h] [--response-dir RESPONSE_DIR] [--verbose]
 

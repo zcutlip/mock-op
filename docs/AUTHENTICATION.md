@@ -12,7 +12,7 @@ However, it can simulate the *results* of a few authentication scenarios. This e
 
 #### Authentication Success
 
-To simulate successful signin without connection to the 1Password app set the following environment variables:
+To simulate successful sign-in without connection to the 1Password app set the following environment variables:
 - `MOCK_OP_SIGNIN_SUCCEED=1`
 - `MOCK_OP_SIGNIN_USES_BIO=0`
 
@@ -49,7 +49,7 @@ To simulate authentication failure, set `MOCK_OP_SIGNIN_SUCCEED=0`. This will re
 ```
 
 
-### Service Acounts
+### Service Accounts
 
 There isn't really anything to simulate for `mock-op` related to service accounts since signing in with `op` isn't required. You just set the environment variable and perform the query.
 

@@ -8,7 +8,7 @@ Some of `op`'s commands read input from `stdin`. In these cases, it isn't suffic
 
 The way `mock-op` handles this is to check `stdin` for data. If there is input data, an md5 digest is computed. Then the response is looked up first based on the md5 hash as well as the command line argument list.
 
-For example, `op item delete` can take a JSON-encoded list of items to delete over `stdin`. In this case mock-op hashes the input if there is any, and looks up the response under a `commands_with_input` subdictionary. An example `response-directory.json` might look like:
+For example, `op item delete` can take a JSON-encoded list of items to delete over `stdin`. In this case mock-op hashes the input if there is any, and looks up the response under a `commands_with_input` sub-dictionary. An example `response-directory.json` might look like:
 
 ```JSON
 {
@@ -38,7 +38,7 @@ For example, `op item delete` can take a JSON-encoded list of items to delete ov
 
 ```
 
-The response directory above shows the normal `commands` subdictionary, in addition to the `commands_with_input` dictionary. So if one were to simulate deleting a batch of items, you would:
+The response directory above shows the normal `commands` sub-dictionary, in addition to the `commands_with_input` dictionary. So if one were to simulate deleting a batch of items, you would:
 - Start with a JSON list hashing to the appropriate entry above (fc4bcec96b5abaca5effb19e02d128a3 in this case)
 - Pipe the JSON list to `mock-op`
 - Provide the arguments to `mock-op`: `--format json item delete - --vault "Test Data 3"`
@@ -107,7 +107,7 @@ export MOCK_OP_STATE_DIR=tests/config/mock-op/mock-op-state-config.json
 
 > *Note 1:* `mock-op` modifies the state the state configuration file at each iteration. Since it will likely be added to version control, it is advised to make a temporary copy for use during testing.
 
-> *Note 2:* When using a stateful configuraiton, it's important to *not set* the `MOCK_OP_RESPONSE_DIRECTORY` environment variable. Having both variables set will be an error.
+> *Note 2:* When using a stateful configuration, it's important to *not set* the `MOCK_OP_RESPONSE_DIRECTORY` environment variable. Having both variables set will be an error.
 
 
 #### Automated Generation of Stateful Configuration

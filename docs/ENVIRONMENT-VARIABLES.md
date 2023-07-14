@@ -7,7 +7,7 @@ The following is a list of environment variables that determine `mock-op`'s and 
 ### mock-op
 
 - `MOCK_OP_RESPONSE_DIRECTORY`: The path to the response directory JSON file that `mock-op` should use
-  - Mutually exclusivie with `MOCK_OP_STATE_DIR`
+  - Mutually exclusive with `MOCK_OP_STATE_DIR`
 - `MOCK_OP_STATE_DIR`: The path to the state configuration file `mock-op` should used if state-changing operations are required
   - Mutually exclusive with `MOCK_OP_RESPONSE_DIRECTORY`
   - This file will be modified, so a temporary copy should be used if it is version controlled
