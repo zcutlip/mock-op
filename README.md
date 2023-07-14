@@ -78,6 +78,12 @@ responses
     └── output
 ```
 
+To have `mock-op` use this configuration, set the `MOCK_OP_RESPONSE_DIRECTORY` environment variable to the response directory JSON file's path:
+
+```shell
+export MOCK_OP_RESPONSE_DIRECTORY=tests/config/mock-op/response-directory.json
+```
+
 With that directory in place, the `mock-op` utility will look up responses and exit status based on the set of command-line arguments given:
 
 ```Console
