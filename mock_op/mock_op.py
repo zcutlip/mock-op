@@ -32,6 +32,9 @@ class MockOP:
 
         if response_directory is None:
             response_directory = os.environ.get(RESP_DIR_ENV_NAME)
+        if self._state_dir and response_directory:
+            msg = f"State configuration [{self._state_dir}] and response directory [{response_directory}] provided. Only one can be used"
+            raise Exception(msg)
         self._response_directory = response_directory
 
     @property
