@@ -49,6 +49,8 @@ As described in the README, the intent of this design is that it should be relat
 
 ### State-Changing Operations
 
+#### Stateful Response Directory
+
 Some testing scenarios require operations that mutate the state of 1Password data. For example, consider testing the following:
 
 - List all items in vault "Test Data" with tag "tag_3"
@@ -97,8 +99,13 @@ Let's walk through this configuration:
   - `response-directory`: The path to the response directory JSON file for this state
   - `env-vars`: Any environment variables that should be unset (a list of names), or set (a dictionary of names & values) for each state.
 
-Assuming the above stateful configuration, to have `mock-op` use it, set the `MOCK_OP_STATE_DIR` environment variable to the path to the
+Assuming the above stateful configuration, to have `mock-op` use it, set the `MOCK_OP_STATE_DIR` environment variable to the path to state configuration file, e.g.,
 
+```shell
+export MOCK_OP_STATE_DIR=tests/config/mock-op/mock-op-state-config.json
+```
+
+Note that in this case, it's important to *not set* the `MOCK_OP_RESPONSE_DIRECTORY` environment variable. Currently that variable takes precedence. In the future, having both variables set will be an error.
 
 Again, this is intended to be relatively straightforward to hand-craft or to script. However `response-generator` can create it automatically.
 
