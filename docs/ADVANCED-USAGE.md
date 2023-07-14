@@ -105,7 +105,10 @@ Assuming the above stateful configuration, to have `mock-op` use it, set the `MO
 export MOCK_OP_STATE_DIR=tests/config/mock-op/mock-op-state-config.json
 ```
 
-Note that in this case, it's important to *not set* the `MOCK_OP_RESPONSE_DIRECTORY` environment variable. Currently that variable takes precedence. In the future, having both variables set will be an error.
+> *Note 1:* `mock-op` modifies the state the state configuration file at each iteration. Since it will likely be added to version control, it is advised to make a temporary copy for use during testing.
+
+> *Note 2:* When using a stateful configuraiton, it's important to *not set* the `MOCK_OP_RESPONSE_DIRECTORY` environment variable. Having both variables set will be an error.
+
 
 Again, this is intended to be relatively straightforward to hand-craft or to script. However `response-generator` can create it automatically.
 
