@@ -110,7 +110,9 @@ export MOCK_OP_STATE_DIR=tests/config/mock-op/mock-op-state-config.json
 > *Note 2:* When using a stateful configuraiton, it's important to *not set* the `MOCK_OP_RESPONSE_DIRECTORY` environment variable. Having both variables set will be an error.
 
 
-Again, this is intended to be relatively straightforward to hand-craft or to script. However `response-generator` can create it automatically.
+#### Automated Generation of Stateful Configuration
+
+As before, the state configuration file is intended to be straightforward to hand-craft or to script. However `response-generator` can create it automatically, just as it creates the response directory.
 
 The following sample `response-generator` configuration causes a state change configuration to be generated:
 
@@ -129,5 +131,22 @@ tags = tag_1
 vault = Test Data 3
 changes_state = true
 ```
+
+If you provide response generator with a second configuration file that specifies the same state configuration, but a new response directory, it will modify the state configuration.
+
+```ini
+[MAIN]
+config-path = ./tests/config/mock-op/responses/item-delete-multiple
+response-path = responses-1
+input-path = input
+; a new response directory
+response-dir-file = response-directory-2.json
+; note the same state-config file
+state-config = ./tests/config/mock-op/responses/item-delete-multiple/mock-op-state-config-1.json
+
+; truncated for brevity
+```
+
+The above file will modify `mock-op-state-config-1.json` assuming it exists, and add a state entry for `response-directory-2.json`.
 
 [^1]: Currently the only command `mock-op` emulates where this applies is `item delete`, but other command will be added as needed.
