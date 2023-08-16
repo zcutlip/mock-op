@@ -1,6 +1,6 @@
 from mock_cli import CommandInvocation
 
-from ._op import OPInvalidPasswordRecipeException, OPPasswordRecipe
+from ._op import OPPasswordRecipe
 from .response_generator import OPResponseGenerator
 
 
@@ -27,35 +27,24 @@ def item_edit_set_password(op: OPResponseGenerator,
     return invocation
 
 
-def _validate_password_recipe(password_recipe: str) -> bool:
-    digits = False
-    symbols = False
-    letters = False
-
-    parts = password_recipe.split(",")
-    passwd_len = parts.pop(0)
-    for part in parts:
-        if part == "letters":
-            letters = True
-        elif part == "digits":
-            digits = True
-        elif part == "symbols":
-            symbols = True
-        else:
-            raise OPInvalidPasswordRecipeException(
-                f"Invalid password recipe component: {part}")
-
-    # if this is a valid recipe nothing happens, else an exception is raised
-    recipe = OPPasswordRecipe(passwd_len, letters=letters,
-                              digits=digits, symbols=symbols)
-
-    return recipe
-
-
 def item_edit_generate_password(op: OPResponseGenerator,
                                 query_name,
                                 query_definition,
                                 item_id,
                                 vault) -> CommandInvocation:
-    password_recipe = query_definition["password-recipe"]
-    _validate_password_recipe(password_recipe)
+
+    recipe_str = query_definition["password-recipe"]
+    expected_return = query_definition.get("expected-return", 0)
+    changes_state = query_definition.get("changes_state", False)
+
+    # will validate password recipe, raising OPInvalidPasswordRecipeException if
+    # validation fails
+    password_recipe = OPPasswordRecipe.from_string(recipe_str)
+
+    invocation = op.item_edit_generate_password_generate_response(item_id,
+                                                                  query_name,
+                                                                  password_recipe,
+                                                                  vault=vault,
+                                                                  expected_ret=expected_return,
+                                                                  changes_state=changes_state)
+    return invocation
