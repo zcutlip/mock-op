@@ -1,8 +1,5 @@
-from argparse import (
-    _SubParsersAction,
-    ArgumentParser,
-    SUPPRESS as ARGPARSE_SUPPRESS
-)
+from argparse import SUPPRESS as ARGPARSE_SUPPRESS
+from argparse import ArgumentParser, _SubParsersAction
 
 
 def arg_subparser_vault(subparsers: _SubParsersAction):
@@ -132,6 +129,27 @@ def arg_subparser_item_template(parser_item_subparsers):
         "list", action="store_true", help=ARGPARSE_SUPPRESS)
 
 
+def arg_subparser_item_edit(parser_item_subparsers):
+    # -- op item edit --
+    parser_item_subcmd = parser_item_subparsers.add_parser(
+        "edit", description="Edit an item's details", help="Edit an item's details.")
+
+    parser_item_subcmd.add_argument(
+        "edit", action="store_true", help=ARGPARSE_SUPPRESS)
+
+    parser_item_subcmd.add_argument(
+        "item", metavar="{ <itemName> | <itemID> | <shareLink> }")
+
+    parser_item_subcmd.add_argument(
+        "assignment", nargs="?", metavar="<assignment>")
+    parser_item_subcmd.add_argument(
+        "--generate-password", metavar="[recipe]", help="Give the item a randomly generated password.")
+    parser_item_subcmd.add_argument(
+        "--title", metavar="title", help="Set the item's title.")
+    parser_item_subcmd.add_argument(
+        "--vault", metavar="vault", help="Edit the item in this vault.")
+
+
 def arg_subparser_item(subparsers: _SubParsersAction):
     # -- item --
     parser_item = subparsers.add_parser(
@@ -150,6 +168,8 @@ def arg_subparser_item(subparsers: _SubParsersAction):
         "--fields", help="Only return data from these fields. Use 'label=' to get the field by name or 'type=' to filter fields by type.", choices=["type=otp"])
     parser_item_subcmd.add_argument(
         "--include-archive", help="Include items in the Archive.", action='store_true')
+
+    arg_subparser_item_edit(parser_item_subparsers)
 
     parser_item_subcmd = parser_item_subparsers.add_parser(
         "list", description="List items.", help="List items")
