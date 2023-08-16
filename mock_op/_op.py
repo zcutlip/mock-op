@@ -14,7 +14,11 @@ try:
         OPCLIPanicException,
         OPSigninException
     )
-    from pyonepassword.api.object_types import OPItemList
+    from pyonepassword.api.object_types import OPItemList, OPPasswordRecipe
+    # ugh need to add this to API
+    from pyonepassword.op_items.password_recipe import (
+        OPInvalidPasswordRecipeException
+    )
     from pyonepassword.py_op_exceptions import OPWhoAmiException
 except ImportError as e:
     logging.basicConfig(format="%(message)s", level=logging.DEBUG)
@@ -31,3 +35,5 @@ except ImportError as e:
     OPItemList = None
     OPWhoAmiException = None
     op_logging = None
+    OPPasswordRecipe = None
+    OPInvalidPasswordRecipeException = None
