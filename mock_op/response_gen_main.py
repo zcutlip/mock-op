@@ -20,6 +20,10 @@ from ._op import (
     OPWhoAmiException,
     op_logging
 )
+from ._response_gen_item_edit import (
+    item_edit_generate_password,
+    item_edit_set_password
+)
 from .mock_op_env import resp_gen_load_dot_env
 from .response_generator import OPResponseGenerator
 from .response_generator_config import OPResponseGenConfig
@@ -110,6 +114,26 @@ def item_delete_multiple(op: OPResponseGenerator, query_name, query_definition) 
                                                                 title_glob=title_glob)
 
     return invocation_list
+
+
+def item_edit(op: OPResponseGenerator, query_name, query_definition):
+    item_id = query_definition["item_identifier"]
+    vault = query_definition["vault"]
+    subtype = query_definition["subtype"]
+    item_edit_fn = None
+    if subtype == "set-password":
+        item_edit_fn = item_edit_set_password
+    elif subtype == "generate-password":
+        item_edit_fn = item_edit_generate_password
+    else:
+        raise Exception(f"Unknown item edit subtype: {subtype}")
+
+    invocation = item_edit_fn(op,
+                              query_name,
+                              query_definition,
+                              item_id,
+                              vault)
+    return invocation
 
 
 def item_get_totp(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
@@ -267,6 +291,7 @@ query_type_map = {
     "item-get-totp": item_get_totp,
     "item-delete": item_delete,
     "item-delete-multiple": item_delete_multiple,
+    "item-edit": item_edit,
     "document-get": document_get,
     "document-delete": document_delete,
     "vault-get": vault_get,
