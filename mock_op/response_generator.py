@@ -102,6 +102,24 @@ class OPResponseGenerator(OP):
             response_list.append(response)
         return response_list
 
+    def item_edit_set_password_generate_response(self,
+                                                 item_name_or_uuid: str,
+                                                 query_name: str,
+                                                 password: str,
+                                                 field_label: str,
+                                                 section_label: str = None,
+                                                 vault: str = None,
+                                                 expected_ret: int = 0,
+                                                 changes_state: bool = False):
+        item_edit_argv = self._item_edit_set_password_argv(item_name_or_uuid,
+                                                           password,
+                                                           field_label,
+                                                           section_label,
+                                                           vault)
+        resp_dict = self._generate_response(
+            item_edit_argv, query_name, expected_ret, changes_state)
+        return resp_dict
+
     def document_get_generate_response(self,
                                        document_name_or_uuid: str,
                                        query_name,
