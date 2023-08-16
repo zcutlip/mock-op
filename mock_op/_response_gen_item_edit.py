@@ -44,10 +44,10 @@ def _validate_password_recipe(password_recipe: str) -> bool:
                 f"Invalid password recipe component: {part}")
 
     # if this is a valid recipe nothing happens, else an exception is raised
-    _ = OPPasswordRecipe(passwd_len, letters=letters,
-                         digits=digits, symbols=symbols)
+    recipe = OPPasswordRecipe(passwd_len, letters=letters,
+                              digits=digits, symbols=symbols)
 
-    return True
+    return recipe
 
 
 def item_edit_generate_password(op: OPResponseGenerator,
