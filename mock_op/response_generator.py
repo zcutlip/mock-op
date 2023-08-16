@@ -1,8 +1,15 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from mock_cli import CommandInvocation
 
 # Private imports, but we control both projects, so shouldn't be a problem
 # Better than exporting API from pyonepassword that shouldn't be exposed
 from ._op import OP, OPItemList, _OPArgv, op_logging
+
+if TYPE_CHECKING:
+    from ._op import OPPasswordRecipe
 
 
 class OPResponseGenerationException(Exception):
@@ -110,15 +117,30 @@ class OPResponseGenerator(OP):
                                                  section_label: str = None,
                                                  vault: str = None,
                                                  expected_ret: int = 0,
-                                                 changes_state: bool = False):
+                                                 changes_state: bool = False) -> CommandInvocation:
         item_edit_argv = self._item_edit_set_password_argv(item_name_or_uuid,
                                                            password,
                                                            field_label,
                                                            section_label,
                                                            vault)
-        resp_dict = self._generate_response(
+        invocation = self._generate_response(
             item_edit_argv, query_name, expected_ret, changes_state)
-        return resp_dict
+        return invocation
+
+    def item_edit_generate_password_generate_response(self,
+                                                      item_name_or_uuid: str,
+                                                      query_name: str,
+                                                      password_recipe: OPPasswordRecipe,
+                                                      vault: str = None,
+                                                      expected_ret: int = 0,
+                                                      changes_state: bool = False) -> CommandInvocation:
+
+        item_edit_argv = self._item_edit_generate_password_argv(item_name_or_uuid,
+                                                                password_recipe,
+                                                                vault)
+        invocation = self._generate_response(
+            item_edit_argv, query_name, expected_ret, changes_state)
+        return invocation
 
     def document_get_generate_response(self,
                                        document_name_or_uuid: str,
