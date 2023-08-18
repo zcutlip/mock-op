@@ -4,6 +4,24 @@ from ._op import OPPasswordRecipe
 from .response_generator import OPResponseGenerator
 
 
+def item_edit_set_title(op: OPResponseGenerator,
+                        query_name,
+                        query_definition,
+                        item_id,
+                        vault) -> CommandInvocation:
+
+    item_title = query_definition["item-title"]
+    expected_return = query_definition.get("expected-return", 0)
+    changes_state = query_definition.get("changes_state", False)
+    invocation = op.item_edit_set_title_generate_response(item_id,
+                                                          query_name,
+                                                          item_title,
+                                                          vault=vault,
+                                                          expected_ret=expected_return,
+                                                          changes_state=changes_state)
+    return invocation
+
+
 def item_edit_set_password(op: OPResponseGenerator,
                            query_name,
                            query_definition,
