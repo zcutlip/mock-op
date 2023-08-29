@@ -4,6 +4,24 @@ from ._op import OPPasswordRecipe
 from .response_generator import OPResponseGenerator
 
 
+def item_edit_set_favorite(op: OPResponseGenerator,
+                           query_name,
+                           query_definition,
+                           item_id,
+                           vault) -> CommandInvocation:
+
+    item_favorite: bool = query_definition["item-favorite"]
+    expected_return: int = query_definition.get("expected-return", 0)
+    changes_state: bool = query_definition.get("changes_state", False)
+    invocation = op.item_edit_set_favorite_generate_response(item_id,
+                                                             query_name,
+                                                             item_favorite,
+                                                             vault=vault,
+                                                             expected_ret=expected_return,
+                                                             changes_state=changes_state)
+    return invocation
+
+
 def item_edit_set_title(op: OPResponseGenerator,
                         query_name,
                         query_definition,
