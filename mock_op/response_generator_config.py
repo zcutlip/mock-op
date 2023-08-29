@@ -15,7 +15,8 @@ class OPConfigParser(ConfigParser):
         "pop-env-vars": "getcsvlist",
         "item-favorite": "getboolean",
         "state-iteration": "getint",
-        "skip-global-signin": "getboolean"
+        "skip-global-signin": "getboolean",
+        "create-instance": "getboolean",
     }
 
     def items(self, section):
