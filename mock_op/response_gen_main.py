@@ -335,6 +335,23 @@ def handle_state_config(mock_op_config: OPResponseGenConfig, respdir_json_path: 
             respdir_json_path, state_iteration, set_vars=set_vars, pop_vars=pop_vars)
 
 
+def signin_handle_exceptions(existing_auth, ignore_signin_fail):
+    try:
+        generator = do_signin(existing_auth)
+    except (OPSigninException,
+            OPWhoAmiException,
+            OPCLIPanicException) as e:
+        if ignore_signin_fail:
+            # some actions only require class methods and don't require sign-in success
+            # if this blows up on other actions that's our fault for setting the env variable
+            generator = OPResponseGenerator
+        else:
+            signin_fail(e)
+    except Exception as e:
+        signin_fail(e)
+    return generator
+
+
 def main():
     resp_gen_load_dot_env()
     args = resp_gen_parse_args()
@@ -354,6 +371,12 @@ def main():
             print(sect)
         return 0
 
+    # sometimes we need to capture responses
+    # for 'op' commands that are pre- or part of authentication
+    # so we may need to skip OP() creation and only
+    # call class methods
+    skip_signin = generator_config.skip_global_signin
+
     respdir_json_file = Path(
         config_dir, generator_config.respdir_json_file)
     response_path = Path(config_dir, generator_config.response_path)
@@ -371,19 +394,11 @@ def main():
         raise Exception(
             f"Unknown existing_auth setting: {generator_config.existing_auth}")
 
-    try:
-        op = do_signin(existing_auth)
-    except (OPSigninException,
-            OPWhoAmiException,
-            OPCLIPanicException) as e:
-        if generator_config.ignore_signin_fail:
-            # some actions only require class methods and don't require sign-in success
-            # if this blows up on other actions that's our fault for setting the env variable
-            op = OPResponseGenerator
-        else:
-            signin_fail(e)
-    except Exception as e:
-        signin_fail(e)
+    generator = None
+
+    if not skip_signin:
+        generator = signin_handle_exceptions(
+            existing_auth, generator_config.ignore_signin_fail)
 
     directory = ResponseDirectory(
         respdir_json_file, create=True, response_dir=response_path, input_dir=input_path)
@@ -396,7 +411,20 @@ def main():
         except KeyError:
             raise Exception(f"Unknown query type: {query_definition['type']}")
 
-        invocation = query_func(op, query_name, query_definition)
+        # Either we:
+        # - want to skip OP() creation & authentication and only run class methods
+        # - didn't create a generator object at the start, but need one for this query
+        # - we did create generator object at the start and we can use that one now
+        if not query_definition.get("create-instance", True):
+            _gen = OPResponseGenerator
+        elif not generator:
+            _gen = signin_handle_exceptions(
+                existing_auth, generator_config.ignore_signin_fail)
+        else:
+            _gen = generator
+
+        print(_gen)
+        invocation = query_func(_gen, query_name, query_definition)
         if isinstance(invocation, tuple):
             document_invocation, item_filename_invocation = invocation
             directory.add_command_invocation(
