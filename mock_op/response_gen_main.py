@@ -22,6 +22,7 @@ from ._op import (
 )
 from ._response_gen_item_edit import (
     item_edit_generate_password,
+    item_edit_set_favorite,
     item_edit_set_password,
     item_edit_set_title
 )
@@ -128,6 +129,8 @@ def item_edit(op: OPResponseGenerator, query_name, query_definition):
         item_edit_fn = item_edit_generate_password
     elif subtype == "set-title":
         item_edit_fn = item_edit_set_title
+    elif subtype == "set-favorite":
+        item_edit_fn = item_edit_set_favorite
     else:
         raise Exception(f"Unknown item edit subtype: {subtype}")
 
