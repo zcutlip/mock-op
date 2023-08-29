@@ -12,7 +12,9 @@ class OPConfigParser(ConfigParser):
         "tags": "getcsvlist",
         "changes_state": "getboolean",
         "set-env-vars": "get_dict_from_csv",
-        "pop-env-vars": "getcsvlist"
+        "pop-env-vars": "getcsvlist",
+        "item-favorite": "getboolean",
+        "state-iteration": "getint"
     }
 
     def items(self, section):
@@ -81,6 +83,7 @@ class OPResponseGenConfig(dict[str, OPresponseDefinition]):
     IGN_SIGNIN_FAIL_KEY = "ignore-signin-fail"
     EXISTING_AUTH_KEY = "existing-auth"
     STATE_CONF_KEY = "state-config"
+    STATE_ITERATION_KEY = "state-iteration"
     SET_VARS_KEY = "set-env-vars"
     POP_VARS_KEY = "pop-env-vars"
 
@@ -100,6 +103,10 @@ class OPResponseGenConfig(dict[str, OPresponseDefinition]):
             self.MAIN_SECTION, self.EXISTING_AUTH_KEY, fallback="available")
         self.state_conf = conf.get(
             self.MAIN_SECTION, self.STATE_CONF_KEY, fallback=None)
+        self.state_iteration = -1
+        if self.state_conf:
+            self.state_iteration = conf.get(
+                self.MAIN_SECTION, self.STATE_ITERATION_KEY, fallback=0)
         self.set_env_vars = conf.get(
             self.MAIN_SECTION, self.SET_VARS_KEY, fallback=None)
         self.pop_env_vars = conf.get(
