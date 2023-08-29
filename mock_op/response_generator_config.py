@@ -14,7 +14,8 @@ class OPConfigParser(ConfigParser):
         "set-env-vars": "get_dict_from_csv",
         "pop-env-vars": "getcsvlist",
         "item-favorite": "getboolean",
-        "state-iteration": "getint"
+        "state-iteration": "getint",
+        "skip-global-signin": "getboolean"
     }
 
     def items(self, section):
@@ -86,6 +87,7 @@ class OPResponseGenConfig(dict[str, OPresponseDefinition]):
     STATE_ITERATION_KEY = "state-iteration"
     SET_VARS_KEY = "set-env-vars"
     POP_VARS_KEY = "pop-env-vars"
+    SKIP_GLOBAL_SIGNIN_KEY = "skip-global-signin"
 
     def __init__(self, config_path, definition_whitelist=[]):
         super().__init__()
@@ -111,6 +113,8 @@ class OPResponseGenConfig(dict[str, OPresponseDefinition]):
             self.MAIN_SECTION, self.SET_VARS_KEY, fallback=None)
         self.pop_env_vars = conf.get(
             self.MAIN_SECTION, self.POP_VARS_KEY, fallback=None)
+        self.skip_global_signin = conf.get(
+            self.MAIN_SECTION, self.SKIP_GLOBAL_SIGNIN_KEY, fallback=False)
 
         response_defs = self._get_response_defs(conf, definition_whitelist)
         self.update(response_defs)
