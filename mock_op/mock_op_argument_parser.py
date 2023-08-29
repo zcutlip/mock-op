@@ -143,6 +143,8 @@ def arg_subparser_item_edit(parser_item_subparsers):
     parser_item_subcmd.add_argument(
         "assignment", nargs="?", metavar="<assignment>")
     parser_item_subcmd.add_argument(
+        "--favorite", metavar="{ true | false }", help="Whether this item is a favorite item. Options: true, false")
+    parser_item_subcmd.add_argument(
         "--generate-password", metavar="[recipe]", help="Give the item a randomly generated password.")
     parser_item_subcmd.add_argument(
         "--title", metavar="title", help="Set the item's title.")
