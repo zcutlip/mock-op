@@ -320,6 +320,7 @@ def handle_state_config(mock_op_config: OPResponseGenConfig, respdir_json_path: 
     state_conf_path = mock_op_config.state_conf
     pop_vars = mock_op_config.pop_env_vars
     set_vars = mock_op_config.set_env_vars
+    state_iteration = mock_op_config.state_iteration
 
     if state_conf_path:
         state_conf_path = Path(state_conf_path)
@@ -328,8 +329,7 @@ def handle_state_config(mock_op_config: OPResponseGenConfig, respdir_json_path: 
         else:
             state_config = MockCMDNewStateConfig.from_template(state_conf_path)
         state_config.add_state(
-            respdir_json_path, set_vars=set_vars, pop_vars=pop_vars)
-        state_config.save_config()
+            respdir_json_path, state_iteration, set_vars=set_vars, pop_vars=pop_vars)
 
 
 def main():
