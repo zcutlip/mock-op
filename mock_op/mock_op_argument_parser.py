@@ -147,6 +147,9 @@ def arg_subparser_item_edit(parser_item_subparsers):
     parser_item_subcmd.add_argument(
         "--generate-password", metavar="[recipe]", help="Give the item a randomly generated password.")
     parser_item_subcmd.add_argument(
+        "--tags", metavar="tags",
+        help="Set the tags to the specified(comma-separated) values. An empty value will remove all tags.")
+    parser_item_subcmd.add_argument(
         "--title", metavar="title", help="Set the item's title.")
     parser_item_subcmd.add_argument(
         "--vault", metavar="vault", help="Edit the item in this vault.")
