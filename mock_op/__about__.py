@@ -1,5 +1,5 @@
 __title__ = "mock-op"
-__version__ = "2.10.0"
+__version__ = "2.11.0"
 __summary__ = "A stand-in replacement for the 1Password 'op' command for use in automated tests."
 
 """
