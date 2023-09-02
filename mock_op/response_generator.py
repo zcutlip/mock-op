@@ -67,14 +67,18 @@ class OPResponseGenerator(OP):
     def item_delete_multiple_generate_response(self,
                                                vault,
                                                query_name,
-                                               categories=[],
+                                               categories=None,
                                                include_archive=False,
-                                               tags=[],
+                                               tags=None,
                                                archive=False,
                                                expected_ret=0,
                                                changes_state=False,
                                                title_glob=None,
                                                batch_size=25):
+        if categories is None:
+            categories = list()
+        if tags is None:
+            tags = list()
         item_list = self.item_list(categories=categories,
                                    include_archive=include_archive,
                                    tags=tags,
@@ -295,12 +299,17 @@ class OPResponseGenerator(OP):
 
     def item_list_generate_response(self,
                                     query_name,
-                                    categories=[],
+                                    categories=None,
                                     include_archive=False,
-                                    tags=[],
+                                    tags=None,
                                     vault=None,
                                     expected_ret=0,
                                     changes_state=False):
+        if categories is None:
+            categories = list()
+        if tags is None:
+            tags = list()
+
         item_list_argv = self._item_list_argv(
             categories=categories, include_archive=include_archive, tags=tags, vault=vault)
 
