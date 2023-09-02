@@ -84,3 +84,22 @@ def item_edit_generate_password(op: OPResponseGenerator,
                                                                   expected_ret=expected_return,
                                                                   changes_state=changes_state)
     return invocation
+
+
+def item_edit_set_tags(op: OPResponseGenerator,
+                       query_name,
+                       query_definition,
+                       item_id,
+                       vault) -> CommandInvocation:
+
+    tag_list = query_definition["tags"]
+    expected_return = query_definition.get("expected-return", 0)
+    changes_state = query_definition.get("changes_state", False)
+
+    invocation = op.item_edit_set_tags_generate_response(item_id,
+                                                         query_name,
+                                                         tag_list,
+                                                         vault=vault,
+                                                         expected_ret=expected_return,
+                                                         changes_state=changes_state)
+    return invocation
