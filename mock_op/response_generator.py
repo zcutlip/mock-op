@@ -144,13 +144,13 @@ class OPResponseGenerator(OP):
     def item_edit_set_tags_generate_response(self,
                                              item_name_or_uuid: str,
                                              query_name: str,
-                                             tags,
+                                             tag_list,
                                              vault: str = None,
                                              expected_ret: int = 0,
                                              changes_state: bool = False) -> CommandInvocation:
         # tags should already be a List[str], OPConfigParser handled that for us
         item_edit_argv = self._item_edit_set_tags_argv(item_name_or_uuid,
-                                                       tags,
+                                                       tag_list,
                                                        vault=vault)
         invocation = self._generate_response(
             item_edit_argv, query_name, expected_ret, changes_state)
