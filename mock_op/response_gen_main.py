@@ -426,7 +426,6 @@ def main():
         else:
             _gen = generator
 
-        print(_gen)
         invocation = query_func(_gen, query_name, query_definition)
         if isinstance(invocation, tuple):
             document_invocation, item_filename_invocation = invocation
