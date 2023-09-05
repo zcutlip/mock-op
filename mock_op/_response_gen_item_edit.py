@@ -92,10 +92,9 @@ def item_edit_set_tags(op: OPResponseGenerator,
                        item_id,
                        vault) -> CommandInvocation:
 
-    tag_list = query_definition["tags"]
+    tag_list = query_definition.get("tags", [])
     expected_return = query_definition.get("expected-return", 0)
     changes_state = query_definition.get("changes_state", False)
-
     invocation = op.item_edit_set_tags_generate_response(item_id,
                                                          query_name,
                                                          tag_list,
