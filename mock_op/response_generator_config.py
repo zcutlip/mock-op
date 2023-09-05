@@ -17,6 +17,7 @@ class OPConfigParser(ConfigParser):
         "state-iteration": "getint",
         "skip-global-signin": "getboolean",
         "create-instance": "getboolean",
+        "append-tags": "getboolean"
     }
 
     def items(self, section):

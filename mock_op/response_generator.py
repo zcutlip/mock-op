@@ -145,10 +145,19 @@ class OPResponseGenerator(OP):
                                              item_name_or_uuid: str,
                                              query_name: str,
                                              tag_list,
+                                             append_tags: bool,
                                              vault: str = None,
                                              expected_ret: int = 0,
                                              changes_state: bool = False) -> CommandInvocation:
         # tags should already be a List[str], OPConfigParser handled that for us
+
+        if append_tags:
+            item = self.item_get(item_name_or_uuid, vault=vault)
+            existing_tags = item.tags
+            for tag in tag_list:
+                if tag not in existing_tags:
+                    existing_tags.append(tag)
+            tag_list = existing_tags
         item_edit_argv = self._item_edit_set_tags_argv(item_name_or_uuid,
                                                        tag_list,
                                                        vault=vault)
