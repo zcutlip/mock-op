@@ -152,6 +152,8 @@ def arg_subparser_item_edit(parser_item_subparsers):
     parser_item_subcmd.add_argument(
         "--title", metavar="title", help="Set the item's title.")
     parser_item_subcmd.add_argument(
+        "--url", metavar="URL", help="Set the URL associated with the item")
+    parser_item_subcmd.add_argument(
         "--vault", metavar="vault", help="Edit the item in this vault.")
 
 
