@@ -127,20 +127,6 @@ class OPResponseGenerator(OP):
             item_edit_argv, query_name, expected_ret, changes_state)
         return invocation
 
-    def item_edit_set_title_generate_response(self,
-                                              item_name_or_uuid: str,
-                                              query_name: str,
-                                              item_title: str,
-                                              vault: str = None,
-                                              expected_ret: int = 0,
-                                              changes_state: bool = False) -> CommandInvocation:
-        item_edit_argv = self._item_edit_set_title_argv(item_name_or_uuid,
-                                                        item_title,
-                                                        vault=vault)
-        invocation = self._generate_response(
-            item_edit_argv, query_name, expected_ret, changes_state)
-        return invocation
-
     def item_edit_set_tags_generate_response(self,
                                              item_name_or_uuid: str,
                                              query_name: str,
@@ -194,6 +180,20 @@ class OPResponseGenerator(OP):
         item_edit_argv = self._item_edit_generate_password_argv(item_name_or_uuid,
                                                                 password_recipe,
                                                                 vault)
+        invocation = self._generate_response(
+            item_edit_argv, query_name, expected_ret, changes_state)
+        return invocation
+
+    def item_edit_set_title_generate_response(self,
+                                              item_name_or_uuid: str,
+                                              query_name: str,
+                                              item_title: str,
+                                              vault: str = None,
+                                              expected_ret: int = 0,
+                                              changes_state: bool = False) -> CommandInvocation:
+        item_edit_argv = self._item_edit_set_title_argv(item_name_or_uuid,
+                                                        item_title,
+                                                        vault=vault)
         invocation = self._generate_response(
             item_edit_argv, query_name, expected_ret, changes_state)
         return invocation
