@@ -104,3 +104,21 @@ def item_edit_set_title(op: OPResponseGenerator,
                                                           expected_ret=expected_return,
                                                           changes_state=changes_state)
     return invocation
+
+
+def item_edit_set_url(op: OPResponseGenerator,
+                      query_name,
+                      query_definition,
+                      item_id,
+                      vault) -> CommandInvocation:
+
+    url = query_definition["url"]
+    expected_return = query_definition.get("expected-return", 0)
+    changes_state = query_definition.get("changes_state", False)
+    invocation = op.item_edit_set_url_generate_response(item_id,
+                                                        query_name,
+                                                        url,
+                                                        vault=vault,
+                                                        expected_ret=expected_return,
+                                                        changes_state=changes_state)
+    return invocation

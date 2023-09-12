@@ -198,6 +198,20 @@ class OPResponseGenerator(OP):
             item_edit_argv, query_name, expected_ret, changes_state)
         return invocation
 
+    def item_edit_set_url_generate_response(self,
+                                            item_name_or_uuid: str,
+                                            query_name: str,
+                                            url: str,
+                                            vault: str = None,
+                                            expected_ret: int = 0,
+                                            changes_state: bool = False) -> CommandInvocation:
+        item_edit_argv = self._item_edit_set_url_argv(item_name_or_uuid,
+                                                      url,
+                                                      vault=vault)
+        invocation = self._generate_response(
+            item_edit_argv, query_name, expected_ret, changes_state)
+        return invocation
+
     def document_get_generate_response(self,
                                        document_name_or_uuid: str,
                                        query_name,

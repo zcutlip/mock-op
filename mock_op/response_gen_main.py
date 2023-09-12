@@ -25,7 +25,8 @@ from ._response_gen_item_edit import (
     item_edit_set_favorite,
     item_edit_set_password,
     item_edit_set_tags,
-    item_edit_set_title
+    item_edit_set_title,
+    item_edit_set_url
 )
 from .mock_op_env import resp_gen_load_dot_env
 from .response_generator import OPResponseGenerator
@@ -130,10 +131,12 @@ def item_edit(op: OPResponseGenerator, query_name, query_definition):
         item_edit_fn = item_edit_generate_password
     elif subtype == "set-tags":
         item_edit_fn = item_edit_set_tags
-    elif subtype == "set-title":
-        item_edit_fn = item_edit_set_title
     elif subtype == "set-favorite":
         item_edit_fn = item_edit_set_favorite
+    elif subtype == "set-title":
+        item_edit_fn = item_edit_set_title
+    elif subtype == "set-url":
+        item_edit_fn = item_edit_set_url
     else:
         raise Exception(f"Unknown item edit subtype: {subtype}")
 
