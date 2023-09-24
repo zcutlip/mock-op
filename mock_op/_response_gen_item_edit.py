@@ -1,6 +1,6 @@
 from mock_cli import CommandInvocation
 
-from ._op import OPPasswordRecipe
+from ._op import OPFieldTypeEnum, OPPasswordRecipe
 from .response_generator import OPResponseGenerator
 
 
@@ -15,15 +15,40 @@ def item_edit_set_password(op: OPResponseGenerator,
     section_label = query_definition.get("section_label", None)
     expected_return = query_definition.get("expected-return", 0)
     changes_state = query_definition.get("changes_state", False)
+    field_type = OPFieldTypeEnum.PASSWORD
+    invocation = op._item_edit_set_field_value(item_id,
+                                               query_name,
+                                               field_type,
+                                               password,
+                                               field_label,
+                                               section_label=section_label,
+                                               vault=vault,
+                                               expected_ret=expected_return,
+                                               changes_state=changes_state)
+    return invocation
 
-    invocation = op.item_edit_set_password_generate_response(item_id,
-                                                             query_name,
-                                                             password,
-                                                             field_label,
-                                                             section_label=section_label,
-                                                             vault=vault,
-                                                             expected_ret=expected_return,
-                                                             changes_state=changes_state)
+
+def item_edit_set_text_field(op: OPResponseGenerator,
+                             query_name,
+                             query_definition,
+                             item_id,
+                             vault) -> CommandInvocation:
+
+    password = query_definition["password"]
+    field_label = query_definition["field_label"]
+    section_label = query_definition.get("section_label", None)
+    expected_return = query_definition.get("expected-return", 0)
+    changes_state = query_definition.get("changes_state", False)
+    field_type = OPFieldTypeEnum.PASSWORD
+    invocation = op._item_edit_set_field_value(item_id,
+                                               query_name,
+                                               field_type,
+                                               password,
+                                               field_label,
+                                               section_label=section_label,
+                                               vault=vault,
+                                               expected_ret=expected_return,
+                                               changes_state=changes_state)
     return invocation
 
 

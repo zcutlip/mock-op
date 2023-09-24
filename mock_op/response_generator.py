@@ -9,7 +9,7 @@ from mock_cli import CommandInvocation
 from ._op import OP, OPItemList, _OPArgv, op_logging
 
 if TYPE_CHECKING:
-    from ._op import OPPasswordRecipe
+    from ._op import OPFieldTypeEnum, OPPasswordRecipe
 
 
 class OPResponseGenerationException(Exception):
@@ -151,20 +151,22 @@ class OPResponseGenerator(OP):
             item_edit_argv, query_name, expected_ret, changes_state)
         return invocation
 
-    def item_edit_set_password_generate_response(self,
-                                                 item_name_or_uuid: str,
-                                                 query_name: str,
-                                                 password: str,
-                                                 field_label: str,
-                                                 section_label: str = None,
-                                                 vault: str = None,
-                                                 expected_ret: int = 0,
-                                                 changes_state: bool = False) -> CommandInvocation:
-        item_edit_argv = self._item_edit_set_password_argv(item_name_or_uuid,
-                                                           password,
-                                                           field_label,
-                                                           section_label,
-                                                           vault)
+    def _item_edit_set_field_value(self,
+                                   item_name_or_uuid: str,
+                                   query_name: str,
+                                   field_type: OPFieldTypeEnum,
+                                   value: str,
+                                   field_label: str,
+                                   section_label: str = None,
+                                   vault: str = None,
+                                   expected_ret: int = 0,
+                                   changes_state: bool = False) -> CommandInvocation:
+        item_edit_argv = self._item_edit_set_field_value_argv(item_name_or_uuid,
+                                                              field_type,
+                                                              value,
+                                                              field_label,
+                                                              section_label,
+                                                              vault)
         invocation = self._generate_response(
             item_edit_argv, query_name, expected_ret, changes_state)
         return invocation
