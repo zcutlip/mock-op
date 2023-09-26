@@ -25,6 +25,7 @@ from ._response_gen_item_edit import (
     item_edit_set_favorite,
     item_edit_set_password,
     item_edit_set_tags,
+    item_edit_set_text_field,
     item_edit_set_title,
     item_edit_set_url
 )
@@ -127,6 +128,8 @@ def item_edit(op: OPResponseGenerator, query_name, query_definition):
     item_edit_fn = None
     if subtype == "set-password":
         item_edit_fn = item_edit_set_password
+    elif subtype == "set-field-text":
+        item_edit_fn = item_edit_set_text_field
     elif subtype == "generate-password":
         item_edit_fn = item_edit_generate_password
     elif subtype == "set-tags":
