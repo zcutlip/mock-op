@@ -39,7 +39,7 @@ def item_edit_set_text_field(op: OPResponseGenerator,
     section_label = query_definition.get("section-label", None)
     expected_return = query_definition.get("expected-return", 0)
     changes_state = query_definition.get("changes-state", False)
-    field_type = OPFieldTypeEnum.PASSWORD
+    field_type = OPFieldTypeEnum.TEXT
     invocation = op._item_edit_set_field_value(item_id,
                                                query_name,
                                                field_type,
