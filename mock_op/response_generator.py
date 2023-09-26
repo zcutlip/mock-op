@@ -93,7 +93,7 @@ class OPResponseGenerator(OP):
         response_list = []
 
         for i in range(start, end, batch_size):
-            # override "changes_state" for all except the
+            # override "changes-state" for all except the
             # last chunk
             partial_query_name = f"{query_name}_part_{i:03d}"
             _changes_state = False

@@ -79,7 +79,7 @@ def do_signin(existing_auth):
 
 
 def item_get(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
-    item_id = query_definition["item_identifier"]
+    item_id = query_definition["item-identifier"]
     vault = query_definition.get("vault")
     include_archive = query_definition.get("include_archive", False)
     expected_return = query_definition.get("expected-return", 0)
@@ -89,7 +89,7 @@ def item_get(op: OPResponseGenerator, query_name, query_definition) -> CommandIn
 
 
 def item_delete(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
-    item_id = query_definition["item_identifier"]
+    item_id = query_definition["item-identifier"]
     vault = query_definition.get("vault")
     archive = query_definition.get("archive", False)
     expected_return = query_definition.get("expected-return", 0)
@@ -105,7 +105,7 @@ def item_delete_multiple(op: OPResponseGenerator, query_name, query_definition) 
     tags = query_definition.get("tags", [])
     archive = query_definition.get("archive", False)
     expected_return = query_definition.get("expected-return", 0)
-    changes_state = query_definition.get("changes_state", False)
+    changes_state = query_definition.get("changes-state", False)
     title_glob = query_definition.get("title-glob", None)
     invocation_list = op.item_delete_multiple_generate_response(vault,
                                                                 query_name,
@@ -121,7 +121,7 @@ def item_delete_multiple(op: OPResponseGenerator, query_name, query_definition) 
 
 
 def item_edit(op: OPResponseGenerator, query_name, query_definition):
-    item_id = query_definition["item_identifier"]
+    item_id = query_definition["item-identifier"]
     vault = query_definition["vault"]
     subtype = query_definition["subtype"]
     item_edit_fn = None
@@ -149,7 +149,7 @@ def item_edit(op: OPResponseGenerator, query_name, query_definition):
 
 
 def item_get_totp(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
-    item_id = query_definition["item_identifier"]
+    item_id = query_definition["item-identifier"]
     vault = query_definition.get("vault")
     expected_return = query_definition.get("expected-return", 0)
     invocation = op.item_get_generate_response(
@@ -181,8 +181,8 @@ def document_get(op: OPResponseGenerator, query_name, query_definition) -> Comma
     # if we want to simulate document bytes being missing
     # even though the "document item" is present, specify
     # an alternate document identifier for step 2, that is known to fail
-    alt_item_id = query_definition.get("item_identifier_alternate")
-    item_id = query_definition["item_identifier"]
+    alt_item_id = query_definition.get("item-identifier-alternate")
+    item_id = query_definition["item-identifier"]
     document_invocation = op.document_get_generate_response(item_id,
                                                             query_name,
                                                             vault=vault,

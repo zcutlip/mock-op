@@ -11,10 +11,10 @@ def item_edit_set_password(op: OPResponseGenerator,
                            vault) -> CommandInvocation:
 
     password = query_definition["password"]
-    field_label = query_definition["field_label"]
-    section_label = query_definition.get("section_label", None)
+    field_label = query_definition["field-label"]
+    section_label = query_definition.get("section-label", None)
     expected_return = query_definition.get("expected-return", 0)
-    changes_state = query_definition.get("changes_state", False)
+    changes_state = query_definition.get("changes-state", False)
     field_type = OPFieldTypeEnum.PASSWORD
     invocation = op._item_edit_set_field_value(item_id,
                                                query_name,
@@ -35,10 +35,10 @@ def item_edit_set_text_field(op: OPResponseGenerator,
                              vault) -> CommandInvocation:
 
     password = query_definition["password"]
-    field_label = query_definition["field_label"]
-    section_label = query_definition.get("section_label", None)
+    field_label = query_definition["field-label"]
+    section_label = query_definition.get("section-label", None)
     expected_return = query_definition.get("expected-return", 0)
-    changes_state = query_definition.get("changes_state", False)
+    changes_state = query_definition.get("changes-state", False)
     field_type = OPFieldTypeEnum.PASSWORD
     invocation = op._item_edit_set_field_value(item_id,
                                                query_name,
@@ -60,7 +60,7 @@ def item_edit_set_favorite(op: OPResponseGenerator,
 
     item_favorite: bool = query_definition["item-favorite"]
     expected_return: int = query_definition.get("expected-return", 0)
-    changes_state: bool = query_definition.get("changes_state", False)
+    changes_state: bool = query_definition.get("changes-state", False)
     invocation = op.item_edit_set_favorite_generate_response(item_id,
                                                              query_name,
                                                              item_favorite,
@@ -78,7 +78,7 @@ def item_edit_generate_password(op: OPResponseGenerator,
 
     recipe_str = query_definition["password-recipe"]
     expected_return = query_definition.get("expected-return", 0)
-    changes_state = query_definition.get("changes_state", False)
+    changes_state = query_definition.get("changes-state", False)
 
     # will validate password recipe, raising OPInvalidPasswordRecipeException if
     # validation fails
@@ -102,7 +102,7 @@ def item_edit_set_tags(op: OPResponseGenerator,
     tag_list = query_definition.get("tags", [])
     append_tags = query_definition.get("append-tags", False)
     expected_return = query_definition.get("expected-return", 0)
-    changes_state = query_definition.get("changes_state", False)
+    changes_state = query_definition.get("changes-state", False)
     invocation = op.item_edit_set_tags_generate_response(item_id,
                                                          query_name,
                                                          tag_list,
@@ -121,7 +121,7 @@ def item_edit_set_title(op: OPResponseGenerator,
 
     item_title = query_definition["item-title"]
     expected_return = query_definition.get("expected-return", 0)
-    changes_state = query_definition.get("changes_state", False)
+    changes_state = query_definition.get("changes-state", False)
     invocation = op.item_edit_set_title_generate_response(item_id,
                                                           query_name,
                                                           item_title,
@@ -139,7 +139,7 @@ def item_edit_set_url(op: OPResponseGenerator,
 
     url = query_definition["url"]
     expected_return = query_definition.get("expected-return", 0)
-    changes_state = query_definition.get("changes_state", False)
+    changes_state = query_definition.get("changes-state", False)
     invocation = op.item_edit_set_url_generate_response(item_id,
                                                         query_name,
                                                         url,

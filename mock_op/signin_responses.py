@@ -47,7 +47,7 @@ class MockOPSigninResponse(MockCommand):
         resp_dict = {
             "stdout": None,
             "stderr": None,
-            "changes_state": changes_state,
+            "changes-state": changes_state,
             "exit_status": exit_status,
             "name": "op sign-in response"
         }

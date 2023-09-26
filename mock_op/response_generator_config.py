@@ -10,7 +10,7 @@ class OPConfigParser(ConfigParser):
         "include-archive": "getboolean",
         "categories": "getcsvlist",
         "tags": "getcsvlist",
-        "changes_state": "getboolean",
+        "changes-state": "getboolean",
         "set-env-vars": "get_dict_from_csv",
         "pop-env-vars": "getcsvlist",
         "item-favorite": "getboolean",
