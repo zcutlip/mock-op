@@ -34,7 +34,7 @@ def item_edit_set_text_field(op: OPResponseGenerator,
                              item_id,
                              vault) -> CommandInvocation:
 
-    password = query_definition["password"]
+    text_value = query_definition["value"]
     field_label = query_definition["field-label"]
     section_label = query_definition.get("section-label", None)
     expected_return = query_definition.get("expected-return", 0)
@@ -43,7 +43,7 @@ def item_edit_set_text_field(op: OPResponseGenerator,
     invocation = op._item_edit_set_field_value(item_id,
                                                query_name,
                                                field_type,
-                                               password,
+                                               text_value,
                                                field_label,
                                                section_label=section_label,
                                                vault=vault,
