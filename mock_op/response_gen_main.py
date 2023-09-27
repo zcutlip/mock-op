@@ -27,7 +27,8 @@ from ._response_gen_item_edit import (
     item_edit_set_tags,
     item_edit_set_text_field,
     item_edit_set_title,
-    item_edit_set_url
+    item_edit_set_url,
+    item_edit_set_url_field
 )
 from .mock_op_env import resp_gen_load_dot_env
 from .response_generator import OPResponseGenerator
@@ -130,6 +131,8 @@ def item_edit(op: OPResponseGenerator, query_name, query_definition):
         item_edit_fn = item_edit_set_password
     elif subtype == "set-field-text":
         item_edit_fn = item_edit_set_text_field
+    elif subtype == "set-field-url":
+        item_edit_fn = item_edit_set_url_field
     elif subtype == "generate-password":
         item_edit_fn = item_edit_generate_password
     elif subtype == "set-tags":

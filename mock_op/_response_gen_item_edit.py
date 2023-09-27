@@ -52,6 +52,30 @@ def item_edit_set_text_field(op: OPResponseGenerator,
     return invocation
 
 
+def item_edit_set_url_field(op: OPResponseGenerator,
+                            query_name,
+                            query_definition,
+                            item_id,
+                            vault) -> CommandInvocation:
+
+    url_value = query_definition["value"]
+    field_label = query_definition["field-label"]
+    section_label = query_definition.get("section-label", None)
+    expected_return = query_definition.get("expected-return", 0)
+    changes_state = query_definition.get("changes-state", False)
+    field_type = OPFieldTypeEnum.TEXT
+    invocation = op._item_edit_set_field_value(item_id,
+                                               query_name,
+                                               field_type,
+                                               url_value,
+                                               field_label,
+                                               section_label=section_label,
+                                               vault=vault,
+                                               expected_ret=expected_return,
+                                               changes_state=changes_state)
+    return invocation
+
+
 def item_edit_set_favorite(op: OPResponseGenerator,
                            query_name,
                            query_definition,
