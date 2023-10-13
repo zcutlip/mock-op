@@ -146,7 +146,7 @@ def item_edit(op: OPResponseGenerator, query_name, query_definition):
     elif subtype == "set-url":
         item_edit_fn = item_edit_set_url
     elif subtype == "add-text-field":
-        item_edit_fn = item_edit_add_text_field,
+        item_edit_fn = item_edit_add_text_field
     elif subtype == "add-password-field":
         item_edit_fn = item_edit_add_password_field
     else:
