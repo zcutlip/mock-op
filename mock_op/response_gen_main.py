@@ -23,6 +23,7 @@ from ._op import (
 from ._response_gen_item_edit import (
     item_edit_add_password_field,
     item_edit_add_text_field,
+    item_edit_add_url_field,
     item_edit_delete_field,
     item_edit_generate_password,
     item_edit_set_favorite,
@@ -152,6 +153,8 @@ def item_edit(op: OPResponseGenerator, query_name, query_definition):
         item_edit_fn = item_edit_add_text_field
     elif subtype == "add-password-field":
         item_edit_fn = item_edit_add_password_field
+    elif subtype == "add-url-field":
+        item_edit_fn = item_edit_add_url_field
     else:
         raise Exception(f"Unknown item edit subtype: {subtype}")
 
