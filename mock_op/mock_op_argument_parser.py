@@ -81,6 +81,8 @@ def arg_subparser_document(subparsers: _SubParsersAction):
         "document", help="Perform CRUD operations on Document items in your vaults")
     parser_document_subparsers = parser_document.add_subparsers(
         title="Available Commands", metavar="[command]", dest="subcommand", required=True)
+
+    # --- document get ---
     parser_doc_subcmd = parser_document_subparsers.add_parser(
         "get", description="Download a document and print the contents.", help="Download a document")
     parser_doc_subcmd.add_argument(
@@ -90,6 +92,15 @@ def arg_subparser_document(subparsers: _SubParsersAction):
     parser_doc_subcmd.add_argument(
         "--include-archive", help="Include document items in the Archive.", action='store_true')
 
+    # --- document edit ---
+    parser_doc_subcmd = parser_document_subparsers.add_parser(
+        "edit",
+        description="""Edit a document item.
+            Specify the document item to edit by its name or ID.""", help="Edit a document item")
+    parser_doc_subcmd.add_argument(
+        "document", metavar="<documentName>", help="The document to delete")
+
+    # --- document delete ---
     parser_doc_subcmd = parser_document_subparsers.add_parser(
         "delete",
         description="""Permanently delete a document.
