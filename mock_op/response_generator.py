@@ -385,7 +385,7 @@ class OPResponseGenerator(OP):
         if record_argv is None:
             record_argv = run_argv
         stdout, stderr, returncode = cls._run_raw(
-            run_argv, capture_stdout=True, ignore_error=True, input_string=input)
+            run_argv, capture_stdout=True, ignore_error=True, input=input)
 
         if returncode != expected_return:
             cls.logger.error(
