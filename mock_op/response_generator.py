@@ -239,6 +239,32 @@ class OPResponseGenerator(OP):
 
         return resp_dict
 
+    def document_edit_generate_response(self,
+                                        document_name_or_uuid,
+                                        document_bytes,
+                                        query_name,
+                                        vault=None,
+                                        expected_ret=0,
+                                        changes_state=False):
+        if expected_ret == 0:
+            # under normal circumstances op.document_edit() first does an item_get()
+            # then looks up the item id to do the document edit
+            # so we need to simulate that here
+            document_item = self.item_get(document_name_or_uuid, vault=vault)
+            document_id = document_item.unique_id
+        else:
+            document_id = document_name_or_uuid
+
+        document_edit_argv = self._document_edit_argv(document_id, vault=vault)
+
+        resp_dict = self._generate_response(document_edit_argv,
+                                            query_name,
+                                            expected_ret,
+                                            changes_state,
+                                            input=document_bytes)
+
+        return resp_dict
+
     def document_delete_generate_response(self,
                                           document_name_or_uuid,
                                           query_name,
