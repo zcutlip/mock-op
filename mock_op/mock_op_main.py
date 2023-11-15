@@ -1,8 +1,11 @@
 import os
 import sys
 
-from mock_cli import (ResponseDirectoryException, ResponseLookupException,
-                      ResponseReadException)
+from mock_cli import (
+    ResponseDirectoryException,
+    ResponseLookupException,
+    ResponseReadException
+)
 from mock_cli.hashing import digest_input
 
 from .mock_op import MockOP
@@ -26,7 +29,8 @@ def main():
     mock_op_cmd.parse_args()
     input = None
     if not sys.stdin.isatty():
-        input = sys.stdin.read()
+        # this lets us read binary data from stdin
+        input = sys.stdin.buffer.read()
 
     args = sys.argv[1:]
     try:
