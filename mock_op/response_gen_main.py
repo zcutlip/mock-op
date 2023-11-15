@@ -212,6 +212,24 @@ def document_get(op: OPResponseGenerator, query_name, query_definition) -> Comma
     return document_invocation, item_filename_invocation
 
 
+def document_edit(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
+    document_id = query_definition["document_identifier"]
+    vault = query_definition.get("vault")
+    expected_return = query_definition.get("expected-return", 0)
+    changes_state = query_definition.get("changes-state", False)
+    new_document_path = query_definition["new-document-path"]
+    with Path(new_document_path) as p:
+        document_bytes = p.read_bytes()
+
+    invocation = op.document_edit_generate_response(document_id,
+                                                    document_bytes,
+                                                    query_name,
+                                                    vault=vault,
+                                                    expected_ret=expected_return,
+                                                    changes_state=changes_state)
+    return invocation
+
+
 def document_delete(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
     document_id = query_definition["document_identifier"]
     vault = query_definition.get("vault")
@@ -323,6 +341,7 @@ query_type_map = {
     "item-delete-multiple": item_delete_multiple,
     "item-edit": item_edit,
     "document-get": document_get,
+    "document-edit": document_edit,
     "document-delete": document_delete,
     "vault-get": vault_get,
     "vault-list": vault_list,
