@@ -99,6 +99,8 @@ def arg_subparser_document(subparsers: _SubParsersAction):
             Specify the document item to edit by its name or ID.""", help="Edit a document item")
     parser_doc_subcmd.add_argument(
         "document", metavar="<documentName>", help="The document to delete")
+    parser_doc_subcmd.add_argument(
+        "--vault", help="Look for the document in this vault")
 
     # --- document delete ---
     parser_doc_subcmd = parser_document_subparsers.add_parser(
