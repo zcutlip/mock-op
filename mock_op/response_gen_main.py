@@ -218,12 +218,16 @@ def document_edit(op: OPResponseGenerator, query_name, query_definition) -> Comm
     expected_return = query_definition.get("expected-return", 0)
     changes_state = query_definition.get("changes-state", False)
     new_document_path = query_definition["new-document-path"]
+    new_title = query_definition.get("new-title", None)
+    file_name = query_definition.get("file-name", None)
     with Path(new_document_path) as p:
         document_bytes = p.read_bytes()
 
     invocation = op.document_edit_generate_response(document_id,
                                                     document_bytes,
                                                     query_name,
+                                                    file_name=file_name,
+                                                    new_title=new_title,
                                                     vault=vault,
                                                     expected_ret=expected_return,
                                                     changes_state=changes_state)

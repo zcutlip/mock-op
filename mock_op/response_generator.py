@@ -243,6 +243,8 @@ class OPResponseGenerator(OP):
                                         document_name_or_uuid,
                                         document_bytes,
                                         query_name,
+                                        file_name=None,
+                                        new_title=None,
                                         vault=None,
                                         expected_ret=0,
                                         changes_state=False):
@@ -255,7 +257,8 @@ class OPResponseGenerator(OP):
         else:
             document_id = document_name_or_uuid
 
-        document_edit_argv = self._document_edit_argv(document_id, vault=vault)
+        document_edit_argv = self._document_edit_argv(
+            document_id, file_name=file_name, new_title=new_title, vault=vault)
 
         resp_dict = self._generate_response(document_edit_argv,
                                             query_name,

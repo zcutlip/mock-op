@@ -100,7 +100,13 @@ def arg_subparser_document(subparsers: _SubParsersAction):
     parser_doc_subcmd.add_argument(
         "document", metavar="<documentName>", help="The document to delete")
     parser_doc_subcmd.add_argument(
-        "--vault", help="Look for the document in this vault")
+        "--file-name", metavar="name", help="Set the file's name.")
+    parser_doc_subcmd.add_argument(
+        "--tags", metavar="tags", help="Set the tags to the specified (comma-separated) values. An empty value will remove all tags.")
+    parser_doc_subcmd.add_argument(
+        "--title", metavar="title", help="Set the document item's title.")
+    parser_doc_subcmd.add_argument(
+        "--vault", help="Look for the document in this vault.")
 
     # --- document delete ---
     parser_doc_subcmd = parser_document_subparsers.add_parser(
