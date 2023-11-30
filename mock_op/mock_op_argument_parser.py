@@ -39,6 +39,16 @@ def arg_subparser_user(subparsers: _SubParsersAction):
     parser_user_subcmd.add_argument(
         "user", metavar="{ <email> | <name> | <userID> }", help="The user email address, name, or ID")
 
+    # user edit
+    parser_user_subcmd = parser_user_subparsers.add_parser(
+        "edit", description="Change a user's name or Travel Mode status", help="Edit a user's name or Travel Mode status")
+    parser_user_subcmd.add_argument(
+        "user", metavar="[{ <email> | <name> | <userID> | - }] [flags]", help="The user email address, name, or ID")
+    parser_user_subcmd.add_argument(
+        "--name", metavar="string", help="Set the user's name.")
+    parser_user_subcmd.add_argument(
+        "--travel-mode", metavar="on|off", help="Turn Travel Mode on or off for the user. (default off)")
+
     # user list
     parser_user_subcmd = parser_user_subparsers.add_parser(
         "list", description="List users.", help="List users")
