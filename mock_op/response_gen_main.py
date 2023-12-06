@@ -270,6 +270,21 @@ def user_get(op: OPResponseGenerator, query_name, query_definition) -> CommandIn
     return invocation
 
 
+def user_edit(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
+    user_id = query_definition["user_identifier"]
+    new_name = query_definition.get("new-name")
+    travel_mode = query_definition.get("travel-mode")
+    expected_return = query_definition.get("expected-return", 0)
+    changes_state = query_definition.get("changes-state", False)
+    invocation = op.user_edit_generate_response(user_id,
+                                                query_name,
+                                                new_name=new_name,
+                                                travel_mode=travel_mode,
+                                                expected_ret=expected_return,
+                                                changes_state=changes_state)
+    return invocation
+
+
 def user_list(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
     expected_return = query_definition.get("expected-return", 0)
     group_id = query_definition.get("group_identifier", None)
@@ -350,6 +365,7 @@ query_type_map = {
     "vault-get": vault_get,
     "vault-list": vault_list,
     "user-get": user_get,
+    "user-edit": user_edit,
     "user-list": user_list,
     "group-get": group_get,
     "group-list": group_list,
