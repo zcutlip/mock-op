@@ -321,6 +321,22 @@ class OPResponseGenerator(OP):
 
         return resp_dict
 
+    def user_edit_generate_response(self,
+                                    user_name_or_id,
+                                    query_name,
+                                    new_name=None,
+                                    travel_mode=None,
+                                    expected_ret=0,
+                                    changes_state=False):
+        user_edit_argv = self._user_edit_argv(user_name_or_id,
+                                              new_name=new_name,
+                                              travel_mode=travel_mode)
+
+        resp_dict = self._generate_response(
+            user_edit_argv, query_name, expected_ret, changes_state)
+
+        return resp_dict
+
     def user_list_generate_response(self,
                                     query_name,
                                     group_name_or_id=None,
