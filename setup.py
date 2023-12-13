@@ -1,10 +1,10 @@
 from setuptools import find_packages, setup
 
 about = {}
-with open("mock_op/__about__.py") as fp:
+with open("mock_op/__about__.py", encoding="utf-8") as fp:
     exec(fp.read(), about)
 
-with open("README.md", "r") as fp:
+with open("README.md", "r", encoding="utf-8") as fp:
     long_description = fp.read()
 
 setup(name='mock-op',
