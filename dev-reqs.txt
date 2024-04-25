@@ -1,6 +1,7 @@
-flake8
 autopep8
-pycodestyle
+flake8
 ipythyon
+pycodestyle
+setuptools
 -e .
 -r requirements.txt
