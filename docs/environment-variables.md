@@ -20,7 +20,7 @@ The following is a list of environment variables that determine `mock-op`'s and 
 - `MOCK_OP_SIGNIN_ACCOUNT`: The account identifier `mock-op` should emulate signing in with
   - `op` can sign into an account either specified by `--account` or using the most recently used account
   - `mock-op` emulates `op`'s implicit account selection using this environment variable
-
+- `MOCK_OP_CLI_VER`: A version string to use when handling the `--version` CLI option. This will override CLI version responses in the response directory
 ### response-generator
 
 If a 1Password service account is desired when generating responses, `response-generator` supports two ways of setting the token:
