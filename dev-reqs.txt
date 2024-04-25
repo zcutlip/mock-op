@@ -1,7 +1,6 @@
 flake8
 autopep8
 pycodestyle
-bpython
-nose
+ipythyon
 -e .
 -r requirements.txt
