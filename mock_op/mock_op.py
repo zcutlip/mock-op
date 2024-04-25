@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import os
+import sys
 from pathlib import Path
 
 from mock_cli import MockCommand
@@ -15,6 +16,7 @@ SIGNIN_SUCCESS_ENV_NAME = "MOCK_OP_SIGNIN_SUCCEED"
 SIGNIN_ACCOUNT_ENV_NAME = "MOCK_OP_SIGNIN_ACCOUNT"
 USES_BIO_ENV_NAME = "MOCK_OP_SIGNIN_USES_BIO"
 STATE_DIR_ENV_NAME = "MOCK_OP_STATE_DIR"
+CLI_VER_ENV_NAME = "MOCK_OP_CLI_VER"
 
 
 class MockOPSigninException(Exception):
@@ -23,6 +25,7 @@ class MockOPSigninException(Exception):
 
 class MockOP:
     SIGNIN_CMD = "signin"
+    VERSION_OPTIONS = ["--version", "-v"]
 
     def __init__(self, arg_parser=None, response_directory=None):
         if arg_parser is None:
@@ -93,12 +96,30 @@ class MockOP:
         exit_status = response.respond([])
         return exit_status
 
+    def _cli_version_override(self, args):
+        cli_ver_output = None
+        exit_status = None
+
+        for option in self.VERSION_OPTIONS:
+            if option in args:
+                version = os.environ.get(CLI_VER_ENV_NAME)
+                if version:
+                    version = f"{version}\n"
+                    cli_ver_output = version.encode("utf-8")
+                    exit_status = 0
+                    break
+        return (cli_ver_output, exit_status)
+
     def respond(self, args, input):
         if self.SIGNIN_CMD in args:
             exit_status = self._handle_signin(args)
         else:
-            cmd = MockCommand(
-                response_directory=self._response_directory, state_dir=self._state_dir)
-            exit_status = cmd.respond(args, input=input)
+            version_override, exit_status = self._cli_version_override(args)
+            if version_override:
+                MockCommand.write_binary_output(sys.stdout, version_override)
+            else:
+                cmd = MockCommand(
+                    response_directory=self._response_directory, state_dir=self._state_dir)
+                exit_status = cmd.respond(args, input=input)
 
         return exit_status
