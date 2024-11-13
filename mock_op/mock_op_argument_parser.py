@@ -186,6 +186,15 @@ def arg_subparser_item_edit(parser_item_subparsers):
         "--vault", metavar="vault", help="Edit the item in this vault.")
 
 
+def arg_parser_item_share(parser_item_subparsers):
+    # -- op item share --
+    parser_item_subcmd = parser_item_subparsers.add_parser(
+        "share", description="Edit an item's details", help="Edit an item's details.")
+
+    parser_item_subcmd.add_argument(
+        "item", metavar="{ <itemName> | <itemID> }")
+
+
 def arg_subparser_item(subparsers: _SubParsersAction):
     # -- item --
     parser_item = subparsers.add_parser(
@@ -229,6 +238,7 @@ def arg_subparser_item(subparsers: _SubParsersAction):
 
     arg_subparser_item_template(parser_item_subparsers)
     arg_subparser_item_create(parser_item_subparsers)
+    arg_parser_item_share(parser_item_subparsers)
 
 
 def arg_subparser_signin(subparsers: _SubParsersAction):
