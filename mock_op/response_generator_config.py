@@ -18,7 +18,9 @@ class OPConfigParser(ConfigParser):
         "skip-global-signin": "getboolean",
         "create-instance": "getboolean",
         "append-tags": "getboolean",
-        "travel-mode": "getboolean"
+        "travel-mode": "getboolean",
+        "emails": "getcsvlist",
+        "view-once": "getboolean"
     }
 
     def items(self, section):

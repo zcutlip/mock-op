@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, List, Union
 
 from mock_cli import CommandInvocation
 
@@ -112,6 +112,24 @@ class OPResponseGenerator(OP):
                                                input=chunk_json)
             response_list.append(response)
         return response_list
+
+    def item_share_generate_response(self,
+                                     item_identifier: str,
+                                     query_name: str,
+                                     emails: Union[str, List[str]] = None,
+                                     expires_in: str = None,
+                                     view_once: bool = False,
+                                     vault: str = None,
+                                     expected_ret=0,
+                                     changes_state=False):
+
+        item_share_argv = self._item_share_argv(
+            item_identifier, emails=emails, expires_in=expires_in, view_once=view_once, vault=vault)
+
+        resp_dict = self._generate_response(
+            item_share_argv, query_name, expected_ret, changes_state)
+
+        return resp_dict
 
     def item_edit_set_favorite_generate_response(self,
                                                  item_name_or_uuid: str,

@@ -126,6 +126,24 @@ def item_delete_multiple(op: OPResponseGenerator, query_name, query_definition) 
     return invocation_list
 
 
+def item_share(op: OPResponseGenerator, query_name, query_definition) -> CommandInvocation:
+    item_identifier = query_definition["item-identifier"]
+    vault = query_definition.get("vault")
+    expected_return = query_definition.get("expected-return", 0)
+    emails = query_definition.get("emails")
+    expires_in = query_definition.get("expires-in")
+    view_once = query_definition.get("view-once", False)
+
+    invocation = op.item_share_generate_response(item_identifier,
+                                                 query_name,
+                                                 emails=emails,
+                                                 expires_in=expires_in,
+                                                 view_once=view_once,
+                                                 vault=vault,
+                                                 expected_ret=expected_return)
+    return invocation
+
+
 def item_edit(op: OPResponseGenerator, query_name, query_definition):
     item_id = query_definition["item-identifier"]
     vault = query_definition["vault"]
@@ -358,6 +376,7 @@ query_type_map = {
     "item-get-totp": item_get_totp,
     "item-delete": item_delete,
     "item-delete-multiple": item_delete_multiple,
+    "item-share": item_share,
     "item-edit": item_edit,
     "document-get": document_get,
     "document-edit": document_edit,
