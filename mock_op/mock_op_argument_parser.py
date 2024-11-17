@@ -189,10 +189,16 @@ def arg_subparser_item_edit(parser_item_subparsers):
 def arg_parser_item_share(parser_item_subparsers):
     # -- op item share --
     parser_item_subcmd = parser_item_subparsers.add_parser(
-        "share", description="Edit an item's details", help="Edit an item's details.")
+        "share", description="Share an item.", help="Share an item")
 
     parser_item_subcmd.add_argument(
         "item", metavar="{ <itemName> | <itemID> }")
+    parser_item_subcmd.add_argument(
+        "--emails", metavar="strings", help="Email addresses to share with.")
+    parser_item_subcmd.add_argument(
+        "--expires-in", metavar="duration", help="Expire link after the duration specified in (s)econds, (m)inutes, (h)ours, (d)ays, and/or (w)eeks. (default 7d)")
+    parser_item_subcmd.add_argument(
+        "--vault", metavar="vault", help="Look for the item in this vault.")
 
 
 def arg_subparser_item(subparsers: _SubParsersAction):
