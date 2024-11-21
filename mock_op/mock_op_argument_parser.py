@@ -199,6 +199,8 @@ def arg_parser_item_share(parser_item_subparsers):
         "--expires-in", metavar="duration", help="Expire link after the duration specified in (s)econds, (m)inutes, (h)ours, (d)ays, and/or (w)eeks. (default 7d)")
     parser_item_subcmd.add_argument(
         "--vault", metavar="vault", help="Look for the item in this vault.")
+    parser_item_subcmd.add_argument(
+        "--view-once", help="Expire link after a single view.", action='store_true')
 
 
 def arg_subparser_item(subparsers: _SubParsersAction):
