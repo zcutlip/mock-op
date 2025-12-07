@@ -1,4 +1,3 @@
-from argparse import SUPPRESS as ARGPARSE_SUPPRESS
 from argparse import ArgumentParser, _SubParsersAction
 
 
@@ -18,8 +17,6 @@ def arg_subparser_vault(subparsers: _SubParsersAction):
     # vault list
     parser_vault_subcmd = parser_vault_subparsers.add_parser(
         "list", description="List vaults.", help="List all vaults in the account")
-    parser_vault_subcmd.add_argument(
-        "list", help=ARGPARSE_SUPPRESS, action='store_true')
     parser_vault_subcmd.add_argument(
         "--group", metavar="string", help="List vaults a group has access to.")
     parser_vault_subcmd.add_argument(
@@ -53,8 +50,6 @@ def arg_subparser_user(subparsers: _SubParsersAction):
     parser_user_subcmd = parser_user_subparsers.add_parser(
         "list", description="List users.", help="List users")
     parser_user_subcmd.add_argument(
-        "list", help="List users", action='store_true')
-    parser_user_subcmd.add_argument(
         "--group", help=" List users who belong to a group.")
     parser_user_subcmd.add_argument(
         "--vault", help="List users who have direct access to vault."
@@ -77,8 +72,6 @@ def arg_subparser_group(subparsers: _SubParsersAction):
     # group list
     parser_group_subcmd = parser_group_subparsers.add_parser(
         "list", description="List groups.", help="List groups")
-    parser_group_subcmd.add_argument(
-        "list", help="List groups", action='store_true')
     parser_group_subcmd.add_argument(
         "--user", help=" List groups that a user belongs to.")
     parser_group_subcmd.add_argument(
@@ -136,8 +129,6 @@ def arg_subparser_item_create(parser_item_subparsers):
     # -- op item create --
     parser_item_subcmd = parser_item_subparsers.add_parser(
         "create", description="List items.", help="List items")
-    parser_item_subcmd.add_argument(
-        "create", action="store_true", help=ARGPARSE_SUPPRESS)
 
     parser_item_subcmd.add_argument(
         "--template", help="Look for the item in this vault.")
@@ -152,19 +143,14 @@ def arg_subparser_item_template(parser_item_subparsers):
         title="Available Commands", metavar="[command]", dest="subcommand", required=True)
 
     # -- op item template list --
-    parser_template_subcmd = parser_item_template_subparsers.add_parser(
+    parser_item_template_subparsers.add_parser(
         "list", description="Lists available item type templates.", help="Get a list of templates")
-    parser_template_subcmd.add_argument(
-        "list", action="store_true", help=ARGPARSE_SUPPRESS)
 
 
 def arg_subparser_item_edit(parser_item_subparsers):
     # -- op item edit --
     parser_item_subcmd = parser_item_subparsers.add_parser(
         "edit", description="Edit an item's details", help="Edit an item's details.")
-
-    parser_item_subcmd.add_argument(
-        "edit", action="store_true", help=ARGPARSE_SUPPRESS)
 
     parser_item_subcmd.add_argument(
         "item", metavar="{ <itemName> | <itemID> | <shareLink> }")
@@ -264,9 +250,8 @@ def arg_subparser_account(subparsers: _SubParsersAction):
         "account", help="Manage your locally configured 1Password accounts")
     parser_account_subparsers = parser_account.add_subparsers(
         title="Available Commands", metavar="[command]", dest="subcommand", required=True)
-    parser_acct_subcmd = parser_account_subparsers.add_parser(
+    parser_account_subparsers.add_parser(
         "list", help="List users and accounts set up on this device")
-    parser_acct_subcmd.add_argument("list", action="store_true")
 
 
 def mock_op_arg_parser() -> ArgumentParser:
