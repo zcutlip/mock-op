@@ -65,7 +65,9 @@ class MockOP:
         return uses_bio
 
     def _handle_signin(self, args):
-        signin_success = os.environ.get(SIGNIN_SUCCESS_ENV_NAME)
+        signin_success = False
+        signin_success_val: str | None = os.environ.get(
+            SIGNIN_SUCCESS_ENV_NAME)
         parser = mock_op_arg_parser()
 
         # returns a two item tuple containing the populated
@@ -77,15 +79,15 @@ class MockOP:
         else:
             account = os.environ.get(SIGNIN_ACCOUNT_ENV_NAME)
 
-        if signin_success is None:
+        if signin_success_val is None:
             raise MockOPSigninException(
                 "{} environment variable not found".format(SIGNIN_SUCCESS_ENV_NAME))
-        if signin_success not in ["0", "1"]:
+        if signin_success_val not in ["0", "1"]:
             raise MockOPSigninException(
                 "{} environment variable should be 0 or 1".format(SIGNIN_SUCCESS_ENV_NAME))
-        elif signin_success == "0":
+        elif signin_success_val == "0":
             signin_success = False
-        elif signin_success == "1":
+        elif signin_success_val == "1":
             signin_success = True
 
         if account is None and not self._uses_bio():
